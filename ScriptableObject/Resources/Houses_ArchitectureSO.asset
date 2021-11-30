@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac4ebab45839f4e32ba743c1fcc768bb, type: 3}
+  m_Name: Houses_ArchitectureSO
+  m_EditorClassIdentifier: 
+  typeName: Buildings
+  prefab: {fileID: 4780354459023443454, guid: bed859bbb1ed246bea779bc48eecb1cb, type: 3}
+  list: {fileID: 11400000, guid: 6a2b792aee97949a183b63193b6a6743, type: 2}

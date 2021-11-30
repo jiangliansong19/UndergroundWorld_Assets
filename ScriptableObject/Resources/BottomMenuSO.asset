@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6eae2debd7bab49f2a9530aad42b9d6a, type: 3}
+  m_Name: BottomMenuSO
+  m_EditorClassIdentifier: 
+  menuList:
+  - name: Demolish
+    type: 0
+    sprite: {fileID: 21300000, guid: 46d238a7ef2ef4816a09d74aa3328172, type: 3}
+    buildingList:
+    - {fileID: 11400000, guid: f804c4eec1577491c9818b7c17126b77, type: 2}
+    - {fileID: 11400000, guid: d76e90ad710512346a22560542db97e3, type: 2}
+  - name: House
+    type: 1
+    sprite: {fileID: 21300000, guid: a5790f44c910f4a7e8d414ff5f33ed2d, type: 3}
+    buildingList:
+    - {fileID: 11400000, guid: 2e55ab71662294fb09aa31b4925ac63b, type: 2}
+    - {fileID: 11400000, guid: 1610da45fc97af44481feefc69a94194, type: 2}
+  - name: Food/Drink
+    type: 2
+    sprite: {fileID: 21300000, guid: 5773483f5227c4747a3e4f3ea6587664, type: 3}
+    buildingList:
+    - {fileID: 11400000, guid: 9e6958f2d4b1e49c49db31ba6b71b259, type: 2}
+    - {fileID: 11400000, guid: 4bef74cdd4d4e45d4a60580769c1c632, type: 2}
+    - {fileID: 11400000, guid: b09567fb85e244b328fb77f3495e6189, type: 2}
+    - {fileID: 11400000, guid: 00355cd7091e39e4081b16309926774f, type: 2}
+    - {fileID: 11400000, guid: d7c3edb06ab7d4c868e03f7fdcd177c3, type: 2}
+  - name: Transport
+    type: 3
+    sprite: {fileID: 21300000, guid: 1a4b2425defc74eada2cac93cddc4e53, type: 3}
+    buildingList:
+    - {fileID: 11400000, guid: 6cbf14beb8dd4ca49920b58e77f1fb21, type: 2}
+  - name: Industry
+    type: 4
+    sprite: {fileID: 21300000, guid: e296fefc064c7433fa61c1f2ae543b35, type: 3}
+    buildingList:
+    - {fileID: 11400000, guid: 5504b79ad3c3d4e988af0ba35f4afe38, type: 2}
+  - name: Energy
+    type: 5
+    sprite: {fileID: 21300000, guid: 16057a71b1ab2491fbac92c17421e2ba, type: 3}
+    buildingList:
+    - {fileID: 11400000, guid: fed6a83c61bd9468d8e1c9ad3ca0e03f, type: 2}
+  - name: Decorate
+    type: 6
+    sprite: {fileID: 21300000, guid: 22d1030501e7c475e95dad6206563719, type: 3}
+    buildingList:
+    - {fileID: 11400000, guid: f804c4eec1577491c9818b7c17126b77, type: 2}
+  - name: WorkPriority
+    type: 7
+    sprite: {fileID: 21300000, guid: 69364a077f633467282bea536dcffcce, type: 3}
+    buildingList:
+    - {fileID: 11400000, guid: f804c4eec1577491c9818b7c17126b77, type: 2}
+  - name: GreatProject
+    type: 8
+    sprite: {fileID: 21300000, guid: d3e158976a2274c85a5ec642f6823a7d, type: 3}
+    buildingList:
+    - {fileID: 11400000, guid: f804c4eec1577491c9818b7c17126b77, type: 2}
+  - name: Science
+    type: 9
+    sprite: {fileID: 21300000, guid: a0d94547819b64faba275be3105b2008, type: 3}
+    buildingList: []
+  - name: Rule
+    type: 10
+    sprite: {fileID: 21300000, guid: 28acc0f0905444b9cab1ae6e9172f235, type: 3}
+    buildingList: []
+  - name: ExploreTeam
+    type: 11
+    sprite: {fileID: 21300000, guid: e08461d5caf2b49508bb6487c4e1941e, type: 3}
+    buildingList: []
+  - name: Setting
+    type: 12
+    sprite: {fileID: 21300000, guid: ef2a76200d23dc94988cbc6fda9bfb13, type: 3}
+    buildingList: []
