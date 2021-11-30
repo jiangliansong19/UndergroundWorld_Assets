@@ -6,6 +6,8 @@ public class ExploreTeamManager : MonoBehaviour
 {
     public static ExploreTeamManager Instance { private set; get; }
 
+    public bool isShowing { get; private set; }
+
     [SerializeField] private ExploreTeamUI exploreTeamUI;
 
     private List<ExploreTeam> exploreTeams;
@@ -53,11 +55,13 @@ public class ExploreTeamManager : MonoBehaviour
 
     public void ShowExploreTeamPanel()
     {
+        isShowing = true;
         exploreTeamUI.Show(exploreTeams);
     }
 
     public void HideExploreTeamPanel()
     {
+        isShowing = false;
         exploreTeamUI.Hide();
     }
 }

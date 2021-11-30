@@ -19,13 +19,25 @@ public enum ScienceCategoryType {
 
 }
 
+public enum ScienceRightPartType
+{
+    Line,
+    TopLeft,
+    TopRight,
+    BottomLeft,
+    BottomRight,
+}
+
 
 
 [CreateAssetMenu(fileName = "ScienceNodeSO")]
 public class ScienceNodeSO : ScriptableObject
 {
 
-    public ScienceCategoryType nodeType;
+    public ScienceCategoryType nodeType;//类型，Line表示直线
+
+    public ScienceRightPartType rightPartType;//右侧线条
+
     public string nodeDesc;
     public int nodeNumber; //节点顺序
 

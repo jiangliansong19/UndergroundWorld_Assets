@@ -115,6 +115,10 @@ public class BottomMenuUI : MonoBehaviour
                 {
                     ExploreTeamManager.Instance.ShowExploreTeamPanel();
                 }
+                else if (item.type == BottomMenuType.GreatProject)
+                {
+                    ExploreTeamManager.Instance.ShowExploreTeamPanel();
+                }
                 else
                 {
                     OnClickBuildMenuItem(item);

@@ -189,8 +189,8 @@ public class BuildingManager : MonoBehaviour
 
     private void CreateWorld()
     {
-        Transform waterTransform = Resources.Load<Transform>("Prefabs/pfWater");
-        Transform soilTransform = Resources.Load<Transform>("Prefabs/pfSoil");
+        Transform waterTransform = Resources.Load<Transform>("pfWater");
+        Transform soilTransform = Resources.Load<Transform>("pfSoil");
 
         for (int i = -50; i < 50; i++)
         {

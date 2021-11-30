@@ -24,6 +24,15 @@ public class SciencePageCellUI : MonoBehaviour
 
     private Transform nodeBackgroundTransform;
 
+
+    //lineContent
+    private Transform topLeftLineTransform;
+    private Transform topRightLineTransform;
+    private Transform bottomLeftTransform;
+    private Transform bottomRightTransform;
+    private Transform centerLineTransform;
+
+
     private RectTransform templateUnlockIconRectTransform;
 
     private RectTransform percentBarRectTransform;
@@ -41,11 +50,15 @@ public class SciencePageCellUI : MonoBehaviour
     private Outline outline;
 
 
+    private Func<int> nodeContentOnClick;
+
+
     private void Awake()
     {
         nodeContentTransform = transform.Find("NodeContent");
         lineContentTransform = transform.Find("LineContent");
         lineTransform = transform.Find("OneLine");
+
 
 
 
@@ -61,6 +74,20 @@ public class SciencePageCellUI : MonoBehaviour
         iconTemplateIconImage = iconTemplate.Find("Icon").GetComponent<Image>();
 
         percentBarRectTransform = nodeContentTransform.Find("PercentBar").Find("PercentInnerBar").GetComponent<RectTransform>();
+
+
+
+
+        centerLineTransform = lineContentTransform.Find("Center");
+        topLeftLineTransform = lineContentTransform.Find("TopLeft");
+        topRightLineTransform = lineContentTransform.Find("TopRight");
+        bottomLeftTransform = lineContentTransform.Find("BottomLeft");
+        bottomRightTransform = lineContentTransform.Find("BottomRight");
+        
+
+
+
+
 
         outline = nodeBackgroundTransform.GetComponent<Outline>();
 
@@ -117,7 +144,7 @@ public class SciencePageCellUI : MonoBehaviour
         else
         {
             lineTransform.gameObject.SetActive(false);
-            lineContentTransform.gameObject.SetActive(false);
+            
             nodeContentTransform.gameObject.SetActive(true);
 
             if (nodeSO.nodeDesc != null)
@@ -139,6 +166,50 @@ public class SciencePageCellUI : MonoBehaviour
                     i++;
                 }
             }
+
+
+
+
+
+            lineContentTransform.gameObject.SetActive(true);
+            centerLineTransform.gameObject.SetActive(false);
+            topLeftLineTransform.gameObject.SetActive(false);
+            topRightLineTransform.gameObject.SetActive(false);
+            bottomLeftTransform.gameObject.SetActive(false);
+            bottomRightTransform.gameObject.SetActive(false);
+
+            switch (nodeSO.rightPartType)
+            {
+                case ScienceRightPartType.Line:
+                    centerLineTransform.gameObject.SetActive(true);
+                    break;
+                case ScienceRightPartType.TopLeft:
+                    topLeftLineTransform.gameObject.SetActive(true);
+                    break;
+                case ScienceRightPartType.TopRight:
+                    topRightLineTransform.gameObject.SetActive(true);
+                    break;
+                case ScienceRightPartType.BottomLeft:
+                    bottomLeftTransform.gameObject.SetActive(true);
+                    break;
+                case ScienceRightPartType.BottomRight:
+                    bottomRightTransform.gameObject.SetActive(true);
+                    break;
+                default:
+                    break;
+            }
+
+
+
+
+
+
+
+
+
+
+
+
         }
     }
 
@@ -157,5 +228,10 @@ public class SciencePageCellUI : MonoBehaviour
         {
             outline.effectColor = Color.gray;
         }
+    }
+
+    public void SetNodeContentOnClick(Func<int> func)
+    {
+        nodeContentOnClick = func;
     }
 }

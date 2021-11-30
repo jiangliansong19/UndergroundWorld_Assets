@@ -20,8 +20,12 @@ public class CameraHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        HandleMouseMoved();
-        HandleMouseZoomed();
+        if (!ExploreTeamManager.Instance.isShowing)
+        {
+            HandleMouseMoved();
+            HandleMouseZoomed();
+        }
+
     }
 
     private void HandleMouseMoved()
