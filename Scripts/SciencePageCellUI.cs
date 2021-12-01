@@ -90,6 +90,7 @@ public class SciencePageCellUI : MonoBehaviour
 
 
             SetSelected(true);
+
             nodeContentOnClick(scienceNodeSO, this);
 
 
