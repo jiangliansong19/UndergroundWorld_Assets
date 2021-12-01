@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 044fa61e62128474eb029974651bbb09, type: 3}
   m_Name: HouseBuildingListSO
   m_EditorClassIdentifier: 
-  categoryType: 0
+  categoryType: 2
   list:
   - {fileID: 11400000, guid: cd548018437c141468bc1b415e45c868, type: 2}
   - {fileID: 11400000, guid: 4bbc32658d19848778f74c0c1121fda2, type: 2}
   - {fileID: 11400000, guid: 2646ed68be852484a92b8157aa853d6d, type: 2}
+  - {fileID: 11400000, guid: d23ef3fc6f9314ffbb6312c10ac6d617, type: 2}
+  - {fileID: 11400000, guid: d23ef3fc6f9314ffbb6312c10ac6d617, type: 2}

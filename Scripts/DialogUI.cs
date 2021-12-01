@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class DialogUI : MonoBehaviour
 {
-    public static DialogUI Instance { private set; get; }
-
     private Image backgroundImage;
     private Text titleText;
     private Text messageText;
@@ -16,10 +14,16 @@ public class DialogUI : MonoBehaviour
     private Func<int> selfOkClick;
     private Func<int> selfCancelClick;
 
+
+    public static DialogUI Create()
+    {
+        DialogUI dialogPrefab = Resources.Load<DialogUI>("pfDialogUI");
+        DialogUI dialogUI = Instantiate(dialogPrefab, Vector2.zero, Quaternion.identity);
+        return dialogUI;
+    }
+
     private void Awake()
     {
-        Instance = this;
-
         dialog = transform.Find("Dialog");
 
         backgroundImage = dialog.Find("Image").GetComponent<Image>();
@@ -31,27 +35,26 @@ public class DialogUI : MonoBehaviour
 
         okButton.onClick.AddListener(OnClickOnOkButton);
         cancelButton.onClick.AddListener(OnClickOnCancelButton);
-
-        transform.gameObject.SetActive(false);
     }
 
     private void OnClickOnCancelButton()
     {
         SoundManager.Instance.PlaySound(SoundManager.Sound.ButtonClick);
         selfCancelClick();
-        transform.gameObject.SetActive(false);
+
+        Destroy(gameObject);
     }
 
     private void OnClickOnOkButton()
     {
         SoundManager.Instance.PlaySound(SoundManager.Sound.ButtonClick);
         selfOkClick();
-        transform.gameObject.SetActive(false);
+
+        Destroy(gameObject);
     }
 
     public void ShowDialog(string title, string message, Func<int> okClick, Func<int> cancelClick)
     {
-        transform.gameObject.SetActive(true);
 
         titleText.text = title;
         messageText.text = message;

@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 044fa61e62128474eb029974651bbb09, type: 3}
+  m_Name: FishingListSO
+  m_EditorClassIdentifier: 
+  categoryType: 3
+  list:
+  - {fileID: 11400000, guid: d87e6be7087a34fc58e961adaa91fd62, type: 2}
+  - {fileID: 11400000, guid: 82c2639acf9f0456bac71c5d3ced3bf4, type: 2}
+  - {fileID: 11400000, guid: 8d42afbacdfc74375be9fc281fd681d9, type: 2}
+  - {fileID: 11400000, guid: 2ad1f37aea9cd4c6bbce5745c80a6ada, type: 2}
+  - {fileID: 11400000, guid: d490c9f68aff94de48d2121cb1c66675, type: 2}

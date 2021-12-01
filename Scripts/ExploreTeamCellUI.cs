@@ -19,7 +19,7 @@ public class ExploreTeamCellUI : MonoBehaviour
         goStartButton.onClick.AddListener(() =>
         {
             SoundManager.Instance.PlaySound(SoundManager.Sound.ButtonClick);
-            DialogUI.Instance.ShowDialog("Alert", "Æô³Ì", 
+            DialogUI.Create().ShowDialog("Alert", "ï¿½ï¿½ï¿½", 
                 () => { 
 
                     return 0; 
@@ -32,7 +32,7 @@ public class ExploreTeamCellUI : MonoBehaviour
         goBackButton.onClick.AddListener(() =>
         {
             SoundManager.Instance.PlaySound(SoundManager.Sound.ButtonClick);
-            DialogUI.Instance.ShowDialog("Alert", "·µ»Ø",
+            DialogUI.Create().ShowDialog("Alert", "ï¿½ï¿½ï¿½ï¿½",
                 () => {
 
                     return 0;

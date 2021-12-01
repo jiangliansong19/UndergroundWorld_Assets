@@ -8,14 +8,6 @@ using UnityEngine.UI;
 
 public class SciencePageCellUI : MonoBehaviour
 {
-    public event EventHandler<SciencePageCellDidSelectedArgs> OnSelectCellUIEvent;
-    public class SciencePageCellDidSelectedArgs
-    {
-        public SciencePageCellUI cellUI;
-        public ScienceNodeSO scienceNodeSO;
-    }
-
-
     private ScienceNodeSO scienceNodeSO;
 
     private Transform nodeContentTransform;
@@ -50,7 +42,7 @@ public class SciencePageCellUI : MonoBehaviour
     private Outline outline;
 
 
-    private Func<int> nodeContentOnClick;
+    private Func<ScienceNodeSO, SciencePageCellUI, int> nodeContentOnClick;
 
 
     private void Awake()
@@ -95,15 +87,15 @@ public class SciencePageCellUI : MonoBehaviour
 
         nodeContentTransform.GetComponent<Button>().onClick.AddListener(() =>
         {
-            DialogUI.Instance.ShowDialog("Alert", scienceNodeSO.nodeDesc, () => {
 
-                OnSelectCellUIEvent?.Invoke(this, new SciencePageCellDidSelectedArgs()
-                {
-                    cellUI = this,
-                    scienceNodeSO = this.scienceNodeSO
-                });
 
-                SetSelected(true);
+            SetSelected(true);
+            nodeContentOnClick(scienceNodeSO, this);
+
+
+            DialogUI.Create().ShowDialog("Alert", scienceNodeSO.nodeDesc, () => {
+
+                
                 Debug.Log("dialog click on ok");
 
                 return 0;
@@ -119,7 +111,7 @@ public class SciencePageCellUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UpdateCompletePercent(0.6f);
+        //UpdateCompletePercent(0.6f);
 
 
 
@@ -135,23 +127,42 @@ public class SciencePageCellUI : MonoBehaviour
     {
         this.scienceNodeSO = nodeSO;
 
-        if (nodeSO.nodeType == ScienceCategoryType.Line)
+        if (nodeSO.nodeType == ScienceCategoryType.Empty)
         {
-            lineTransform.gameObject.SetActive(true);
+            lineTransform.gameObject.SetActive(false);
             lineContentTransform.gameObject.SetActive(false);
             nodeContentTransform.gameObject.SetActive(false);
         }
         else
         {
+            CreateLeftNodeContent(nodeSO);
+            CreateRightLineContent(nodeSO);
+        }
+    }
+
+    private void CreateLeftNodeContent(ScienceNodeSO nodeSO)
+    {
+
+        if (nodeSO.leftPartType == ScienceLeftPartType.Line)
+        {
+            lineTransform.gameObject.SetActive(true);
+            nodeContentTransform.gameObject.SetActive(false);
+        }
+        else if (nodeSO.leftPartType == ScienceLeftPartType.Empty)
+        {
             lineTransform.gameObject.SetActive(false);
-            
+            nodeContentTransform.gameObject.SetActive(false);
+        }
+        else
+        {
+            lineTransform.gameObject.SetActive(false);
             nodeContentTransform.gameObject.SetActive(true);
 
             if (nodeSO.nodeDesc != null)
             {
                 nodeContentTransform.Find("Text").GetComponent<Text>().text = nodeSO.nodeDesc;
             }
-            
+
 
 
             if (scienceNodeSO.unlockBuildingTypeSO != null)
@@ -166,19 +177,21 @@ public class SciencePageCellUI : MonoBehaviour
                     i++;
                 }
             }
+        }
+    }
 
+    private void CreateRightLineContent(ScienceNodeSO nodeSO)
+    {
+        lineContentTransform.gameObject.SetActive(true);
+        centerLineTransform.gameObject.SetActive(false);
+        topLeftLineTransform.gameObject.SetActive(false);
+        topRightLineTransform.gameObject.SetActive(false);
+        bottomLeftTransform.gameObject.SetActive(false);
+        bottomRightTransform.gameObject.SetActive(false);
 
-
-
-
-            lineContentTransform.gameObject.SetActive(true);
-            centerLineTransform.gameObject.SetActive(false);
-            topLeftLineTransform.gameObject.SetActive(false);
-            topRightLineTransform.gameObject.SetActive(false);
-            bottomLeftTransform.gameObject.SetActive(false);
-            bottomRightTransform.gameObject.SetActive(false);
-
-            switch (nodeSO.rightPartType)
+        foreach (ScienceRightPartType part in nodeSO.rightPartTypes)
+        {
+            switch (part)
             {
                 case ScienceRightPartType.Line:
                     centerLineTransform.gameObject.SetActive(true);
@@ -198,20 +211,12 @@ public class SciencePageCellUI : MonoBehaviour
                 default:
                     break;
             }
-
-
-
-
-
-
-
-
-
-
-
-
         }
+
     }
+
+
+
 
     public void UpdateCompletePercent(float percent)
     {
@@ -220,9 +225,14 @@ public class SciencePageCellUI : MonoBehaviour
 
     public void SetSelected(bool isSelect)
     {
+        if (scienceNodeSO.nodeType == ScienceCategoryType.Empty)
+        {
+            return;
+        }
+
         if (isSelect)
         {
-            outline.effectColor = Color.yellow;
+            outline.effectColor = Color.cyan;
         }
         else
         {
@@ -230,7 +240,7 @@ public class SciencePageCellUI : MonoBehaviour
         }
     }
 
-    public void SetNodeContentOnClick(Func<int> func)
+    public void SetNodeContentOnClick(Func<ScienceNodeSO, SciencePageCellUI, int> func)
     {
         nodeContentOnClick = func;
     }

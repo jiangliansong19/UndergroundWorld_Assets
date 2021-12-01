@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum ScienceCategoryType {
 
+    Empty,
     Line,
 
     HouseBuilding,
@@ -17,6 +18,13 @@ public enum ScienceCategoryType {
     ElectricSect,
     AnimalSect,
 
+}
+
+public enum ScienceLeftPartType
+{
+    Line,
+    Empty,
+    HasContent,
 }
 
 public enum ScienceRightPartType
@@ -36,13 +44,24 @@ public class ScienceNodeSO : ScriptableObject
 
     public ScienceCategoryType nodeType;//类型，Line表示直线
 
-    public ScienceRightPartType rightPartType;//右侧线条
+    public ScienceLeftPartType leftPartType;
+    public ScienceRightPartType[] rightPartTypes;//右侧线条
 
     public string nodeDesc;
+
+
+
+    public string remark;//备注
+
+
+
     public int nodeNumber; //节点顺序
 
     //前置节点(解锁节点)
-    public List<ScienceNodeSO> previousNodes; 
+    public List<ScienceNodeSO> previousNodes;
+
+
+   
 
 
     //解锁新建筑，

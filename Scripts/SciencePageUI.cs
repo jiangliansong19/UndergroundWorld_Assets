@@ -9,6 +9,7 @@ public class SciencePageUI : MonoBehaviour
     [SerializeField] private RectTransform parentCanvas;
     [SerializeField] private Transform templateCellTransform;
 
+    private SciencePageCellUI currentActiveCellUI;
 
 
     private GridLayoutGroup gridLayoutGroup;
@@ -17,13 +18,17 @@ public class SciencePageUI : MonoBehaviour
 
     private ScienceTreeSO scienceTree;
 
-    private List<SciencePageCellUI> scienceNodeTransformDict;
+    private List<SciencePageCellUI> scienceNodeTransforms;
+
+
+
+
 
     private void Awake()
     {
         Instance = this;
 
-        scienceNodeTransformDict = new List<SciencePageCellUI>();
+        scienceNodeTransforms = new List<SciencePageCellUI>();
         transform.gameObject.SetActive(false);
 
         transform.Find("CloseButton").GetComponent<Button>().onClick.AddListener(() =>
@@ -45,7 +50,7 @@ public class SciencePageUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        createScienceNodes();
+        
         
     }
 
@@ -56,61 +61,41 @@ public class SciencePageUI : MonoBehaviour
     }
 
 
-
-
-    private int GetMaxColumnCount()
-    {
-        int max = 0;
-        foreach (ScienceNodeListSO nodeListSO in scienceTree.list)
-        {
-            max = Mathf.Max(nodeListSO.list.Count, max);
-        }
-        return max;
-    }
-
     private void createScienceNodes()
     {
-        int columnCount = GetMaxColumnCount();
-        for (int i = 0; i < scienceTree.list.Count; i++)
+        gridLayoutGroup.constraintCount = scienceTree.list[0].list.Count;
+
+        for (int i = 0; i < 4; i++)
         {
-            for (int j = 0; j < columnCount; j++)
+            for (int j = 0; j < scienceTree.list[i].list.Count; j++)
             {
                 Transform newCellTransform = Instantiate(templateCellTransform, scrollContentTransform);
-                if (scienceTree.list[i].list != null && scienceTree.list[i].list.Count > j)
-                {
-                    newCellTransform.gameObject.SetActive(true);
-                    newCellTransform.GetComponent<RectTransform>().anchoredPosition = new Vector2(180 * i, 100 * j);
+                newCellTransform.gameObject.SetActive(true);
 
-                    
-
-                    SciencePageCellUI cellUI = newCellTransform.GetComponent<SciencePageCellUI>();
-
-                    Object value = scienceTree.list[i].list[j];
-
-                    if (value != null)
-                    {
-                        scienceNodeTransformDict.Add(cellUI);
-
-                        cellUI.OnSelectCellUIEvent += CellUI_OnSelectCellUIEvent;
-
-
-                        cellUI.SetScienceNodeSO(scienceTree.list[i].list[j]);
-                    }
-
-
-                }
+                ScienceNodeSO nodeSO = scienceTree.list[i].list[j];
+                SciencePageCellUI cellUI = newCellTransform.GetComponent<SciencePageCellUI>();
+                scienceNodeTransforms.Add(cellUI);
+                cellUI.SetScienceNodeSO(nodeSO);
+                cellUI.SetNodeContentOnClick(DidSelectOnNode);
             }
         }
     }
 
-    private void CellUI_OnSelectCellUIEvent(object sender, SciencePageCellUI.SciencePageCellDidSelectedArgs e)
+    private int DidSelectOnNode(ScienceNodeSO nodeSO, SciencePageCellUI transform)
     {
-        
+        foreach (SciencePageCellUI cellUI in scienceNodeTransforms)
+        {
+            cellUI.SetSelected(false);
+        }
+
+        transform.SetSelected(true);
+        return 0;
     }
 
     public void ShowSciencePage()
     {
         transform.gameObject.SetActive(true);
+        createScienceNodes();
     }
 
     public void HideSciencePage()

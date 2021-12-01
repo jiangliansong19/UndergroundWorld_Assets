@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88991f0411fc942d580035b172bd6954, type: 3}
   m_Name: FamilyHouseNodeSO
   m_EditorClassIdentifier: 
-  nodeType: 1
-  rightPartType: 0
+  nodeType: 2
+  leftPartType: 2
+  rightPartTypes: 00000000
   nodeDesc: "\u4E00\u5BB6\u4EBA\u7684\u4F4F\u5B85"
+  remark: 
   nodeNumber: 3
   previousNodes: []
   unlockBuildingTypeSO:

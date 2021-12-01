@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88991f0411fc942d580035b172bd6954, type: 3}
-  m_Name: SmallHouseNodeSO
+  m_Name: Hunter
   m_EditorClassIdentifier: 
-  nodeType: 2
+  nodeType: 3
   leftPartType: 2
   rightPartTypes: 00000000
-  nodeDesc: "\u8FD9\u662F\u4E00\u4E2A\u5C0F\u623F\u5B50"
-  remark: 
+  nodeDesc: "\u6253\u730E/\u7B80\u5355\u70E7\u70E4"
+  remark: "\u63D0\u5347\u6B66\u5668/\u62A4\u7532\uFF0C\u8BAD\u7EC3\u66F4\u5F3A\u7684\u72E9\u730E\u4F19\u4F34\u3002"
   nodeNumber: 0
   previousNodes: []
-  unlockBuildingTypeSO:
-  - {fileID: 11400000, guid: 2e55ab71662294fb09aa31b4925ac63b, type: 2}
+  unlockBuildingTypeSO: []

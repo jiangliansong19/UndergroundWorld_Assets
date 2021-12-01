@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88991f0411fc942d580035b172bd6954, type: 3}
-  m_Name: SmallHouseNodeSO
+  m_Name: PlantFarm1
   m_EditorClassIdentifier: 
-  nodeType: 2
+  nodeType: 3
   leftPartType: 2
   rightPartTypes: 00000000
-  nodeDesc: "\u8FD9\u662F\u4E00\u4E2A\u5C0F\u623F\u5B50"
-  remark: 
+  nodeDesc: "\u519C\u573A/\u9AD8\u7EA7\u70F9\u996A"
+  remark: "\u7B80\u5355\u690D\u7269"
   nodeNumber: 0
   previousNodes: []
-  unlockBuildingTypeSO:
-  - {fileID: 11400000, guid: 2e55ab71662294fb09aa31b4925ac63b, type: 2}
+  unlockBuildingTypeSO: []

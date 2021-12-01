@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: ScienceTreeSO
   m_EditorClassIdentifier: 
   list:
-  - {fileID: 11400000, guid: a83ee77d62fab4a7184046ab806817c2, type: 2}
-  - {fileID: 11400000, guid: 7e8307fb2dce7487dafbf0f32046c5c6, type: 2}
+  - {fileID: 11400000, guid: 66408b7edfb0b40c985dd5f71462b539, type: 2}
+  - {fileID: 11400000, guid: 608e35d5459824dca99b11746e1d283f, type: 2}
+  - {fileID: 11400000, guid: c245114057e42449baa5093b9b67a1f5, type: 2}
+  - {fileID: 11400000, guid: 7f675196905de4e098507f4268eac8ee, type: 2}
   - {fileID: 11400000, guid: bfb372a32f3454237957ebb485bcc203, type: 2}
+  - {fileID: 11400000, guid: a83ee77d62fab4a7184046ab806817c2, type: 2}
   - {fileID: 11400000, guid: ad3e44218defb4475952967d7193788a, type: 2}
   - {fileID: 11400000, guid: e47f07348091a42a4b92057d85ff945d, type: 2}
   - {fileID: 11400000, guid: 0ff869113152f45e683cbb6bf6655bd6, type: 2}
