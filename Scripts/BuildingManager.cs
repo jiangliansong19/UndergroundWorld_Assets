@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -187,16 +188,32 @@ public class BuildingManager : MonoBehaviour
         return null;
     }
 
+
+
     private void CreateWorld()
     {
         Transform waterTransform = Resources.Load<Transform>("pfWater");
+        Transform waterTransform1 = Resources.Load<Transform>("pfWater1");
+        Transform waterTransform2 = Resources.Load<Transform>("pfWater2");
         Transform soilTransform = Resources.Load<Transform>("pfSoil");
+
+        Vector2[] lake1 = new Vector2[3] { new Vector2(-8, 0) , new Vector2(-7,0), new Vector2(-7,-1) };
+        //Vector2[] lake1 = new Vector2[] { new Vector2(-8, 0), new Vector2(-7, 0), new Vector2(-7, -1) };
 
         for (int i = -50; i < 50; i++)
         {
             for (int j = -50; j < 0; j++)
             {
-                Instantiate(soilTransform, new Vector3(i, j, 0), Quaternion.identity);
+                Vector2 position = new Vector2(i, j);
+                if (lake1.Contains(position)) 
+                {
+                    Instantiate(waterTransform, position, Quaternion.identity);
+                }
+                else
+                {
+                    Instantiate(soilTransform, position, Quaternion.identity);
+                }
+                
             }
 
             if (i % 3 == 0)
@@ -205,7 +222,6 @@ public class BuildingManager : MonoBehaviour
                 Vector3 treePosition = new Vector3(i + Random.Range(0, 3), -0.5f, 0);
                 Instantiate(tree, treePosition, Quaternion.identity);
             }
-
         }
     }
 }
