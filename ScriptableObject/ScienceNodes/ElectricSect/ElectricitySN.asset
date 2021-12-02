@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88991f0411fc942d580035b172bd6954, type: 3}
   m_Name: ElectricitySN
   m_EditorClassIdentifier: 
-  nodeType: 0
-  leftPartType: 0
-  rightPartTypes: 
-  nodeDesc: 
-  remark: 
+  nodeType: 7
+  leftPartType: 2
+  rightPartTypes: 00000000
+  nodeDesc: "\u7535\u80FD\u65F6\u4EE3"
+  remark: "\u57FA\u7840\u7684\u53D1\u7535\uFF0C\u7535\u50A8\u5B58\uFF0C\u7535\u4F20\u8F93"
   nodeNumber: 0
   previousNodes: []
   unlockBuildingTypeSO: []

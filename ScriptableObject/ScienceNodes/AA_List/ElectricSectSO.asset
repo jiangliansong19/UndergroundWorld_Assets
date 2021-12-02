@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 044fa61e62128474eb029974651bbb09, type: 3}
   m_Name: ElectricSectSO
   m_EditorClassIdentifier: 
-  categoryType: 0
-  list: []
+  categoryType: 7
+  list:
+  - {fileID: 11400000, guid: 5f73a9699373e4d1a994179286e58c89, type: 2}
+  - {fileID: 11400000, guid: f515d6ad6d71044178bceaba0fdcf1ec, type: 2}

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88991f0411fc942d580035b172bd6954, type: 3}
   m_Name: Cart&Boat2SN
   m_EditorClassIdentifier: 
-  nodeType: 0
-  leftPartType: 0
-  rightPartTypes: 
-  nodeDesc: 
-  remark: 
+  nodeType: 4
+  leftPartType: 2
+  rightPartTypes: 00000000
+  nodeDesc: "\u725B\u8F66\u9A6C\u8F66/\u98CE\u5E06\u8239"
+  remark: "\u52A8\u7269\u62C9\u8F66\uFF0C\u98CE\u529B\u8239"
   nodeNumber: 0
   previousNodes: []
   unlockBuildingTypeSO: []

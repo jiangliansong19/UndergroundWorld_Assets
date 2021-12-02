@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88991f0411fc942d580035b172bd6954, type: 3}
   m_Name: AnimalPartnerSN
   m_EditorClassIdentifier: 
-  nodeType: 0
-  leftPartType: 0
-  rightPartTypes: 
+  nodeType: 8
+  leftPartType: 2
+  rightPartTypes: 00000000
   nodeDesc: "\u4F19\u4F34"
   remark: "\u5F00\u542F\u52A8\u7269\u4E0E\u4EBA\u7684\u7B80\u5355\u6C9F\u901A\uFF0C\u6210\u4E3A\u4F19\u4F34"
   nodeNumber: 0

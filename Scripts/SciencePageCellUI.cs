@@ -196,10 +196,24 @@ public class SciencePageCellUI : MonoBehaviour
                     newTransform.gameObject.SetActive(true);
                     newTransform.GetComponent<RectTransform>().anchoredPosition += new Vector2(iconTemplateWidth * i, 0);
                     newTransform.Find("Icon").GetComponent<Image>().sprite = typeSO.sprite;
+                    MouseEnterAndExits enterAndExits = newTransform.GetComponent<MouseEnterAndExits>();
+                    enterAndExits.OnMouseEnterEvent += (object sender, EventArgs e) =>
+                    {
+                        ToolTipsUI.Instance.Show(typeSO.buildingName);
+                    };
+                    enterAndExits.OnMouseExitEvent += (object sender, EventArgs e) =>
+                    {
+                        ToolTipsUI.Instance.Show(nodeSO.nodeDesc);
+                    };
                     i++;
                 }
             }
         }
+    }
+
+    private void EnterAndExits_OnMouseEnterEvent(object sender, EventArgs e)
+    {
+        throw new NotImplementedException();
     }
 
     private void CreateRightLineContent(ScienceNodeSO nodeSO)

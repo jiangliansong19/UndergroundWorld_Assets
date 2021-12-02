@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88991f0411fc942d580035b172bd6954, type: 3}
   m_Name: AnimalEquipmentSN
   m_EditorClassIdentifier: 
-  nodeType: 0
-  leftPartType: 0
-  rightPartTypes: 
-  nodeDesc: 
-  remark: 
+  nodeType: 8
+  leftPartType: 2
+  rightPartTypes: 00000000
+  nodeDesc: "\u52A8\u7269\u88C5\u5907"
+  remark: "\u7279\u5236\u7684\u52A8\u7269\u88C5\u5907\uFF0C\u63D0\u9AD8\u6548\u7387"
   nodeNumber: 0
   previousNodes: []
   unlockBuildingTypeSO: []

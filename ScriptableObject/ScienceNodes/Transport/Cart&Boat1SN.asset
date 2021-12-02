@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88991f0411fc942d580035b172bd6954, type: 3}
   m_Name: Cart&Boat1SN
   m_EditorClassIdentifier: 
-  nodeType: 0
-  leftPartType: 0
-  rightPartTypes: 
+  nodeType: 4
+  leftPartType: 2
+  rightPartTypes: 00000000
   nodeDesc: "\u63A8\u8F66/\u5C0F\u8239"
   remark: "\u4EBA\u529B\u63A8\u8F66\uFF0C\u4EBA\u529B\u6ED1\u52A8\u7684\u5C0F\u8239"
   nodeNumber: 0

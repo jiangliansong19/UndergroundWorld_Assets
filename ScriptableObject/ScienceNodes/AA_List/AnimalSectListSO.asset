@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 044fa61e62128474eb029974651bbb09, type: 3}
   m_Name: AnimalSectListSO
   m_EditorClassIdentifier: 
-  categoryType: 0
-  list: []
+  categoryType: 8
+  list:
+  - {fileID: 11400000, guid: 18692b49119e644e2a98021785f0d7e1, type: 2}
+  - {fileID: 11400000, guid: f0308c8cb73e747e4a4dc493216d85a1, type: 2}
+  - {fileID: 11400000, guid: ef5766a4c34644c9a81abc883d763860, type: 2}

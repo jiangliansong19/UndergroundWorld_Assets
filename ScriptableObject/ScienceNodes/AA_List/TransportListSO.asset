@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 044fa61e62128474eb029974651bbb09, type: 3}
   m_Name: TransportListSO
   m_EditorClassIdentifier: 
-  categoryType: 0
-  list: []
+  categoryType: 4
+  list:
+  - {fileID: 11400000, guid: 75382147b80a14439b9e83a3af8e42e0, type: 2}
+  - {fileID: 11400000, guid: 5d2464f736fd24a14b547c1ad8692319, type: 2}

@@ -109,7 +109,7 @@ public class BottomMenuUI : MonoBehaviour
                 }
                 else if (item.type == BottomMenuType.Science)
                 {
-                    SciencePageUI.Instance.ShowSciencePage();
+                    ScienceManager.Instance.ShowSciencePage();
                 }
                 else if (item.type == BottomMenuType.ExplorTeam)
                 {

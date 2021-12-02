@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88991f0411fc942d580035b172bd6954, type: 3}
   m_Name: AnimalPhychicSN
   m_EditorClassIdentifier: 
-  nodeType: 0
-  leftPartType: 0
-  rightPartTypes: 
-  nodeDesc: 
-  remark: 
+  nodeType: 8
+  leftPartType: 2
+  rightPartTypes: 00000000
+  nodeDesc: "\u5FC3\u7075\u6C9F\u901A"
+  remark: "\u589E\u52A0\u6C9F\u901A\u7B49\u7EA7\uFF0C\u63D0\u9AD8\u751F\u4EA7\u6548\u7387\u3002\u53EF\u91CD\u590D"
   nodeNumber: 0
   previousNodes: []
   unlockBuildingTypeSO: []

@@ -5,12 +5,8 @@ using UnityEngine.UI;
 
 public class SciencePageUI : MonoBehaviour
 {
-    public static SciencePageUI Instance { private set; get; }
-    [SerializeField] private RectTransform parentCanvas;
     [SerializeField] private Transform templateCellTransform;
     [SerializeField] private ScienceNodeSO emptyScienceNodeSO;
-
-    private SciencePageCellUI currentActiveCellUI;
 
 
     private GridLayoutGroup gridLayoutGroup;
@@ -27,8 +23,6 @@ public class SciencePageUI : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
-
         scienceNodeTransforms = new List<SciencePageCellUI>();
         transform.gameObject.SetActive(false);
 
@@ -72,7 +66,7 @@ public class SciencePageUI : MonoBehaviour
     }
 
 
-    private void createScienceNodes()
+    public void createScienceNodes()
     {
         int maxCount = GetMaxHorizontalLengthOfScienceTree();
         gridLayoutGroup.constraintCount = maxCount;
@@ -113,6 +107,12 @@ public class SciencePageUI : MonoBehaviour
         transform.SetSelected(true);
         return 0;
     }
+
+    private void ShowPreviousScienceNode(ScienceNodeSO nodeSO)
+    {
+
+    }
+
 
     public void ShowSciencePage()
     {
