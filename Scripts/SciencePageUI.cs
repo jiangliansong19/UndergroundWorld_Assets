@@ -8,6 +8,7 @@ public class SciencePageUI : MonoBehaviour
     public static SciencePageUI Instance { private set; get; }
     [SerializeField] private RectTransform parentCanvas;
     [SerializeField] private Transform templateCellTransform;
+    [SerializeField] private ScienceNodeSO emptyScienceNodeSO;
 
     private SciencePageCellUI currentActiveCellUI;
 
@@ -60,19 +61,40 @@ public class SciencePageUI : MonoBehaviour
         
     }
 
+    private int GetMaxHorizontalLengthOfScienceTree()
+    {
+        int max = 0;
+        foreach (ScienceNodeListSO listSO in scienceTree.list)
+        {
+            max = Mathf.Max(max, listSO.list.Count);
+        }
+        return max;
+    }
+
 
     private void createScienceNodes()
     {
-        gridLayoutGroup.constraintCount = scienceTree.list[0].list.Count;
+        int maxCount = GetMaxHorizontalLengthOfScienceTree();
+        gridLayoutGroup.constraintCount = maxCount;
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < scienceTree.list.Count; i++)
         {
-            for (int j = 0; j < scienceTree.list[i].list.Count; j++)
+            for (int j = 0; j < maxCount; j++)
             {
                 Transform newCellTransform = Instantiate(templateCellTransform, scrollContentTransform);
                 newCellTransform.gameObject.SetActive(true);
 
-                ScienceNodeSO nodeSO = scienceTree.list[i].list[j];
+
+                ScienceNodeSO nodeSO;
+                if (j < scienceTree.list[i].list.Count)
+                {
+                    nodeSO = scienceTree.list[i].list[j];
+                }
+                else
+                {
+                    nodeSO = emptyScienceNodeSO;
+                }
+
                 SciencePageCellUI cellUI = newCellTransform.GetComponent<SciencePageCellUI>();
                 scienceNodeTransforms.Add(cellUI);
                 cellUI.SetScienceNodeSO(nodeSO);

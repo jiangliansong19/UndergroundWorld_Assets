@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88991f0411fc942d580035b172bd6954, type: 3}
   m_Name: WaterPumpSN
   m_EditorClassIdentifier: 
-  nodeType: 0
-  leftPartType: 0
-  rightPartTypes: 
+  nodeType: 3
+  leftPartType: 2
+  rightPartTypes: 00000000
   nodeDesc: "\u62BD\u6C34\u7AD9/\u6C34\u7BA1"
   remark: "\u62BD\u6C34\u7AD9/\u7AF9\u6C34\u7BA1\u3002\u6CA1\u6709\u7AF9\u5B50\uFF0C\u90A3\u53EA\u80FD\u6316\u571F\u4E86"
   nodeNumber: 0

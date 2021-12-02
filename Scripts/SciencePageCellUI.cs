@@ -85,28 +85,7 @@ public class SciencePageCellUI : MonoBehaviour
 
 
 
-        nodeContentTransform.GetComponent<Button>().onClick.AddListener(() =>
-        {
 
-
-            SetSelected(true);
-
-            nodeContentOnClick(scienceNodeSO, this);
-
-
-            DialogUI.Create().ShowDialog("Alert", scienceNodeSO.nodeDesc, () => {
-
-                
-                Debug.Log("dialog click on ok");
-
-                return 0;
-            }, () => {
-
-                Debug.Log("dialog click on cancel");
-                return 0;
-            });
-
-        });
     }
 
     // Start is called before the first frame update
@@ -114,15 +93,57 @@ public class SciencePageCellUI : MonoBehaviour
     {
         //UpdateCompletePercent(0.6f);
 
+        Button nodeContentButton = nodeContentTransform.GetComponent<Button>();
+        nodeContentButton.onClick.AddListener(OnClickOnNodeContent);
 
+        MouseEnterAndExits enterAndExits = nodeContentTransform.GetComponent<MouseEnterAndExits>();
+        enterAndExits.OnMouseEnterEvent += ScienceCellUIEnterAndExits_OnMouseEnterEvent;
+        enterAndExits.OnMouseExitEvent += ScienceCellUIEnterAndExits_OnMouseExitEvent;
 
     }
+
+    private void ScienceCellUIEnterAndExits_OnMouseExitEvent(object sender, EventArgs e)
+    {
+        ToolTipsUI.Instance.Hide();
+    }
+
+    private void ScienceCellUIEnterAndExits_OnMouseEnterEvent(object sender, EventArgs e)
+    {
+        ToolTipsUI.Instance.Show(scienceNodeSO.nodeDesc);
+    }
+
 
     // Update is called once per frame
     void Update()
     {
         
     }
+
+
+    private void OnClickOnNodeContent()
+    {
+        SetSelected(true);
+
+        nodeContentOnClick(scienceNodeSO, this);
+
+
+        DialogUI.Create().ShowDialog("Alert", scienceNodeSO.nodeDesc, () => {
+
+
+            Debug.Log("dialog click on ok");
+
+            return 0;
+        }, () => {
+
+            Debug.Log("dialog click on cancel");
+            return 0;
+        });
+    }
+
+
+
+
+
 
     public void SetScienceNodeSO(ScienceNodeSO nodeSO)
     {

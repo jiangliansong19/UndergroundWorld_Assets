@@ -16,7 +16,7 @@ MonoBehaviour:
   leftPartType: 2
   rightPartTypes: 00000000
   nodeDesc: "\u6728\u677F"
-  remark: 
+  remark: "\u6728\u5236\u54C1\u5DE5\u5382"
   nodeNumber: 0
   previousNodes: []
   unlockBuildingTypeSO: []

@@ -15,7 +15,7 @@ MonoBehaviour:
   nodeType: 3
   leftPartType: 2
   rightPartTypes: 000000000300000001000000
-  nodeDesc: "\u98DF\u7269\u91C7\u96C6\u7AD9"
+  nodeDesc: Food Collection
   remark: "\u4F7F\u7528\u5DE5\u5177\uFF0C\u5EFA\u7ACB\u91C7\u96C6\u7AD9\uFF0C\u9AD8\u6548\u7387\u91C7\u96C6\u98DF\u7269\u3002"
   nodeNumber: 0
   previousNodes: []

@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nodeType: 4
   leftPartType: 2
-  rightPartTypes: 
+  rightPartTypes: 00000000
   nodeDesc: "\u4EBA\u529B\u8F6E"
-  remark: 
+  remark: "\u4F7F\u52B2\u8E29\u5427"
   nodeNumber: 0
   previousNodes: []
   unlockBuildingTypeSO: []
