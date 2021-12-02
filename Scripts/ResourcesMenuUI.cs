@@ -11,6 +11,9 @@ public class ResourcesMenuUI : MonoBehaviour
 {
     [SerializeField] private RectTransform parantCanvas;
 
+
+    private Dictionary<ResourceTypeSO, Transform> resourceTypeTransformDict;
+
     private Transform templateTransform;
     private float itemHeight = 20f;
 
@@ -19,6 +22,8 @@ public class ResourcesMenuUI : MonoBehaviour
     {
         templateTransform = transform.Find("ResourcesMenuItem");
         templateTransform.gameObject.SetActive(false);
+
+        resourceTypeTransformDict = new Dictionary<ResourceTypeSO, Transform>();
     }
 
     // Start is called before the first frame update
@@ -37,14 +42,25 @@ public class ResourcesMenuUI : MonoBehaviour
                 aTransform.Find("Amount").GetComponent<TextMeshProUGUI>().text = resourceDict[item].ToString();
 
                 aTransform.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, -itemHeight * i, 0);
+
+                resourceTypeTransformDict[item] = aTransform;
+
                 i++;
             }
         }
+
+        ResourcesManager.Instance.OnResourcesChangedEvent += ResourceManager_OnResourcesChangedEvent;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ResourceManager_OnResourcesChangedEvent(object sender, ResourcesManager.ResourceChangeAmountArgs e)
     {
-        
+        UpdateAmountNumber(e.typeAmount);
     }
+
+    private void UpdateAmountNumber(ResourceTypeAmount typeAmount)
+    {
+        Transform targetTransform = resourceTypeTransformDict[typeAmount.resourceType];
+        targetTransform.Find("Amount").GetComponent<TextMeshProUGUI>().text = typeAmount.amount.ToString();
+    }
+
 }

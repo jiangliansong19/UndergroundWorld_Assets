@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9924f252bb20542228cbd3f23ad4195f, type: 3}
-  m_Name: HunterHouseSO
+  m_Name: LadderSO
   m_EditorClassIdentifier: 
   type: 0
-  buildingName: HunterHouse
-  sprite: {fileID: 21300000, guid: 94e098a4d764647b4aec78a327c08bda, type: 3}
-  prefab: {fileID: 7216276508335197837, guid: 66b79dba30c034eab8f01693ca1ad5a0, type: 3}
+  buildingName: 
+  sprite: {fileID: 21300000, guid: e21f28dd749f4364abc14b88a26ad285, type: 3}
+  prefab: {fileID: 6851627154590854901, guid: f4e481f08154f97469886ecd9762afae, type: 3}
   generateResource:
     resourceType: {fileID: 0}
     amount: 0
@@ -24,5 +24,5 @@ MonoBehaviour:
   upgrades: []
   components: []
   strengthens: []
-  buildOnSoil: 1
-  remark: 
+  buildOnSoil: 0
+  remark: "\u4E0A\u4E0A\u4E0B\u4E0B\u7684\u68AF\u5B50"

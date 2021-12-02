@@ -38,6 +38,7 @@ MonoBehaviour:
     type: 3
     sprite: {fileID: 21300000, guid: 1a4b2425defc74eada2cac93cddc4e53, type: 3}
     buildingList:
+    - {fileID: 11400000, guid: 3dbaba7bdbfefb64d96d96fac1973bbf, type: 2}
     - {fileID: 11400000, guid: 6cbf14beb8dd4ca49920b58e77f1fb21, type: 2}
   - name: Industry
     type: 4

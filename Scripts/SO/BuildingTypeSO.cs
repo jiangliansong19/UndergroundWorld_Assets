@@ -12,7 +12,7 @@ public enum BuildingType
 
 }
 
-public enum BuildingFunctionType
+public enum BuildingComponentType
 {
     Basis, //基础
     Upgrade, //升级
@@ -30,10 +30,24 @@ public class BuildingTypeSO : ScriptableObject
     public Sprite sprite;
     public Transform prefab;//UI模型
 
-    public ResourceTypeAmount generateResource;
-    public List<ResourceTypeAmount> constructionCosts;
+    public ResourceTypeAmount generateResource; //生产资源
+    public List<ResourceTypeAmount> constructionCosts; //建筑消耗资源
 
-    public BuildingFunctionType functionType;
+    public BuildingComponentType componentType; //组成部分
+
+
+    public List<BuildingTypeSO> upgrades;//升级建筑
+    public List<BuildingTypeSO> components;//组件建筑
+    public List<BuildingTypeSO> strengthens;//强化建筑
+
+
+
+
+    public bool buildOnSoil;//只能建在土壤(方格)上。
+
+
+
+    public string remark;//备注，注释，方便自己看
 
     public string GetBuildingDescription()
     {

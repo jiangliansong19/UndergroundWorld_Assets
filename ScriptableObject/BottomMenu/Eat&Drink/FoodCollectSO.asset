@@ -14,9 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   buildingName: FoodCollection
-  sprite: {fileID: 21300000, guid: 7279845024afe4b6fbe12961a3550bb0, type: 3}
+  sprite: {fileID: 21300000, guid: 24f187200d6e5a04fb6bab06637a836f, type: 3}
   prefab: {fileID: 7878840176116461476, guid: 981be40100d794158870103af6c4d387, type: 3}
   generateResource:
     resourceType: {fileID: 11400000, guid: c9e84cfe7a3674c0fa0c47c69dea196a, type: 2}
     amount: 2
   constructionCosts: []
+  componentType: 0
+  upgrades: []
+  components: []
+  strengthens: []
+  buildOnSoil: 1
+  remark: "\u6700\u7B80\u5355\u7684\u98DF\u7269\u91C7\u96C6\u7AD9\u3002"

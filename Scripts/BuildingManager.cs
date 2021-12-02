@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 
@@ -106,7 +104,12 @@ public class BuildingManager : MonoBehaviour
             Transform newObj = Instantiate(this.activeBuildingTypeSO.prefab, (Vector3)correctPosition, Quaternion.identity);
             ResourcesManager.Instance.SpendResourceAmounts(activeBuildingTypeSO.constructionCosts);
 
-
+            ResourceTypeAmount resourceAmount = activeBuildingTypeSO.generateResource;
+            if (resourceAmount.resourceType != null && resourceAmount.amount != 0)
+            {
+                ResourceGeneratorManager.Instance.AddResourcePerCycle(resourceAmount);
+            }
+            
         }
         else
         {
@@ -117,11 +120,19 @@ public class BuildingManager : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// 销毁建筑
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="position"></param>
     public void DestructBuilding(GameObject obj, Vector3 position)
     {
         GameObject gameObj = UtilsClass.GetObjectByRay(position);
-        Destroy(gameObj);
+        if (gameObj.GetComponent<BuildingTypeSO>() != null)
+        {
+            Destroy(gameObj);
+        }
+        
     }
 
     public void UpdateBuilding(GameObject obj, Vector3 position)
@@ -129,7 +140,11 @@ public class BuildingManager : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// 查看建筑的详情
+    /// </summary>
+    /// <param name="building"></param>
+    /// <param name="position"></param>
     public void ShowBuildingInfoDialog(GameObject building, Vector3 position)
     {
         if (BuildingInfoDialog == null)
@@ -154,6 +169,14 @@ public class BuildingManager : MonoBehaviour
     private Vector3? GetCorrectBuildPosition(Transform trans)
     {
         Vector3 mousePoint = UtilsClass.getRoundCurrentWorldPoint();
+
+     
+        if (activeBuildingTypeSO.buildOnSoil == false)
+        {
+            return mousePoint;
+        }
+
+
         RaycastHit2D rayCastObj = Physics2D.Raycast(mousePoint, new Vector2(0, -1));
         if (rayCastObj.collider.tag == "Soil")
         {
@@ -216,7 +239,7 @@ public class BuildingManager : MonoBehaviour
                 
             }
 
-            if (i % 3 == 0)
+            if (i % 5 == 0)
             {
                 Transform tree = treeTransforms[Random.Range(0, treeTransforms.Length)];
                 Vector3 treePosition = new Vector3(i + Random.Range(0, 3), -0.5f, 0);

@@ -16,7 +16,13 @@ MonoBehaviour:
   buildingName: FishingHouse
   sprite: {fileID: 21300000, guid: 2e7d0989af727ad4fb601a14c9e346cd, type: 3}
   prefab: {fileID: 6508844989972297477, guid: b0d6cf6c6067d428e9753daccb6a059f, type: 3}
-  data:
-    constructCost: 0
-    originIncomePerDay: 0
-    influenceRadius: 0
+  generateResource:
+    resourceType: {fileID: 0}
+    amount: 0
+  constructionCosts: []
+  componentType: 0
+  upgrades: []
+  components: []
+  strengthens: []
+  buildOnSoil: 1
+  remark: 
