@@ -96,22 +96,27 @@ public class DemolishManager : MonoBehaviour
     {
         Debug.Log("ChechSelectedObjects");
 
+        //因坐标问题，导致这里colliders始终为0
         Collider2D[] colliders = Physics2D.OverlapAreaAll(_rectRenderStart, _rectRenderEnd);
-        Collider2D[] collider2s = Physics2D.OverlapCircleAll(new Vector2(0, 0), 40);
 
         Debug.Log("draw render colliders " + colliders.Length.ToString());
-        Debug.Log("draw render collider2s " + collider2s.Length.ToString());
 
         if (_demolishType == DemolishType.CutTree)
         {
+            List<Working> work = new List<Working>();
             foreach (Collider2D coll in colliders)
             {
                 CutTrees cutTrees = coll.GetComponent<CutTrees>();
                 if (cutTrees != null)
                 {
                     cutTrees.SetIsCutting(true);
+                    work.Add(new Working() { 
+                        workTransform = coll.transform, 
+                        typeSO = coll.gameObject.GetComponent<ResourceTypeHolder>().GetResourceTypeSO() 
+                    });
                 }
             }
+            WorkingManager.Instance.AddWorks(work);
         }
 
     }

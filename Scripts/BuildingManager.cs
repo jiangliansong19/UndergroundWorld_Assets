@@ -61,7 +61,11 @@ public class BuildingManager : MonoBehaviour
         {
 
             Transform man = Resources.Load<Transform>("pfMan");
-            Instantiate(man, UtilsClass.GetCurrentWorldPoint(), Quaternion.identity);
+            Transform obj = Instantiate(man, UtilsClass.GetCurrentWorldPoint(), Quaternion.identity);
+
+            List<Worker> workers = new List<Worker>();
+            workers.Add(obj.GetComponent<Worker>());
+            WorkingManager.Instance.AddWorkers(workers);
         }
     }
 

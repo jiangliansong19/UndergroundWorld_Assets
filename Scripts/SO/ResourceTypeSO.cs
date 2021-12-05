@@ -29,6 +29,8 @@ public class ResourceTypeSO : ScriptableObject
     public string nameString;
     public Sprite sprite;
     public ResourceType type;
-    public GameObject prefab;
 
+
+    public float collectSpendTime;//收集花费时间
+    public float amount;//产量
 }
