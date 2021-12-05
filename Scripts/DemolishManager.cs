@@ -19,7 +19,11 @@ public class DemolishManager : MonoBehaviour
 {
     public static DemolishManager Instance { private set; get; }
     private Vector3? longPressOrigin;
-    private DemolishType demolishType;
+    private DemolishType _demolishType;
+
+    private RectRender _rectRender;
+    private Vector2 _rectRenderStart;
+    private Vector2 _rectRenderEnd;
 
     private void Awake()
     {
@@ -29,48 +33,94 @@ public class DemolishManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        _rectRender = Camera.main.GetComponent<RectRender>();
+        _rectRender.OnDrawRectEndPosition += RectRender_OnDrawRectEndPosition;
+        _rectRender.OnDrawRectStartPosition += RectRender_OnDrawRectStartPosition;
+    }
+
+    private void RectRender_OnDrawRectStartPosition(object sender, RectRender.RectRenderEventHandlerArgs e)
+    {
+        _rectRenderStart = e.position;
+    }
+
+    private void RectRender_OnDrawRectEndPosition(object sender, RectRender.RectRenderEventHandlerArgs e)
+    {
+        _rectRenderEnd = e.position;
+
+        ChechSelectedObjects();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (this.demolishType != DemolishType.None)
+        if (_demolishType != DemolishType.None)
         {
 
         }
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
-        {
-            Debug.Log("GetMouseButtonDown");
-            longPressOrigin = UtilsClass.GetCurrentWorldPoint();
-        }
-        if (Input.GetMouseButton(0))
-        {
 
-        }
-        if (Input.GetMouseButtonUp(0) && longPressOrigin != null && !EventSystem.current.IsPointerOverGameObject())
+        if (_demolishType == DemolishType.Digging) 
         {
-            Debug.Log("GetMouseButtonUp");
-            if (this.demolishType == DemolishType.Digging)
+            if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
             {
-                Digging();
+                Debug.Log("GetMouseButtonDown");
+                longPressOrigin = UtilsClass.GetCurrentWorldPoint();
             }
+            if (Input.GetMouseButton(0))
+            {
 
-            longPressOrigin = null;
+            }
+            if (Input.GetMouseButtonUp(0) && longPressOrigin != null && !EventSystem.current.IsPointerOverGameObject())
+            {
+                Debug.Log("GetMouseButtonUp");
+                if (this._demolishType == DemolishType.Digging)
+                {
+                    Digging();
+                }
+
+                longPressOrigin = null;
+            }
         }
+
     }
 
 
-    public void SetDemolishType(BuildingTypeSO typeSO)
+
+
+
+
+
+
+
+
+    private void ChechSelectedObjects()
     {
-        switch(typeSO.buildingName)
-        {
-            case "Digging":
-                this.demolishType = DemolishType.Digging;
-                break;
+        Debug.Log("ChechSelectedObjects");
 
+        Collider2D[] colliders = Physics2D.OverlapAreaAll(_rectRenderStart, _rectRenderEnd);
+        Collider2D[] collider2s = Physics2D.OverlapCircleAll(new Vector2(0, 0), 40);
+
+        Debug.Log("draw render colliders " + colliders.Length.ToString());
+        Debug.Log("draw render collider2s " + collider2s.Length.ToString());
+
+        if (_demolishType == DemolishType.CutTree)
+        {
+            foreach (Collider2D coll in colliders)
+            {
+                CutTrees cutTrees = coll.GetComponent<CutTrees>();
+                if (cutTrees != null)
+                {
+                    cutTrees.SetIsCutting(true);
+                }
+            }
         }
+
     }
+
+
+
+
+
+
 
     private void Digging()
     {
@@ -104,4 +154,19 @@ public class DemolishManager : MonoBehaviour
         }
     }
 
+
+
+    public void SetDemolishType(BuildingTypeSO typeSO)
+    {
+        switch (typeSO.buildingName)
+        {
+            case "Digging":
+                _demolishType = DemolishType.Digging;
+                break;
+            case "CutTree":
+                _demolishType = DemolishType.CutTree;
+                break;
+
+        }
+    }
 }

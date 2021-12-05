@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 显示资源数量
+/// 锟斤拷示锟斤拷源锟斤拷锟斤拷
 /// </summary>
 public class ResourcesMenuUI : MonoBehaviour
 {
@@ -34,7 +34,7 @@ public class ResourcesMenuUI : MonoBehaviour
         int i = 0;
         foreach (ResourceTypeSO item in resourceDict.Keys)
         {
-            if (resourceDict[item] > 0)
+            if (resourceDict[item] >= 0)
             {
                 Transform aTransform = Instantiate(templateTransform, transform);
                 aTransform.gameObject.SetActive(true);

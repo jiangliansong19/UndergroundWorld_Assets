@@ -56,6 +56,13 @@ public class BuildingManager : MonoBehaviour
             SetActiveBuildingTypeSO(null);
         }
 
+
+        if (Input.GetKey(KeyCode.G))
+        {
+
+            Transform man = Resources.Load<Transform>("pfMan");
+            Instantiate(man, UtilsClass.GetCurrentWorldPoint(), Quaternion.identity);
+        }
     }
 
 
@@ -170,7 +177,10 @@ public class BuildingManager : MonoBehaviour
     {
         Vector3 mousePoint = UtilsClass.getRoundCurrentWorldPoint();
 
-     
+        BoxCollider2D boxCollider2D = trans.GetComponent<BoxCollider2D>();
+        Collider2D[] boxColliders = Physics2D.OverlapBoxAll(mousePoint + (Vector3)boxCollider2D.offset, boxCollider2D.size, 0);
+        Debug.LogFormat("11OverlapBoxAll = {0}", boxColliders.Length);
+
         if (activeBuildingTypeSO.buildOnSoil == false)
         {
             return mousePoint;
@@ -239,10 +249,10 @@ public class BuildingManager : MonoBehaviour
                 
             }
 
-            if (i % 5 == 0)
+            if (i % 8 == 0)
             {
                 Transform tree = treeTransforms[Random.Range(0, treeTransforms.Length)];
-                Vector3 treePosition = new Vector3(i + Random.Range(0, 3), -0.5f, 0);
+                Vector3 treePosition = new Vector3(i + Random.Range(0, 7), -0.5f, 0);
                 Instantiate(tree, treePosition, Quaternion.identity);
             }
         }
