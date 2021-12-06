@@ -29,6 +29,9 @@ public class BuildingManager : MonoBehaviour
         public BuildingTypeSO Args_TypeSO;
     }
 
+
+
+
     private void Awake()
     {
         Instance = this;
@@ -40,6 +43,8 @@ public class BuildingManager : MonoBehaviour
     void Start()
     {
         CreateWorld();
+
+        
     }
 
     // Update is called once per frame
@@ -47,18 +52,28 @@ public class BuildingManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && activeBuildingTypeSO != null && !EventSystem.current.IsPointerOverGameObject())
         {
-            BuildBuilding();
+            
+            if (activeBuildingTypeSO.type == BuildingType.Road)
+            {
+
+            }
+            else
+            {
+                BuildBuilding();
+            }
         }
 
 
+        //cancel
         if (Input.GetMouseButtonDown(1))
         {
             SetActiveBuildingTypeSO(null);
         }
 
-
-        if (Input.GetKey(KeyCode.G))
+        //test
+        if (Input.GetKeyDown(KeyCode.G))
         {
+            Debug.Log("Click on G to generate man");
 
             Transform man = Resources.Load<Transform>("pfMan");
             Transform obj = Instantiate(man, UtilsClass.GetCurrentWorldPoint(), Quaternion.identity);
@@ -70,6 +85,8 @@ public class BuildingManager : MonoBehaviour
     }
 
 
+
+
     public void SetActiveBuildingTypeSO(BuildingTypeSO typeSO)
     {
         activeBuildingTypeSO = typeSO;
@@ -77,6 +94,8 @@ public class BuildingManager : MonoBehaviour
         {
             Args_TypeSO = activeBuildingTypeSO
         });
+
+        StartObserveRectRender();
     }
 
     public BuildingTypeSO GetActiveBuildingTypeSO()
@@ -115,12 +134,15 @@ public class BuildingManager : MonoBehaviour
             Transform newObj = Instantiate(this.activeBuildingTypeSO.prefab, (Vector3)correctPosition, Quaternion.identity);
             ResourcesManager.Instance.SpendResourceAmounts(activeBuildingTypeSO.constructionCosts);
 
-            ResourceTypeAmount resourceAmount = activeBuildingTypeSO.generateResource;
-            if (resourceAmount.resourceType != null && resourceAmount.amount != 0)
-            {
-                ResourceGeneratorManager.Instance.AddResourcePerCycle(resourceAmount);
-            }
-            
+
+
+
+            //ResourceTypeAmount resourceAmount = activeBuildingTypeSO.generateResource;
+            //if (resourceAmount.resourceType != null && resourceAmount.amount != 0)
+            //{
+            //    ResourceGeneratorManager.Instance.AddResourcePerCycle(resourceAmount);
+            //}
+
         }
         else
         {
@@ -223,6 +245,56 @@ public class BuildingManager : MonoBehaviour
             return null;
         }
         return null;
+    }
+
+
+
+    private Vector2 _startPosition;
+    private Vector2 _endPosition;
+    private void StartObserveRectRender()
+    {
+        if (activeBuildingTypeSO == null)
+        {
+            return;
+        }
+
+        if (activeBuildingTypeSO.type != BuildingType.Road)
+        {
+            return;
+        }
+
+        RectRender rectRender = Camera.main.GetComponent<RectRender>();
+        rectRender.OnDrawRectStartPosition += (object sender, RectRender.RectRenderEventHandlerArgs e) =>
+        {
+            _startPosition = e.position;
+        };
+        rectRender.OnDrawRectEndPosition += (object sender, RectRender.RectRenderEventHandlerArgs e) =>
+        {
+            _endPosition = e.position;
+
+            //could continuos to build
+            if (activeBuildingTypeSO != null && activeBuildingTypeSO.type == BuildingType.Road)
+            {
+                CheckToBuildRoads();
+            }
+        };
+    }
+
+
+    private void CheckToBuildRoads()
+    {
+        Collider2D[] colliders = Physics2D.OverlapAreaAll(_startPosition, _endPosition);
+        if (colliders.Length == 0)
+        {
+            for (float i = Mathf.Min(_startPosition.x, _endPosition.x); i < Mathf.Max(_startPosition.x, _endPosition.x); i++)
+            {
+                for (float j = Mathf.Min(_startPosition.y, _endPosition.y); j < Mathf.Max(_startPosition.y, _endPosition.y); j++)
+                {
+                    Vector2 cur = new Vector2(Mathf.RoundToInt(i), Mathf.RoundToInt(j));
+                    Instantiate(activeBuildingTypeSO.prefab, cur, Quaternion.identity);
+                }
+            }
+        }
     }
 
 

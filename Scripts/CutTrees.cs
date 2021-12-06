@@ -43,11 +43,11 @@ public class CutTrees : MonoBehaviour
     public void AddCuttingPercent(float percent)
     {
         cuttingPercent += percent;
-        if (cuttingPercent >= 1.00f)
-        {
-            ResourcesManager.Instance.AddResource(new ResourceTypeAmount() { resourceType = resourceTypeHolder.GetResourceTypeSO(), amount = 8 });
+        //if (cuttingPercent >= 1.00f)
+        //{
+        //    ResourcesManager.Instance.AddResource(new ResourceTypeAmount() { resourceType = resourceTypeHolder.GetResourceTypeSO(), amount = 8 });
 
-            Destroy(gameObject);
-        }
+        //    Destroy(gameObject);
+        //}
     }
 }

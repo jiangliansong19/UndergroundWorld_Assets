@@ -204,20 +204,23 @@ public class BottomMenuUI : MonoBehaviour
                 if (item.type == BottomMenuType.Demolish)
                 {
                     DemolishManager.Instance.SetDemolishType(buildingTypeSO);
+                    BuildingManager.Instance.SetActiveBuildingTypeSO(null);
                 }
-
                 else
                 {
+                    DemolishManager.Instance.SetDemolishType(null);
                     BuildingManager.Instance.SetActiveBuildingTypeSO(buildingTypeSO);
                 }
 
                 
-
+                //change selected state
                 foreach (Transform item in tmpTransforms)
                 {
                     item.Find("Selected").gameObject.SetActive(false);
                 }
                 buttonTransform.Find("Selected").gameObject.SetActive(true);
+
+
                 SoundManager.Instance.PlaySound(SoundManager.Sound.ButtonClick);
             });
 

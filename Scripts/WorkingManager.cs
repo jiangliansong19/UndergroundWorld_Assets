@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 
-public class Working
+public class Task
 {
     public Transform workTransform;
     public ResourceTypeSO typeSO;
@@ -16,7 +16,7 @@ public class WorkingManager : MonoBehaviour
 
     public static WorkingManager Instance { private set; get; }
 
-    private List<Working> totalWorks;
+    private List<Task> totalTasks;
     private List<Worker> totalWorkers;
 
     private float searchWorkTimer;
@@ -26,7 +26,7 @@ public class WorkingManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        totalWorks = new List<Working>();
+        totalTasks = new List<Task>();
         totalWorkers = new List<Worker>();
     }
 
@@ -56,7 +56,8 @@ public class WorkingManager : MonoBehaviour
         {
             if (worker.GetTarget() == null)
             {
-                worker.setTarget(totalWorks[0]);
+                worker.setTarget(totalTasks[0]);
+                Debug.LogFormat("Add task {0}", totalTasks[0].typeSO.nameString);
             }
         }
     }
@@ -66,17 +67,17 @@ public class WorkingManager : MonoBehaviour
 
 
 
-    public void AddWorks(List<Working> works)
+    public void AddWorks(List<Task> works)
     {
         foreach (var item in works)
         {
-            totalWorks.Add(item);
+            totalTasks.Add(item);
         }
     }
 
-    public void RemoveWork(Working work)
+    public void RemoveWork(Task work)
     {
-        totalWorks.Remove(work);
+        totalTasks.Remove(work);
     }
 
     

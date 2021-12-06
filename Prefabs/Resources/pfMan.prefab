@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 8621900095403872313}
   - component: {fileID: 875465838487587322}
   - component: {fileID: 7115929905017957746}
-  m_Layer: 0
+  - component: {fileID: -4944257567496508083}
+  m_Layer: 5
   m_Name: pfMan
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,3 +103,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-4944257567496508083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235014130979285863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dda21bdb39e44978ab37cae4f2de835, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
