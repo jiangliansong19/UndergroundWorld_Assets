@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 875465838487587322}
   - component: {fileID: 7115929905017957746}
   - component: {fileID: -4944257567496508083}
+  - component: {fileID: 8133085572203173679}
   m_Layer: 5
   m_Name: pfMan
   m_TagString: Untagged
@@ -115,3 +116,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dda21bdb39e44978ab37cae4f2de835, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8133085572203173679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235014130979285863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99742e217e3cd4a71b41f36b83b04d7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resourceTypeSO: {fileID: 11400000, guid: 2f71f1f9f034041e2bae182ee237bfc9, type: 2}

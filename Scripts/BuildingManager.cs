@@ -59,7 +59,7 @@ public class BuildingManager : MonoBehaviour
             }
             else
             {
-                BuildBuilding();
+                generateABuilding(activeBuildingTypeSO, UtilsClass.getRoundCurrentWorldPoint());
             }
         }
 
@@ -75,12 +75,7 @@ public class BuildingManager : MonoBehaviour
         {
             Debug.Log("Click on G to generate man");
 
-            Transform man = Resources.Load<Transform>("pfMan");
-            Transform obj = Instantiate(man, UtilsClass.GetCurrentWorldPoint(), Quaternion.identity);
-
-            List<Worker> workers = new List<Worker>();
-            workers.Add(obj.GetComponent<Worker>());
-            WorkingManager.Instance.AddWorkers(workers);
+            WorkingManager.Instance.AddWorker(Worker.GenerateAWorker(UtilsClass.GetCurrentWorldPoint()));
         }
     }
 
@@ -120,29 +115,22 @@ public class BuildingManager : MonoBehaviour
         }
     }
 
-    public void BuildBuilding()
+    public void generateABuilding(BuildingTypeSO buildingTypeSO, Vector2 position)
     {
-        Vector3? correctPosition = GetCorrectBuildPosition(activeBuildingTypeSO.prefab.transform);
+        Vector3? correctPosition = GetCorrectBuildPosition(buildingTypeSO.prefab.transform, position);
         if (correctPosition == null)
         {
             SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
             return;
         }
 
-        if (ResourcesManager.Instance.CanAffordResourceAmounts(activeBuildingTypeSO.constructionCosts)) 
+        if (ResourcesManager.Instance.CanAffordResourceAmounts(buildingTypeSO.constructionCosts)) 
         {
-            Transform newObj = Instantiate(this.activeBuildingTypeSO.prefab, (Vector3)correctPosition, Quaternion.identity);
-            ResourcesManager.Instance.SpendResourceAmounts(activeBuildingTypeSO.constructionCosts);
+            Transform newObj = Instantiate(buildingTypeSO.prefab, (Vector3)correctPosition, Quaternion.identity);
+            ResourcesManager.Instance.SpendResourceAmounts(buildingTypeSO.constructionCosts);
 
-
-
-
-            //ResourceTypeAmount resourceAmount = activeBuildingTypeSO.generateResource;
-            //if (resourceAmount.resourceType != null && resourceAmount.amount != 0)
-            //{
-            //    ResourceGeneratorManager.Instance.AddResourcePerCycle(resourceAmount);
-            //}
-
+            bool everyCycle = buildingTypeSO.type != BuildingType.House;
+            ResourceGeneratorManager.Instance.AddResourcePerCycle(buildingTypeSO.generateResource, everyCycle);
         }
         else
         {
@@ -153,11 +141,7 @@ public class BuildingManager : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// 销毁建筑
-    /// </summary>
-    /// <param name="obj"></param>
-    /// <param name="position"></param>
+
     public void DestructBuilding(GameObject obj, Vector3 position)
     {
         GameObject gameObj = UtilsClass.GetObjectByRay(position);
@@ -173,11 +157,7 @@ public class BuildingManager : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// 查看建筑的详情
-    /// </summary>
-    /// <param name="building"></param>
-    /// <param name="position"></param>
+
     public void ShowBuildingInfoDialog(GameObject building, Vector3 position)
     {
         if (BuildingInfoDialog == null)
@@ -199,21 +179,20 @@ public class BuildingManager : MonoBehaviour
 
 
 
-    private Vector3? GetCorrectBuildPosition(Transform trans)
+    private Vector3? GetCorrectBuildPosition(Transform trans, Vector3 clickPosition)
     {
-        Vector3 mousePoint = UtilsClass.getRoundCurrentWorldPoint();
 
         BoxCollider2D boxCollider2D = trans.GetComponent<BoxCollider2D>();
-        Collider2D[] boxColliders = Physics2D.OverlapBoxAll(mousePoint + (Vector3)boxCollider2D.offset, boxCollider2D.size, 0);
+        Collider2D[] boxColliders = Physics2D.OverlapBoxAll(clickPosition + (Vector3)boxCollider2D.offset, boxCollider2D.size, 0);
         Debug.LogFormat("11OverlapBoxAll = {0}", boxColliders.Length);
 
         if (activeBuildingTypeSO.buildOnSoil == false)
         {
-            return mousePoint;
+            return clickPosition;
         }
 
 
-        RaycastHit2D rayCastObj = Physics2D.Raycast(mousePoint, new Vector2(0, -1));
+        RaycastHit2D rayCastObj = Physics2D.Raycast(clickPosition, new Vector2(0, -1));
         if (rayCastObj.collider.tag == "Soil")
         {
             
@@ -221,15 +200,15 @@ public class BuildingManager : MonoBehaviour
             float soilColliderHeight = 1f;
 
             float collidersDistance = boxCollider.size.y / 2 + soilColliderHeight / 2;
-            float positionDistance = mousePoint.y - rayCastObj.collider.transform.position.y;
+            float positionDistance = clickPosition.y - rayCastObj.collider.transform.position.y;
 
             if (positionDistance == collidersDistance)
             {
-                return mousePoint;
+                return clickPosition;
             }
             else if (positionDistance - collidersDistance > 0 && positionDistance - collidersDistance < 1)
             {
-                return new Vector3(mousePoint.x, mousePoint.y - 0.5f, 0);
+                return new Vector3(clickPosition.x, clickPosition.y - 0.5f, 0);
             }
             else if (positionDistance - collidersDistance > 1)
             {
@@ -246,6 +225,11 @@ public class BuildingManager : MonoBehaviour
         }
         return null;
     }
+
+
+
+
+
 
 
 
@@ -275,13 +259,13 @@ public class BuildingManager : MonoBehaviour
             //could continuos to build
             if (activeBuildingTypeSO != null && activeBuildingTypeSO.type == BuildingType.Road)
             {
-                CheckToBuildRoads();
+                CheckToContinuousBuildRoads();
             }
         };
     }
 
 
-    private void CheckToBuildRoads()
+    private void CheckToContinuousBuildRoads()
     {
         Collider2D[] colliders = Physics2D.OverlapAreaAll(_startPosition, _endPosition);
         if (colliders.Length == 0)
@@ -299,6 +283,17 @@ public class BuildingManager : MonoBehaviour
 
 
 
+
+
+
+
+
+
+
+
+
+
+
     private void CreateWorld()
     {
         Transform waterTransform = Resources.Load<Transform>("pfWater");
@@ -309,6 +304,22 @@ public class BuildingManager : MonoBehaviour
         Vector2[] lake1 = new Vector2[3] { new Vector2(-8, 0) , new Vector2(-7,0), new Vector2(-7,-1) };
         //Vector2[] lake1 = new Vector2[] { new Vector2(-8, 0), new Vector2(-7, 0), new Vector2(-7, -1) };
 
+        int[,] destructSoils = new int[10, 2]
+        {
+            {0, -1},
+            {0, -2},
+            {0, -3}, {1, -3}, {2, -3}, {3, -3},
+            {0, -4}, {1, -4}, {2, -4}, {3, -4}
+        };
+
+        Vector2[] empty1 = new Vector2[10];
+        for (int i = 0; i < 10; i++)
+        {
+            empty1[i] = new Vector2(destructSoils[i, 0], destructSoils[i, 1]);
+        }
+
+
+
         for (int i = -50; i < 50; i++)
         {
             for (int j = -50; j < 0; j++)
@@ -318,19 +329,40 @@ public class BuildingManager : MonoBehaviour
                 {
                     Instantiate(waterTransform, position, Quaternion.identity);
                 }
+                else if (empty1.Contains(position)) {
+
+                }
                 else
                 {
                     Instantiate(soilTransform, position, Quaternion.identity);
+
                 }
-                
             }
 
-            if (i % 8 == 0)
+            //create trees
+            if (i % 8 == 0 && (i < 0 || i > 3))
             {
                 Transform tree = treeTransforms[Random.Range(0, treeTransforms.Length)];
                 Vector3 treePosition = new Vector3(i + Random.Range(0, 7), -0.5f, 0);
                 Instantiate(tree, treePosition, Quaternion.identity);
             }
+        }
+
+        //create ladder
+        for (int j = -4; j < 0; j++)
+        {
+            GameObject ladder = Resources.Load<GameObject>("pfLadder");
+            Instantiate(ladder, new Vector2(0, j), Quaternion.identity);
+        }
+
+        //create a small house as area center
+        BottomMenuSO menuSO = Resources.Load<BottomMenuSO>(typeof(BottomMenuSO).Name);
+        Transform house = Instantiate(menuSO.menuList[1].buildingList[0].prefab, new Vector2(2, -4), Quaternion.identity);
+
+        for (int i = 0; i < 4; i++)
+        {
+            Worker w = Worker.GenerateAWorker(house.position);
+            WorkingManager.Instance.AddWorker(w);
         }
     }
 }

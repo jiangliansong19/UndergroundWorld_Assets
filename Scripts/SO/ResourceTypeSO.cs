@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum ResourceType
 {
+    Worker,
     Food,
     Water,
     Wood,
@@ -31,6 +32,6 @@ public class ResourceTypeSO : ScriptableObject
     public ResourceType type;
 
 
-    public float collectSpendTime;//ÊÕ¼¯»¨·ÑÊ±¼ä
-    public float amount;//²úÁ¿
+    public float collectSpendTime;//ï¿½Õ¼ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
+    public float amount;//ï¿½ï¿½ï¿½ï¿½
 }

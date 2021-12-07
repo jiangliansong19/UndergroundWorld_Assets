@@ -8,10 +8,11 @@ using UnityEngine;
 /// </summary>
 public class BuildingRunData : MonoBehaviour
 {
+
     [HideInInspector] public int incomePerDay;//日收入
     [HideInInspector] public int influenceRadius;//建筑辐射半径
 
-    [HideInInspector] public bool isConnectTo;//是否连接到市中心
+    [HideInInspector] public bool isConnectToAreaCenter;//是否连接到市中心
 
     [HideInInspector] public float incomeCorrectRadio;//收入修正比例
     [HideInInspector] public float influenceCorrctRadio;//辐射修正比例

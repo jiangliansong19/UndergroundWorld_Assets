@@ -9,7 +9,7 @@ public enum BuildingType
     House,
     Road,
     DigHole,
-
+    other,
 }
 
 public enum BuildingComponentType
@@ -32,6 +32,10 @@ public class BuildingTypeSO : ScriptableObject
 
     public ResourceTypeAmount generateResource; //生产资源
     public List<ResourceTypeAmount> constructionCosts; //建筑消耗资源
+
+
+    public int workersNumber;//工作人数
+
 
     public BuildingComponentType componentType; //组成部分
 

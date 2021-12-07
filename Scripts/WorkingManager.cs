@@ -54,7 +54,7 @@ public class WorkingManager : MonoBehaviour
     {
         foreach (Worker worker in totalWorkers)
         {
-            if (worker.GetTarget() == null)
+            if (worker.GetTarget() == null && totalTasks.Count >= 1)
             {
                 worker.setTarget(totalTasks[0]);
                 Debug.LogFormat("Add task {0}", totalTasks[0].typeSO.nameString);
@@ -84,11 +84,17 @@ public class WorkingManager : MonoBehaviour
 
 
 
-    public void AddWorkers(List<Worker> workers)
+    public void AddWorker(Worker w)
     {
-        foreach (var item in workers)
+        totalWorkers.Add(w);
+        ResourcesManager.Instance.AddResource(new ResourceTypeAmount()
         {
-            totalWorkers.Add(item);
-        }
+            resourceType = w.GetComponent<ResourceTypeHolder>().GetResourceTypeSO(),
+            amount = 1
+        });
     }
+
+
+
+
 }

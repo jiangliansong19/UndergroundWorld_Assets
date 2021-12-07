@@ -11,6 +11,15 @@ public class Worker : MonoBehaviour
     private float workSpendTimer;
     private float workSpendTimeMax;
 
+
+
+    public static Worker GenerateAWorker(Vector3 position)
+    {
+        Transform man = Resources.Load<Transform>("pfMan");
+        Transform obj = Instantiate(man, position, Quaternion.identity);
+        return obj.GetComponent<Worker>();
+    }
+
     // Start is called before the first frame update
     void Start()
     {

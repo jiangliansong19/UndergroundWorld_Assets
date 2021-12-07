@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-/// <summary>
-/// 资源生产者。
-/// </summary>
 public class ResourceGeneratorManager : MonoBehaviour
 {
 
     public static ResourceGeneratorManager Instance { private set; get; }
-    List<ResourceTypeAmount> resourceAmountsPerCycle;//一个周期内，各类生产的资源总数。
+    List<ResourceTypeAmount> resourceAmountsPerCycle;
 
 
     private float timer;
@@ -53,8 +50,15 @@ public class ResourceGeneratorManager : MonoBehaviour
 
 
 
-    public void AddResourcePerCycle(ResourceTypeAmount amount) 
+    public void AddResourcePerCycle(ResourceTypeAmount amount, bool everyCycle = true) 
     {
-        resourceAmountsPerCycle.Add(amount);
+        if (everyCycle)
+        {
+            resourceAmountsPerCycle.Add(amount);
+        }
+        else
+        {
+            ResourcesManager.Instance.AddResource(amount);
+        }
     }
 }

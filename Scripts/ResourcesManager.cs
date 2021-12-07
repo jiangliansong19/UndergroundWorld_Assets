@@ -30,6 +30,7 @@ public class ResourcesManager : MonoBehaviour
         resourceTypeListSO = Resources.Load<ResourceTypeListSO>(typeof(ResourceTypeListSO).Name);
 
         resourcesDictionary = new Dictionary<ResourceTypeSO, ulong>();
+        resourcesDictionary[resourceTypeListSO.GetResourceTypeSO(ResourceType.Worker)] = 0;
         resourcesDictionary[resourceTypeListSO.GetResourceTypeSO(ResourceType.Food)] = 100;
         resourcesDictionary[resourceTypeListSO.GetResourceTypeSO(ResourceType.Water)] = 100;
         resourcesDictionary[resourceTypeListSO.GetResourceTypeSO(ResourceType.Wood)] = 0;
