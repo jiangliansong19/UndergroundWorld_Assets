@@ -20,9 +20,11 @@ MonoBehaviour:
     resourceType: {fileID: 0}
     amount: 0
   constructionCosts: []
+  workersNumber: 0
   componentType: 0
   upgrades: []
   components: []
   strengthens: []
+  continuousBuild: 1
   buildOnSoil: 0
   remark: "\u4E0A\u4E0A\u4E0B\u4E0B\u7684\u68AF\u5B50"

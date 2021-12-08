@@ -35,6 +35,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: b09567fb85e244b328fb77f3495e6189, type: 2}
     - {fileID: 11400000, guid: 00355cd7091e39e4081b16309926774f, type: 2}
     - {fileID: 11400000, guid: d7c3edb06ab7d4c868e03f7fdcd177c3, type: 2}
+    - {fileID: 11400000, guid: 767cf3ce51ef348f5992c965dcb83bd1, type: 2}
   - name: Transport
     type: 3
     sprite: {fileID: 21300000, guid: 1a4b2425defc74eada2cac93cddc4e53, type: 3}

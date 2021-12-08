@@ -201,6 +201,11 @@ public class BottomMenuUI : MonoBehaviour
 
             buttonTransform.GetComponent<Button>().onClick.AddListener(() =>
             {
+
+
+
+
+
                 if (item.type == BottomMenuType.Demolish)
                 {
                     DemolishManager.Instance.SetDemolishType(buildingTypeSO);

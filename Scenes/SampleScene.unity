@@ -4471,7 +4471,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sciencePageUI: {fileID: 591423445}
-  completedScienceNodeSOs: []
 --- !u!1 &1021645624
 GameObject:
   m_ObjectHideFlags: 0
