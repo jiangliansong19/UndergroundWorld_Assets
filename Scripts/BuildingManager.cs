@@ -118,6 +118,7 @@ public class BuildingManager : MonoBehaviour
         Collider2D[] boxColliders = Physics2D.OverlapBoxAll((Vector3)position + (Vector3)boxCollider2D.offset, boxCollider2D.size, 0);
         if (boxColliders != null && boxColliders.Length > 0)
         {
+            Debug.Log("position is has other object");
             SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
             return;
         }
@@ -135,64 +136,55 @@ public class BuildingManager : MonoBehaviour
                 }
                 else
                 {
-                    for (float i = -buildingTypeSO.prefab.transform.localScale.x /2 ; i <= -buildingTypeSO.prefab.transform.localScale.x / 2; i++)
+                    Vector2 prefabPosition = buildingTypeSO.prefab.transform.position;
+                    for (float i = prefabPosition.x - boxCollider2D.size.x / 2 + 0.5f; i < prefabPosition.x + boxCollider2D.size.x / 2; i++)
                     {
-
+                        Vector2 rayStartPosition = new Vector2(i, position.y);
+                        RaycastHit2D rayCastObj_N = Physics2D.Raycast(rayStartPosition, new Vector2(0, -1).normalized);
+                        if (rayCastObj_N.collider.tag == "Soil")
+                        {
+                            if (position.y - rayCastObj_N.transform.position.y - boxCollider2D.size.y / 2.0 - 0.5f > 1)
+                            {
+                                SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
+                                return;
+                            }
+                        }
                     }
                 }
+                correctBuildPosition = new Vector2(position.x, rayCastObj.transform.position.y + 0.5f + boxCollider2D.size.y/2.0f);
             }
-
         }
 
         //can afford enough resources
-        bool canAfford = true;
         foreach (ResourceTypeAmount item in buildingTypeSO.constructionCosts)
         {
             if (!ResourcesManager.Instance.CanAffordResource(item.resourceType.type, item.amount))
             {
                 ToolTipsUI.Instance.Show("can not afford " + item.resourceType.nameString + " " + item.amount,
                                             new ToolTipsUI.TooltipTimer() { timer = 2f }, null);
-                canAfford = false;
                 SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
                 return;
             }
         }
 
 
+        //craete
+        Transform newObj = Instantiate(buildingTypeSO.prefab, (Vector3)correctBuildPosition, Quaternion.identity);
 
-
-
-
-        Vector3? correctPosition = GetCorrectBuildPosition(buildingTypeSO.prefab.transform, position);
-        if (correctPosition == null)
+        //building construction
+        foreach (ResourceTypeAmount item in buildingTypeSO.constructionCosts)
         {
-            SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
-            return;
+            ResourcesManager.Instance.AddResource(item.resourceType.type, -(int)item.amount);
         }
 
+        //addresource
+        bool everyCycle = buildingTypeSO.type != BuildingType.House;
+        ResourceType resourceType = buildingTypeSO.generateResource.resourceType.type;
+        long amount = buildingTypeSO.generateResource.amount;
+        ResourcesManager.Instance.AddResourcePerCycle(resourceType, amount, everyCycle);
 
-
-        if (canAfford) 
-        {
-            //craete
-            Transform newObj = Instantiate(buildingTypeSO.prefab, (Vector3)correctPosition, Quaternion.identity);
-
-            //building construction
-            foreach (ResourceTypeAmount item in buildingTypeSO.constructionCosts) 
-            {
-                ResourcesManager.Instance.AddResource(item.resourceType.type, -(int)item.amount);
-            }
-
-            //addresource
-            bool everyCycle = buildingTypeSO.type != BuildingType.House;
-            ResourceType resourceType = buildingTypeSO.generateResource.resourceType.type;
-            long amount = buildingTypeSO.generateResource.amount;
-            ResourcesManager.Instance.AddResourcePerCycle(resourceType, amount, everyCycle);
-
-            //spend workes
-            ResourcesManager.Instance.AddResourcePerCycle(ResourceType.Worker, -buildingTypeSO.workersNumber, false);
-        }
-
+        //spend workes
+        ResourcesManager.Instance.AddResourcePerCycle(ResourceType.Worker, -buildingTypeSO.workersNumber, false);
 
     }
 
@@ -330,7 +322,8 @@ public class BuildingManager : MonoBehaviour
                 for (float j = Mathf.Min(_startPosition.y, _endPosition.y); j < Mathf.Max(_startPosition.y, _endPosition.y); j++)
                 {
                     Vector2 cur = new Vector2(Mathf.RoundToInt(i), Mathf.RoundToInt(j));
-                    Instantiate(activeBuildingTypeSO.prefab, cur, Quaternion.identity);
+                    //Instantiate(activeBuildingTypeSO.prefab, cur, Quaternion.identity);
+                    generateABuilding(activeBuildingTypeSO, cur);
                 }
             }
         }
