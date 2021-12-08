@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6ebde90397204e048eee95080c800f8, type: 3}
   m_Name: PeopleSO
   m_EditorClassIdentifier: 
-  nameString: 
-  sprite: {fileID: 0}
+  nameString: "\u4EBA\u53E3"
+  sprite: {fileID: 21300000, guid: 321212d69866444a1a5b9897d64e29ea, type: 3}
   type: 0
-  collectSpendTime: 0
-  amount: 0

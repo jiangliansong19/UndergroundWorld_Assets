@@ -14,7 +14,7 @@ public class ScienceManager : MonoBehaviour
 
     private ScienceNodeSO activeScienceNodeSO;
 
-    public List<ScienceNodeSO> completedScienceNodeSOs;
+    private List<ScienceNodeSO> completedScienceNodeSOs;
 
 
     private void Awake()
@@ -75,5 +75,12 @@ public class ScienceManager : MonoBehaviour
     public ScienceNodeSO GetActiveScienceNodeSO()
     {
         return activeScienceNodeSO;
+    }
+
+
+
+    public bool CheckIsCompleted(ScienceNodeSO nodeSo)
+    {
+        return completedScienceNodeSOs.Contains(nodeSo);
     }
 }

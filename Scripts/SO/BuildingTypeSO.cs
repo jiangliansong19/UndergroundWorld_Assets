@@ -37,6 +37,7 @@ public class BuildingTypeSO : ScriptableObject
     public int workersNumber;//工作人数
 
 
+
     public BuildingComponentType componentType; //组成部分
 
 
@@ -46,7 +47,7 @@ public class BuildingTypeSO : ScriptableObject
 
 
 
-
+    public bool continuousBuild;//框选后范围建造
     public bool buildOnSoil;//只能建在土壤(方格)上。
 
 

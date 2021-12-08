@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -32,7 +32,7 @@ public class ResourcesMenuUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Dictionary<ResourceTypeSO, ulong> resourceDict = ResourcesManager.Instance.GetResourcesDictionary();
+        Dictionary<ResourceTypeSO, long> resourceDict = ResourcesManager.Instance.GetResourcesDictionary();
 
         int i = 0;
         foreach (ResourceTypeSO item in resourceTypeListSO.list)
@@ -40,7 +40,7 @@ public class ResourcesMenuUI : MonoBehaviour
             Transform aTransform = Instantiate(templateTransform, transform);
             aTransform.gameObject.SetActive(true);
             aTransform.Find("Icon").GetComponent<Image>().sprite = item.sprite;
-            ulong resourceAmount = 0;
+            long resourceAmount = 0;
             if (resourceDict.Keys.Contains(item))
             {
                 resourceAmount = resourceDict[item];

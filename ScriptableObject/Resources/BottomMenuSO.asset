@@ -30,6 +30,7 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 5773483f5227c4747a3e4f3ea6587664, type: 3}
     buildingList:
     - {fileID: 11400000, guid: 9e6958f2d4b1e49c49db31ba6b71b259, type: 2}
+    - {fileID: 11400000, guid: 0421bdfef182d46c1a1b5d8659004170, type: 2}
     - {fileID: 11400000, guid: 4bef74cdd4d4e45d4a60580769c1c632, type: 2}
     - {fileID: 11400000, guid: b09567fb85e244b328fb77f3495e6189, type: 2}
     - {fileID: 11400000, guid: 00355cd7091e39e4081b16309926774f, type: 2}
@@ -45,6 +46,7 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: e296fefc064c7433fa61c1f2ae543b35, type: 3}
     buildingList:
     - {fileID: 11400000, guid: 5504b79ad3c3d4e988af0ba35f4afe38, type: 2}
+    - {fileID: 11400000, guid: 0fb2d6508ccd2481bbe0f97c7fbaac80, type: 2}
   - name: Energy
     type: 5
     sprite: {fileID: 21300000, guid: 16057a71b1ab2491fbac92c17421e2ba, type: 3}

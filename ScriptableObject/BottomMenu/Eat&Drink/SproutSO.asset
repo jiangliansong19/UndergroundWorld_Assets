@@ -10,22 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9924f252bb20542228cbd3f23ad4195f, type: 3}
-  m_Name: SmallHouseSO
+  m_Name: SproutSO
   m_EditorClassIdentifier: 
   type: 0
-  buildingName: SmallHouse
-  sprite: {fileID: 21300000, guid: a5790f44c910f4a7e8d414ff5f33ed2d, type: 3}
-  prefab: {fileID: 4780354459023443454, guid: bed859bbb1ed246bea779bc48eecb1cb, type: 3}
+  buildingName: 
+  sprite: {fileID: 0}
+  prefab: {fileID: 0}
   generateResource:
-    resourceType: {fileID: 11400000, guid: 2f71f1f9f034041e2bae182ee237bfc9, type: 2}
-    amount: 2
-  constructionCosts:
-  - resourceType: {fileID: 11400000, guid: 3ee293ed3391a49b4a819c3e52b2e4a7, type: 2}
-    amount: 4
+    resourceType: {fileID: 0}
+    amount: 0
+  constructionCosts: []
   workersNumber: 0
   componentType: 0
   upgrades: []
   components: []
   strengthens: []
-  buildOnSoil: 1
+  buildOnSoil: 0
   remark: 

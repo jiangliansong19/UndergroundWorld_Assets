@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +20,7 @@ public enum ResourceType
 public class ResourceTypeAmount
 {
     public ResourceTypeSO resourceType;
-    public ulong amount;
+    public long amount;
 }
 
 
@@ -30,8 +30,4 @@ public class ResourceTypeSO : ScriptableObject
     public string nameString;
     public Sprite sprite;
     public ResourceType type;
-
-
-    public float collectSpendTime;//�ռ�����ʱ��
-    public float amount;//����
 }

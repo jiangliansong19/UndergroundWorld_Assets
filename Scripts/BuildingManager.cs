@@ -53,11 +53,7 @@ public class BuildingManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && activeBuildingTypeSO != null && !EventSystem.current.IsPointerOverGameObject())
         {
             
-            if (activeBuildingTypeSO.type == BuildingType.Road)
-            {
-
-            }
-            else
+            if (!activeBuildingTypeSO.continuousBuild)
             {
                 generateABuilding(activeBuildingTypeSO, UtilsClass.getRoundCurrentWorldPoint());
             }
@@ -124,19 +120,38 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
-        if (ResourcesManager.Instance.CanAffordResourceAmounts(buildingTypeSO.constructionCosts)) 
+        bool canAfford = true;
+        foreach (ResourceTypeAmount item in buildingTypeSO.constructionCosts)
         {
+            if (!ResourcesManager.Instance.CanAffordResource(item.resourceType.type, item.amount))
+            {
+                Debug.Log("can not afford " + item.resourceType.nameString + " " + item.amount);
+                ToolTipsUI.Instance.Show("can not afford " + item.resourceType.nameString + " " + item.amount,
+                                            new ToolTipsUI.TooltipTimer() { timer = 2f }, null);
+                canAfford = false;
+            }
+        }
+
+        if (canAfford) 
+        {
+            //craete
             Transform newObj = Instantiate(buildingTypeSO.prefab, (Vector3)correctPosition, Quaternion.identity);
-            ResourcesManager.Instance.SpendResourceAmounts(buildingTypeSO.constructionCosts);
 
+            //building construction
+            foreach (ResourceTypeAmount item in buildingTypeSO.constructionCosts) 
+            {
+                ResourcesManager.Instance.AddResource(item.resourceType.type, -(int)item.amount);
+            }
+
+            //addresource
             bool everyCycle = buildingTypeSO.type != BuildingType.House;
-            ResourceGeneratorManager.Instance.AddResourcePerCycle(buildingTypeSO.generateResource, everyCycle);
-        }
-        else
-        {
+            ResourceType resourceType = buildingTypeSO.generateResource.resourceType.type;
+            long amount = buildingTypeSO.generateResource.amount;
+            ResourcesManager.Instance.AddResourcePerCycle(resourceType, amount, everyCycle);
 
+            //spend workes
+            ResourcesManager.Instance.AddResourcePerCycle(ResourceType.Worker, -buildingTypeSO.workersNumber, false);
         }
-        
 
 
     }
@@ -242,7 +257,7 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
-        if (activeBuildingTypeSO.type != BuildingType.Road)
+        if (!activeBuildingTypeSO.continuousBuild)
         {
             return;
         }
@@ -257,15 +272,15 @@ public class BuildingManager : MonoBehaviour
             _endPosition = e.position;
 
             //could continuos to build
-            if (activeBuildingTypeSO != null && activeBuildingTypeSO.type == BuildingType.Road)
+            if (activeBuildingTypeSO != null)
             {
-                CheckToContinuousBuildRoads();
+                CheckToContinuousBuild();
             }
         };
     }
 
 
-    private void CheckToContinuousBuildRoads()
+    private void CheckToContinuousBuild()
     {
         Collider2D[] colliders = Physics2D.OverlapAreaAll(_startPosition, _endPosition);
         if (colliders.Length == 0)
@@ -357,12 +372,9 @@ public class BuildingManager : MonoBehaviour
 
         //create a small house as area center
         BottomMenuSO menuSO = Resources.Load<BottomMenuSO>(typeof(BottomMenuSO).Name);
-        Transform house = Instantiate(menuSO.menuList[1].buildingList[0].prefab, new Vector2(2, -4), Quaternion.identity);
+        Transform house = Instantiate(menuSO.menuList[1].buildingList[0].prefab, new Vector2(2, -3.5f), Quaternion.identity);
 
-        for (int i = 0; i < 4; i++)
-        {
-            Worker w = Worker.GenerateAWorker(house.position);
-            WorkingManager.Instance.AddWorker(w);
-        }
+        ResourcesManager.Instance.AddResource(ResourceType.Worker, 4);
+        
     }
 }

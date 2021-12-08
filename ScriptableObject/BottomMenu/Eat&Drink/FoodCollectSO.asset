@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9924f252bb20542228cbd3f23ad4195f, type: 3}
   m_Name: FoodCollectSO
   m_EditorClassIdentifier: 
-  type: 0
+  type: 3
   buildingName: FoodCollection
   sprite: {fileID: 21300000, guid: 24f187200d6e5a04fb6bab06637a836f, type: 3}
   prefab: {fileID: 7878840176116461476, guid: 981be40100d794158870103af6c4d387, type: 3}
@@ -20,6 +20,7 @@ MonoBehaviour:
     resourceType: {fileID: 11400000, guid: c9e84cfe7a3674c0fa0c47c69dea196a, type: 2}
     amount: 2
   constructionCosts: []
+  workersNumber: 2
   componentType: 0
   upgrades: []
   components: []

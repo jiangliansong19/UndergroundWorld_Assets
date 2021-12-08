@@ -16,7 +16,14 @@ MonoBehaviour:
   buildingName: Farm
   sprite: {fileID: 21300000, guid: 235e1f8c53ba44777950be4a55bebe5d, type: 3}
   prefab: {fileID: 8360332440711092275, guid: 014bd39af4918449daec60335acd3115, type: 3}
-  data:
-    constructCost: 0
-    originIncomePerDay: 0
-    influenceRadius: 0
+  generateResource:
+    resourceType: {fileID: 11400000, guid: c9e84cfe7a3674c0fa0c47c69dea196a, type: 2}
+    amount: 5
+  constructionCosts: []
+  workersNumber: 8
+  componentType: 0
+  upgrades: []
+  components: []
+  strengthens: []
+  buildOnSoil: 0
+  remark: 

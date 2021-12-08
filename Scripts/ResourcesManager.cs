@@ -16,24 +16,32 @@ public class ResourcesManager : MonoBehaviour
 
 
     //内部采用字典统计数据，加快资源数量的查找速度
-    private Dictionary<ResourceTypeSO, ulong> resourcesDictionary;
-
+    private Dictionary<ResourceTypeSO, long> resourcesDictionary;
+    private Dictionary<ResourceTypeSO, long> _resourceAmountsPerCycleDict;
 
 
     private ResourceTypeListSO resourceTypeListSO;
 
+
+    private float timer;
+    private float timeCycleMax = 1f;
 
     private void Awake()
     {
         Instance = this;
 
         resourceTypeListSO = Resources.Load<ResourceTypeListSO>(typeof(ResourceTypeListSO).Name);
+        resourcesDictionary = new Dictionary<ResourceTypeSO, long>();
+        _resourceAmountsPerCycleDict = new Dictionary<ResourceTypeSO, long>();
 
-        resourcesDictionary = new Dictionary<ResourceTypeSO, ulong>();
-        resourcesDictionary[resourceTypeListSO.GetResourceTypeSO(ResourceType.Worker)] = 0;
+
+        foreach (ResourceTypeSO typeSO in resourceTypeListSO.list)
+        {
+            resourcesDictionary[typeSO] = 0;
+            _resourceAmountsPerCycleDict[typeSO] = 0;
+        }
         resourcesDictionary[resourceTypeListSO.GetResourceTypeSO(ResourceType.Food)] = 100;
         resourcesDictionary[resourceTypeListSO.GetResourceTypeSO(ResourceType.Water)] = 100;
-        resourcesDictionary[resourceTypeListSO.GetResourceTypeSO(ResourceType.Wood)] = 0;
     }
 
     // Start is called before the first frame update
@@ -42,59 +50,65 @@ public class ResourcesManager : MonoBehaviour
 
     }
 
-    private void UpdateResourceAmountImediately(ResourceTypeSO typeSO, ulong amount)
+    private void Update()
+    {
+        UpdateResourcesPerCycle();
+    }
+
+    private void UpdateResourcesPerCycle()
+    {
+        timer -= Time.deltaTime;
+        if (timer <= 0)
+        {
+            timer += timeCycleMax;
+
+            foreach (ResourceTypeSO typeSO in _resourceAmountsPerCycleDict.Keys)
+            {
+                ResourcesManager.Instance.AddResource(typeSO.type, _resourceAmountsPerCycleDict[typeSO]);
+            }
+        }
+    }
+
+    private void UpdateResourceAmountImediately(ResourceTypeSO typeSO, long amount)
     {
         ResourceTypeAmount typeAmount = new ResourceTypeAmount() { resourceType = typeSO, amount = amount };
         OnResourcesChangedEvent?.Invoke(this, new ResourceChangeAmountArgs() { typeAmount = typeAmount });
     }
 
-    public Dictionary<ResourceTypeSO, ulong> GetResourcesDictionary()
+    public void AddResource(ResourceType resourceType, long amount)
+    {
+        ResourceTypeSO resourceTypeSO = GetResourtypeSO(resourceType);
+        resourcesDictionary[resourceTypeSO] += (long)amount;
+        UpdateResourceAmountImediately(resourceTypeSO, resourcesDictionary[resourceTypeSO]);
+    }
+
+    public bool CanAffordResource(ResourceType resourceType, long amount)
+    {
+        return resourcesDictionary[GetResourtypeSO(resourceType)] >= amount;
+    }
+
+
+
+    public Dictionary<ResourceTypeSO, long> GetResourcesDictionary()
     {
         return resourcesDictionary;
     }
 
-    public void AddResource(ResourceTypeAmount typeAmount)
+    public ResourceTypeSO GetResourtypeSO(ResourceType type)
     {
-        resourcesDictionary[typeAmount.resourceType] += typeAmount.amount;
-        UpdateResourceAmountImediately(typeAmount.resourceType, resourcesDictionary[typeAmount.resourceType]);
+        return resourceTypeListSO.GetResourceTypeSO(type);
     }
 
-    public void AddResourceAmounts(List<ResourceTypeAmount> amounts)
+    public void AddResourcePerCycle(ResourceType resourceType, long amount, bool everyCycle = true)
     {
-        foreach (ResourceTypeAmount amountType in amounts)
+        ResourceTypeSO resourceTypeSO = GetResourtypeSO(resourceType);
+        if (everyCycle)
         {
-            AddResource(amountType);
+            _resourceAmountsPerCycleDict[resourceTypeSO] += amount;
         }
-    }
-
-    public void SpendResource(ResourceTypeSO resourceTypeSO, ulong amount)
-    {
-        resourcesDictionary[resourceTypeSO] -= amount;
-        UpdateResourceAmountImediately(resourceTypeSO, resourcesDictionary[resourceTypeSO]);
-    }
-
-    public void SpendResourceAmounts(List<ResourceTypeAmount> amounts)
-    {
-        foreach (ResourceTypeAmount amountType in amounts)
+        else
         {
-            SpendResource(amountType.resourceType, amountType.amount);
+            AddResource(resourceType, amount);
         }
-    }
-
-    public bool CanAffordResource(ResourceTypeSO resourceTypeSO, ulong amount)
-    {
-        return resourcesDictionary[resourceTypeSO] >= amount;
-    }
-
-    public bool CanAffordResourceAmounts(List<ResourceTypeAmount> amounts)
-    {
-        foreach (ResourceTypeAmount amountType in amounts)
-        {
-            if (CanAffordResource(amountType.resourceType, amountType.amount) == false)
-            {
-                return false;
-            }
-        }
-        return true;
     }
 }

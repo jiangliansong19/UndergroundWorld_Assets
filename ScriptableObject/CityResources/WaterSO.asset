@@ -14,5 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameString: Water
   sprite: {fileID: 21300000, guid: 8239ecc6dd3a8f74983de7b55209e9b2, type: 3}
-  type: 1
-  prefab: {fileID: 0}
+  type: 2

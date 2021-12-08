@@ -87,11 +87,11 @@ public class WorkingManager : MonoBehaviour
     public void AddWorker(Worker w)
     {
         totalWorkers.Add(w);
-        ResourcesManager.Instance.AddResource(new ResourceTypeAmount()
-        {
-            resourceType = w.GetComponent<ResourceTypeHolder>().GetResourceTypeSO(),
-            amount = 1
-        });
+        //ResourcesManager.Instance.AddResource(new ResourceTypeAmount()
+        //{
+        //    resourceType = w.GetComponent<ResourceTypeHolder>().GetResourceTypeSO(),
+        //    amount = 1
+        //});
     }
 
 

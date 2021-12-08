@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -50,9 +50,9 @@ public class Worker : MonoBehaviour
                 if (workSpendTimer <= 0)
                 {
                     workSpendTimer += workSpendTimeMax;
-                    ResourcesManager.Instance.AddResource(new ResourceTypeAmount() { resourceType = target.typeSO, amount = (ulong)target.typeSO.amount });
+                    //ResourcesManager.Instance.AddResource(new ResourceTypeAmount() { resourceType = target.typeSO, amount = (long)target.typeSO.amount });
 
-                    Debug.LogFormat("add {0} {1}", target.typeSO.nameString, target.typeSO.amount);
+                    //Debug.LogFormat("add {0} {1}", target.typeSO.nameString, target.typeSO.amount);
 
                     WorkingManager.Instance.RemoveWork(target);
                     Destroy(target.workTransform.gameObject);
@@ -66,8 +66,8 @@ public class Worker : MonoBehaviour
     public void setTarget(Task t)
     {
 
-        workSpendTimeMax = t.typeSO.collectSpendTime;
-        workSpendTimer = workSpendTimeMax;
+        //workSpendTimeMax = t.typeSO.collectSpendTime;
+        //workSpendTimer = workSpendTimeMax;
         target = t;
 
 
