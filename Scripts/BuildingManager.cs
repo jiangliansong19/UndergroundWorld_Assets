@@ -136,8 +136,7 @@ public class BuildingManager : MonoBehaviour
                 }
                 else
                 {
-                    Vector2 prefabPosition = buildingTypeSO.prefab.transform.position;
-                    for (float i = prefabPosition.x - boxCollider2D.size.x / 2 + 0.5f; i < prefabPosition.x + boxCollider2D.size.x / 2; i++)
+                    for (float i = position.x - boxCollider2D.size.x / 2 + 0.5f; i < position.x + boxCollider2D.size.x / 2; i++)
                     {
                         Vector2 rayStartPosition = new Vector2(i, position.y);
                         RaycastHit2D rayCastObj_N = Physics2D.Raycast(rayStartPosition, new Vector2(0, -1).normalized);
@@ -152,6 +151,12 @@ public class BuildingManager : MonoBehaviour
                     }
                 }
                 correctBuildPosition = new Vector2(position.x, rayCastObj.transform.position.y + 0.5f + boxCollider2D.size.y/2.0f);
+            }
+            else
+            {
+                Debug.Log("bottom is is not soil");
+                SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
+                return;
             }
         }
 
@@ -322,8 +327,8 @@ public class BuildingManager : MonoBehaviour
                 for (float j = Mathf.Min(_startPosition.y, _endPosition.y); j < Mathf.Max(_startPosition.y, _endPosition.y); j++)
                 {
                     Vector2 cur = new Vector2(Mathf.RoundToInt(i), Mathf.RoundToInt(j));
-                    //Instantiate(activeBuildingTypeSO.prefab, cur, Quaternion.identity);
-                    generateABuilding(activeBuildingTypeSO, cur);
+                    Instantiate(activeBuildingTypeSO.prefab, cur, Quaternion.identity);
+                    //generateABuilding(activeBuildingTypeSO, cur);
                 }
             }
         }

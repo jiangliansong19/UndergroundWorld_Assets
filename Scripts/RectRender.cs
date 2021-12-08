@@ -26,7 +26,7 @@ public class RectRender : MonoBehaviour
         {
             onDrawingRect = true;
             startPoint = Input.mousePosition;
-            Debug.LogFormat("开始画框，起点:{0}", startPoint);
+            //Debug.LogFormat("开始画框，起点:{0}", startPoint);
 
             OnDrawRectStartPosition?.Invoke(this, new RectRenderEventHandlerArgs() { position = UtilsClass.GetCurrentWorldPoint() });
         }
@@ -42,7 +42,7 @@ public class RectRender : MonoBehaviour
         {
             endPoint = Input.mousePosition;
             onDrawingRect = false;
-            Debug.LogFormat("画框结束，终点:{0}", endPoint);
+            //Debug.LogFormat("画框结束，终点:{0}", endPoint);
 
             OnDrawRectEndPosition?.Invoke(this, new RectRenderEventHandlerArgs() { position = UtilsClass.GetCurrentWorldPoint() });
         }

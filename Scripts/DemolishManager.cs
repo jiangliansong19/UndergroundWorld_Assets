@@ -97,7 +97,11 @@ public class DemolishManager : MonoBehaviour
                 GameObject aboveObj = UtilsClass.GetObjectByRay(abovePosition);
                 if (aboveObj != null && aboveObj.tag != "Soil")
                 {
-                    continue;
+                    BuildingTypeSOHolder holder = aboveObj.GetComponent<BuildingTypeSOHolder>();
+                    if (holder != null && holder.buidlingTypeSO.buildOnSoil)
+                    {
+                        continue;
+                    }
                 }
 
                 if (col != null && col.gameObject != null && col.gameObject.tag == "Soil")
