@@ -65,7 +65,7 @@ public class DemolishManager : MonoBehaviour
 
     private void ChechSelectedObjects()
     {
-        Debug.Log("ChechSelectedObjects");
+        //Debug.Log("ChechSelectedObjects");
 
         //start, end position both are world point
         Collider2D[] colliders = Physics2D.OverlapAreaAll(_rectRenderStart, _rectRenderEnd);

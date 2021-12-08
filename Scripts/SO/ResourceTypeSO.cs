@@ -5,6 +5,7 @@ using UnityEngine;
 
 public enum ResourceType
 {
+    None,
     Worker,
     Food,
     Water,

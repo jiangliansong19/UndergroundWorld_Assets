@@ -113,13 +113,15 @@ public class BuildingManager : MonoBehaviour
 
     public void generateABuilding(BuildingTypeSO buildingTypeSO, Vector2 position)
     {
+        Debug.Log("genereate building position : " + position.ToString());
+
         //position is has other object
         BoxCollider2D boxCollider2D = buildingTypeSO.prefab.transform.GetComponent<BoxCollider2D>();
-        Collider2D[] boxColliders = Physics2D.OverlapBoxAll((Vector3)position + (Vector3)boxCollider2D.offset, boxCollider2D.size, 0);
+        Collider2D[] boxColliders = Physics2D.OverlapBoxAll((Vector3)position + (Vector3)boxCollider2D.offset, boxCollider2D.size - new Vector2(0.1f, 0.1f), 0);
         if (boxColliders != null && boxColliders.Length > 0)
         {
             Debug.Log("position is has other object");
-            SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
+            //SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
             return;
         }
 
@@ -131,7 +133,7 @@ public class BuildingManager : MonoBehaviour
             {
                 if (position.y - rayCastObj.transform.position.y - boxCollider2D.size.y/2.0 - 0.5f > 1)
                 {
-                    SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
+                    //SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
                     return;
                 }
                 else
@@ -155,7 +157,7 @@ public class BuildingManager : MonoBehaviour
             else
             {
                 Debug.Log("bottom is is not soil");
-                SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
+                //SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
                 return;
             }
         }
@@ -167,7 +169,7 @@ public class BuildingManager : MonoBehaviour
             {
                 ToolTipsUI.Instance.Show("can not afford " + item.resourceType.nameString + " " + item.amount,
                                             new ToolTipsUI.TooltipTimer() { timer = 2f }, null);
-                SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
+                //SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
                 return;
             }
         }
@@ -183,10 +185,13 @@ public class BuildingManager : MonoBehaviour
         }
 
         //addresource
-        bool everyCycle = buildingTypeSO.type != BuildingType.House;
-        ResourceType resourceType = buildingTypeSO.generateResource.resourceType.type;
-        long amount = buildingTypeSO.generateResource.amount;
-        ResourcesManager.Instance.AddResourcePerCycle(resourceType, amount, everyCycle);
+        if (buildingTypeSO.generateResource != null && buildingTypeSO.generateResource.resourceType != null)
+        {
+            bool everyCycle = buildingTypeSO.type != BuildingType.House;
+            ResourceType resourceType = buildingTypeSO.generateResource.resourceType.type;
+            long amount = buildingTypeSO.generateResource.amount;
+            ResourcesManager.Instance.AddResourcePerCycle(resourceType, amount, everyCycle);
+        }
 
         //spend workes
         ResourcesManager.Instance.AddResourcePerCycle(ResourceType.Worker, -buildingTypeSO.workersNumber, false);
@@ -327,8 +332,8 @@ public class BuildingManager : MonoBehaviour
                 for (float j = Mathf.Min(_startPosition.y, _endPosition.y); j < Mathf.Max(_startPosition.y, _endPosition.y); j++)
                 {
                     Vector2 cur = new Vector2(Mathf.RoundToInt(i), Mathf.RoundToInt(j));
-                    Instantiate(activeBuildingTypeSO.prefab, cur, Quaternion.identity);
-                    //generateABuilding(activeBuildingTypeSO, cur);
+                    //Instantiate(activeBuildingTypeSO.prefab, cur, Quaternion.identity);
+                    generateABuilding(activeBuildingTypeSO, cur);
                 }
             }
         }
@@ -410,7 +415,7 @@ public class BuildingManager : MonoBehaviour
 
         //create a small house as area center
         BottomMenuSO menuSO = Resources.Load<BottomMenuSO>(typeof(BottomMenuSO).Name);
-        Transform house = Instantiate(menuSO.menuList[1].buildingList[0].prefab, new Vector2(2, -3.5f), Quaternion.identity);
+        Transform house = Instantiate(menuSO.menuList[1].buildingList[0].prefab, new Vector2(2, -4.0f), Quaternion.identity);
 
         ResourcesManager.Instance.AddResource(ResourceType.Worker, 4);
         
