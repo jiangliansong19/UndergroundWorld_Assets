@@ -113,6 +113,56 @@ public class BuildingManager : MonoBehaviour
 
     public void generateABuilding(BuildingTypeSO buildingTypeSO, Vector2 position)
     {
+        //position is has other object
+        BoxCollider2D boxCollider2D = buildingTypeSO.prefab.transform.GetComponent<BoxCollider2D>();
+        Collider2D[] boxColliders = Physics2D.OverlapBoxAll((Vector3)position + (Vector3)boxCollider2D.offset, boxCollider2D.size, 0);
+        if (boxColliders != null && boxColliders.Length > 0)
+        {
+            SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
+            return;
+        }
+
+        Vector2 correctBuildPosition = position;
+        if (buildingTypeSO.buildOnSoil)
+        {
+            RaycastHit2D rayCastObj = Physics2D.Raycast(position, new Vector2(0, -1).normalized);
+            if (rayCastObj.collider.tag == "Soil")
+            {
+                if (position.y - rayCastObj.transform.position.y - boxCollider2D.size.y/2.0 - 0.5f > 1)
+                {
+                    SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
+                    return;
+                }
+                else
+                {
+                    for (float i = -buildingTypeSO.prefab.transform.localScale.x /2 ; i <= -buildingTypeSO.prefab.transform.localScale.x / 2; i++)
+                    {
+
+                    }
+                }
+            }
+
+        }
+
+        //can afford enough resources
+        bool canAfford = true;
+        foreach (ResourceTypeAmount item in buildingTypeSO.constructionCosts)
+        {
+            if (!ResourcesManager.Instance.CanAffordResource(item.resourceType.type, item.amount))
+            {
+                ToolTipsUI.Instance.Show("can not afford " + item.resourceType.nameString + " " + item.amount,
+                                            new ToolTipsUI.TooltipTimer() { timer = 2f }, null);
+                canAfford = false;
+                SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
+                return;
+            }
+        }
+
+
+
+
+
+
         Vector3? correctPosition = GetCorrectBuildPosition(buildingTypeSO.prefab.transform, position);
         if (correctPosition == null)
         {
@@ -120,17 +170,7 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
-        bool canAfford = true;
-        foreach (ResourceTypeAmount item in buildingTypeSO.constructionCosts)
-        {
-            if (!ResourcesManager.Instance.CanAffordResource(item.resourceType.type, item.amount))
-            {
-                Debug.Log("can not afford " + item.resourceType.nameString + " " + item.amount);
-                ToolTipsUI.Instance.Show("can not afford " + item.resourceType.nameString + " " + item.amount,
-                                            new ToolTipsUI.TooltipTimer() { timer = 2f }, null);
-                canAfford = false;
-            }
-        }
+
 
         if (canAfford) 
         {
@@ -199,7 +239,7 @@ public class BuildingManager : MonoBehaviour
 
         BoxCollider2D boxCollider2D = trans.GetComponent<BoxCollider2D>();
         Collider2D[] boxColliders = Physics2D.OverlapBoxAll(clickPosition + (Vector3)boxCollider2D.offset, boxCollider2D.size, 0);
-        Debug.LogFormat("11OverlapBoxAll = {0}", boxColliders.Length);
+
 
         if (activeBuildingTypeSO.buildOnSoil == false)
         {
