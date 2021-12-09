@@ -55,6 +55,8 @@ public class ResourcesManager : MonoBehaviour
         UpdateResourcesPerCycle();
     }
 
+
+
     private void UpdateResourcesPerCycle()
     {
         timer -= Time.deltaTime;
@@ -69,7 +71,9 @@ public class ResourcesManager : MonoBehaviour
         }
     }
 
-    private void UpdateResourceAmountImediately(ResourceTypeSO typeSO, long amount)
+
+
+    private void NoticeChangeOfResourceAmountImediately(ResourceTypeSO typeSO, long amount)
     {
         ResourceTypeAmount typeAmount = new ResourceTypeAmount() { resourceType = typeSO, amount = amount };
         OnResourcesChangedEvent?.Invoke(this, new ResourceChangeAmountArgs() { typeAmount = typeAmount });
@@ -79,9 +83,14 @@ public class ResourcesManager : MonoBehaviour
 
     public void AddResource(ResourceType resourceType, long amount)
     {
+        if (amount == 0)
+        {
+            return;
+        }
+
         ResourceTypeSO resourceTypeSO = GetResourtypeSO(resourceType);
         resourcesDictionary[resourceTypeSO] += (long)amount;
-        UpdateResourceAmountImediately(resourceTypeSO, resourcesDictionary[resourceTypeSO]);
+        NoticeChangeOfResourceAmountImediately(resourceTypeSO, resourcesDictionary[resourceTypeSO]);
     }
 
 

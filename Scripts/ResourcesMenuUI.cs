@@ -65,7 +65,10 @@ public class ResourcesMenuUI : MonoBehaviour
     private void UpdateAmountNumber(ResourceTypeAmount typeAmount)
     {
         Transform targetTransform = resourceTypeTransformDict[typeAmount.resourceType];
-        targetTransform.Find("Amount").GetComponent<TextMeshProUGUI>().text = typeAmount.amount.ToString();
+        if (targetTransform != null)
+        {
+            targetTransform.Find("Amount").GetComponent<TextMeshProUGUI>().text = typeAmount.amount.ToString();
+        }
     }
 
 }

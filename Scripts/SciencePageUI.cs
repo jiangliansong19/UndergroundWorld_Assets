@@ -99,6 +99,12 @@ public class SciencePageUI : MonoBehaviour
 
     private int DidSelectOnNode(ScienceNodeSO nodeSO, SciencePageCellUI transform)
     {
+        if (ScienceManager.Instance.GetCompletedPercent(nodeSO) == 1)
+        {
+            return 0;
+        }
+
+
         foreach (SciencePageCellUI cellUI in _scienceNodeTransforms)
         {
             cellUI.SetSelected(false);
@@ -131,7 +137,7 @@ public class SciencePageUI : MonoBehaviour
         {
             if (cell.GetScienceNodeSO() == node)
             {
-                cell.UpdateCompletePercent(percent);
+                cell.UpdateActiveCompletePercent(percent);
                 return;
             }
         }

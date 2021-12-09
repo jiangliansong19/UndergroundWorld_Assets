@@ -2,6 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+//state: selected; 
+
+
 public class SciencePageCellUI : MonoBehaviour
 {
     private ScienceNodeSO _scienceNodeSO;
@@ -87,7 +91,7 @@ public class SciencePageCellUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UpdateCompletePercent(0.6f);
+        UpdateActiveCompletePercent(0.6f);
 
         Button nodeContentButton = nodeContentTransform.GetComponent<Button>();
         nodeContentButton.onClick.AddListener(OnClickOnNodeContent);
@@ -112,20 +116,32 @@ public class SciencePageCellUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //only to refresh is completed percent.
+
+
+
+
+
+
+
+
 
         if (_scienceNodeSO == ScienceManager.Instance.GetActiveScienceNodeSO())
         {
             float percent = ScienceManager.Instance.GetCompletedPercent(_scienceNodeSO);
-            UpdateCompletePercent(percent);
-        }
+            UpdateActiveCompletePercent(percent);
 
+            outline.effectColor = Color.red;
+        }
+        else
+        {
+            outline.effectColor = Color.white;
+        }
     }
 
 
     private void OnClickOnNodeContent()
     {
-        SetSelected(true);
-
         nodeContentOnClick(_scienceNodeSO, this);
 
 
@@ -221,7 +237,7 @@ public class SciencePageCellUI : MonoBehaviour
                 }
             }
 
-            UpdateCompletePercent(ScienceManager.Instance.GetCompletedPercent(_scienceNodeSO));
+            UpdateActiveCompletePercent(ScienceManager.Instance.GetCompletedPercent(_scienceNodeSO));
         }
     }
 
@@ -268,11 +284,13 @@ public class SciencePageCellUI : MonoBehaviour
 
 
 
-    public void UpdateCompletePercent(float percent)
+    public void UpdateActiveCompletePercent(float percent)
     {
         percentBarRectTransform.localScale = new Vector2(percent, 1);
     }
 
+
+    
     public void SetSelected(bool isSelect)
     {
         if (_scienceNodeSO.nodeType == ScienceCategoryType.Empty)
@@ -289,6 +307,11 @@ public class SciencePageCellUI : MonoBehaviour
             outline.effectColor = Color.white;
         }
     }
+
+
+
+
+
 
     public void SetNodeContentOnClick(Func<ScienceNodeSO, SciencePageCellUI, int> func)
     {

@@ -35,7 +35,7 @@ public class ScienceManager : MonoBehaviour
         {
             foreach (ScienceNodeSO nodeSO in listSO.list)
             {
-                scienceNodeCompletePercentsDict[nodeSO] = 0;
+                scienceNodeCompletePercentsDict[nodeSO] = 0f;
             }
         }
 
@@ -64,11 +64,21 @@ public class ScienceManager : MonoBehaviour
 
     }
 
+    private void LateUpdate()
+    {
+        
+    }
+
     private void UpdateCompletedPercent()
     {
         if (activeScienceNodeSO != null)
         {
             long score = ResourcesManager.Instance.GetResourceAmount(ResourceType.ScienceScore);
+
+            if (score == 0)
+            {
+                return;
+            }
 
             float percent = scienceNodeCompletePercentsDict[activeScienceNodeSO];
             long needScore = (long)(activeScienceNodeSO.needScienceScore * (1.0f - percent));
