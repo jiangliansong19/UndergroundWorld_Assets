@@ -25,62 +25,75 @@ MonoBehaviour:
     buildingList:
     - {fileID: 11400000, guid: 2e55ab71662294fb09aa31b4925ac63b, type: 2}
     - {fileID: 11400000, guid: 1610da45fc97af44481feefc69a94194, type: 2}
-  - name: Food/Drink
+  - name: Food
     type: 2
     sprite: {fileID: 21300000, guid: 5773483f5227c4747a3e4f3ea6587664, type: 3}
     buildingList:
     - {fileID: 11400000, guid: 9e6958f2d4b1e49c49db31ba6b71b259, type: 2}
     - {fileID: 11400000, guid: 0421bdfef182d46c1a1b5d8659004170, type: 2}
     - {fileID: 11400000, guid: 4bef74cdd4d4e45d4a60580769c1c632, type: 2}
-    - {fileID: 11400000, guid: b09567fb85e244b328fb77f3495e6189, type: 2}
     - {fileID: 11400000, guid: 00355cd7091e39e4081b16309926774f, type: 2}
     - {fileID: 11400000, guid: d7c3edb06ab7d4c868e03f7fdcd177c3, type: 2}
     - {fileID: 11400000, guid: 767cf3ce51ef348f5992c965dcb83bd1, type: 2}
-  - name: Transport
+  - name: Drink
     type: 3
+    sprite: {fileID: 21300000, guid: 8239ecc6dd3a8f74983de7b55209e9b2, type: 3}
+    buildingList:
+    - {fileID: 11400000, guid: d45944c12e8864533b08531c6f3fe7a9, type: 2}
+    - {fileID: 11400000, guid: b09567fb85e244b328fb77f3495e6189, type: 2}
+    - {fileID: 11400000, guid: cd05e52cffbe84c8fbdde4dfff2f0697, type: 2}
+    - {fileID: 11400000, guid: 1f239fbce7c17ea47868d9714e16fd48, type: 2}
+    - {fileID: 11400000, guid: e71cce76888474441b766be49ec9f23d, type: 2}
+  - name: Transport
+    type: 4
     sprite: {fileID: 21300000, guid: 1a4b2425defc74eada2cac93cddc4e53, type: 3}
     buildingList:
     - {fileID: 11400000, guid: 3dbaba7bdbfefb64d96d96fac1973bbf, type: 2}
     - {fileID: 11400000, guid: 6cbf14beb8dd4ca49920b58e77f1fb21, type: 2}
   - name: Industry
-    type: 4
+    type: 5
     sprite: {fileID: 21300000, guid: e296fefc064c7433fa61c1f2ae543b35, type: 3}
     buildingList:
     - {fileID: 11400000, guid: 5504b79ad3c3d4e988af0ba35f4afe38, type: 2}
     - {fileID: 11400000, guid: 0fb2d6508ccd2481bbe0f97c7fbaac80, type: 2}
   - name: Energy
-    type: 5
+    type: 6
     sprite: {fileID: 21300000, guid: 16057a71b1ab2491fbac92c17421e2ba, type: 3}
     buildingList:
     - {fileID: 11400000, guid: fed6a83c61bd9468d8e1c9ad3ca0e03f, type: 2}
+  - name: Other
+    type: 7
+    sprite: {fileID: 21300000, guid: 48cd7466cc1a5417db130af239724a44, type: 3}
+    buildingList:
+    - {fileID: 11400000, guid: 0b148714ca145428c81ff513d58f3539, type: 2}
   - name: Decorate
-    type: 6
+    type: 8
     sprite: {fileID: 21300000, guid: 22d1030501e7c475e95dad6206563719, type: 3}
     buildingList:
     - {fileID: 11400000, guid: f804c4eec1577491c9818b7c17126b77, type: 2}
   - name: WorkPriority
-    type: 7
+    type: 9
     sprite: {fileID: 21300000, guid: 69364a077f633467282bea536dcffcce, type: 3}
     buildingList:
     - {fileID: 11400000, guid: f804c4eec1577491c9818b7c17126b77, type: 2}
   - name: GreatProject
-    type: 8
+    type: 10
     sprite: {fileID: 21300000, guid: d3e158976a2274c85a5ec642f6823a7d, type: 3}
     buildingList:
     - {fileID: 11400000, guid: f804c4eec1577491c9818b7c17126b77, type: 2}
   - name: Science
-    type: 9
+    type: 11
     sprite: {fileID: 21300000, guid: a0d94547819b64faba275be3105b2008, type: 3}
     buildingList: []
   - name: Rule
-    type: 10
+    type: 12
     sprite: {fileID: 21300000, guid: 28acc0f0905444b9cab1ae6e9172f235, type: 3}
     buildingList: []
   - name: ExploreTeam
-    type: 11
+    type: 13
     sprite: {fileID: 21300000, guid: e08461d5caf2b49508bb6487c4e1941e, type: 3}
     buildingList: []
   - name: Setting
-    type: 12
+    type: 14
     sprite: {fileID: 21300000, guid: ef2a76200d23dc94988cbc6fda9bfb13, type: 3}
     buildingList: []

@@ -13,10 +13,12 @@ public enum BottomMenuType
 {
     Demolish,
     House,
-    EatAndDrink,
+    Eat,
+    Drink,
     Transport,
     Industry,
     Energy,
+    Other,
     Decorate,
     Priority,
     GreatProject,

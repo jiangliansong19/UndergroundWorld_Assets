@@ -25,5 +25,6 @@ MonoBehaviour:
   upgrades: []
   components: []
   strengthens: []
+  continuousBuild: 0
   buildOnSoil: 1
-  remark: 
+  remark: "\u5BB9\u7EB3\u519C\u4E1A\u5DE5\u4F5C\u4EBA\u5458"

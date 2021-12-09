@@ -15,7 +15,7 @@ public class SciencePageUI : MonoBehaviour
 
     private ScienceTreeSO scienceTree;
 
-    private List<SciencePageCellUI> scienceNodeTransforms;
+    private List<SciencePageCellUI> _scienceNodeTransforms;
 
 
 
@@ -23,7 +23,7 @@ public class SciencePageUI : MonoBehaviour
 
     private void Awake()
     {
-        scienceNodeTransforms = new List<SciencePageCellUI>();
+        _scienceNodeTransforms = new List<SciencePageCellUI>();
         transform.gameObject.SetActive(false);
 
         transform.Find("CloseButton").GetComponent<Button>().onClick.AddListener(() =>
@@ -66,7 +66,7 @@ public class SciencePageUI : MonoBehaviour
     }
 
 
-    public void createScienceNodes()
+    private void createScienceNodes()
     {
         int maxCount = GetMaxHorizontalLengthOfScienceTree();
         gridLayoutGroup.constraintCount = maxCount;
@@ -90,7 +90,7 @@ public class SciencePageUI : MonoBehaviour
                 }
 
                 SciencePageCellUI cellUI = newCellTransform.GetComponent<SciencePageCellUI>();
-                scienceNodeTransforms.Add(cellUI);
+                _scienceNodeTransforms.Add(cellUI);
                 cellUI.SetScienceNodeSO(nodeSO);
                 cellUI.SetNodeContentOnClick(DidSelectOnNode);
             }
@@ -99,7 +99,7 @@ public class SciencePageUI : MonoBehaviour
 
     private int DidSelectOnNode(ScienceNodeSO nodeSO, SciencePageCellUI transform)
     {
-        foreach (SciencePageCellUI cellUI in scienceNodeTransforms)
+        foreach (SciencePageCellUI cellUI in _scienceNodeTransforms)
         {
             cellUI.SetSelected(false);
         }
@@ -123,5 +123,17 @@ public class SciencePageUI : MonoBehaviour
     public void HideSciencePage()
     {
         transform.gameObject.SetActive(false);
+    }
+
+    public void UpdateCompletePercent(ScienceNodeSO node, float percent)
+    {
+        foreach (SciencePageCellUI cell in _scienceNodeTransforms)
+        {
+            if (cell.GetScienceNodeSO() == node)
+            {
+                cell.UpdateCompletePercent(percent);
+                return;
+            }
+        }
     }
 }

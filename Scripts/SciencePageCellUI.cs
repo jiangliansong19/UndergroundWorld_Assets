@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class SciencePageCellUI : MonoBehaviour
 {
-    private ScienceNodeSO scienceNodeSO;
+    private ScienceNodeSO _scienceNodeSO;
 
     private Transform nodeContentTransform;
     private Transform lineContentTransform;
@@ -62,7 +62,7 @@ public class SciencePageCellUI : MonoBehaviour
         iconTemplateIconImage = iconTemplate.Find("Icon").GetComponent<Image>();
 
         percentBarRectTransform = nodeContentTransform.Find("PercentBar").Find("PercentInnerBar").GetComponent<RectTransform>();
-
+        nodeContentTransform.Find("PercentBar").Find("PercentInnerBar").gameObject.SetActive(true);
 
 
 
@@ -87,7 +87,7 @@ public class SciencePageCellUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //UpdateCompletePercent(0.6f);
+        UpdateCompletePercent(0.6f);
 
         Button nodeContentButton = nodeContentTransform.GetComponent<Button>();
         nodeContentButton.onClick.AddListener(OnClickOnNodeContent);
@@ -105,14 +105,20 @@ public class SciencePageCellUI : MonoBehaviour
 
     private void ScienceCellUIEnterAndExits_OnMouseEnterEvent(object sender, EventArgs e)
     {
-        ToolTipsUI.Instance.Show(scienceNodeSO.nodeDesc);
+        ToolTipsUI.Instance.Show(_scienceNodeSO.nodeDesc);
     }
 
 
     // Update is called once per frame
     void Update()
     {
-        
+
+        if (_scienceNodeSO == ScienceManager.Instance.GetActiveScienceNodeSO())
+        {
+            float percent = ScienceManager.Instance.GetCompletedPercent(_scienceNodeSO);
+            UpdateCompletePercent(percent);
+        }
+
     }
 
 
@@ -120,12 +126,12 @@ public class SciencePageCellUI : MonoBehaviour
     {
         SetSelected(true);
 
-        nodeContentOnClick(scienceNodeSO, this);
+        nodeContentOnClick(_scienceNodeSO, this);
 
 
-        DialogUI.Create().ShowDialog("Alert", scienceNodeSO.nodeDesc, () => {
+        DialogUI.Create().ShowDialog("Alert", _scienceNodeSO.nodeDesc, () => {
 
-
+            ScienceManager.Instance.SetActiveScienceNodeSO(_scienceNodeSO);
             Debug.Log("dialog click on ok");
 
             return 0;
@@ -143,7 +149,7 @@ public class SciencePageCellUI : MonoBehaviour
 
     public void SetScienceNodeSO(ScienceNodeSO nodeSO)
     {
-        this.scienceNodeSO = nodeSO;
+        this._scienceNodeSO = nodeSO;
 
         if (nodeSO.nodeType == ScienceCategoryType.Empty)
         {
@@ -157,6 +163,16 @@ public class SciencePageCellUI : MonoBehaviour
             CreateRightLineContent(nodeSO);
         }
     }
+
+    public ScienceNodeSO GetScienceNodeSO()
+    {
+        return _scienceNodeSO;
+    }
+
+
+
+
+
 
     private void CreateLeftNodeContent(ScienceNodeSO nodeSO)
     {
@@ -183,14 +199,14 @@ public class SciencePageCellUI : MonoBehaviour
 
 
 
-            if (scienceNodeSO.unlockBuildingTypeSO != null)
+            if (_scienceNodeSO.unlockBuildingTypeSO != null)
             {
                 int i = 0;
-                foreach (BuildingTypeSO typeSO in scienceNodeSO.unlockBuildingTypeSO)
+                foreach (BuildingTypeSO typeSO in _scienceNodeSO.unlockBuildingTypeSO)
                 {
                     Transform newTransform = Instantiate(iconTemplate, nodeContentTransform);
                     newTransform.gameObject.SetActive(true);
-                    newTransform.GetComponent<RectTransform>().anchoredPosition += new Vector2(iconTemplateWidth * i, 0);
+                    newTransform.GetComponent<RectTransform>().anchoredPosition += new Vector2((iconTemplateWidth + iconTmeplatePadding) * i, 0);
                     newTransform.Find("Icon").GetComponent<Image>().sprite = typeSO.sprite;
                     MouseEnterAndExits enterAndExits = newTransform.GetComponent<MouseEnterAndExits>();
                     enterAndExits.OnMouseEnterEvent += (object sender, EventArgs e) =>
@@ -204,6 +220,8 @@ public class SciencePageCellUI : MonoBehaviour
                     i++;
                 }
             }
+
+            UpdateCompletePercent(ScienceManager.Instance.GetCompletedPercent(_scienceNodeSO));
         }
     }
 
@@ -257,7 +275,7 @@ public class SciencePageCellUI : MonoBehaviour
 
     public void SetSelected(bool isSelect)
     {
-        if (scienceNodeSO.nodeType == ScienceCategoryType.Empty)
+        if (_scienceNodeSO.nodeType == ScienceCategoryType.Empty)
         {
             return;
         }
@@ -268,7 +286,7 @@ public class SciencePageCellUI : MonoBehaviour
         }
         else
         {
-            outline.effectColor = Color.gray;
+            outline.effectColor = Color.white;
         }
     }
 

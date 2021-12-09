@@ -6,7 +6,7 @@ using UnityEngine;
 public enum BuildingType
 {
 
-    House,
+    House, 
     Road,
     DigHole,
     other,

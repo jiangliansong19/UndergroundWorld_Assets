@@ -47,7 +47,8 @@ public class ScienceNodeSO : ScriptableObject
     public ScienceLeftPartType leftPartType;
     public ScienceRightPartType[] rightPartTypes;//右侧线条
 
-    public string nodeDesc;
+
+    public string nodeDesc;//display for dialog
 
 
 
@@ -56,6 +57,11 @@ public class ScienceNodeSO : ScriptableObject
 
 
     public int nodeNumber; //节点顺序
+
+
+    public int needScienceScore;//How much science score needs to complete.
+
+
 
     //前置节点(解锁节点)
     public List<ScienceNodeSO> previousNodes;

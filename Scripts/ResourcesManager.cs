@@ -64,7 +64,7 @@ public class ResourcesManager : MonoBehaviour
 
             foreach (ResourceTypeSO typeSO in _resourceAmountsPerCycleDict.Keys)
             {
-                ResourcesManager.Instance.AddResource(typeSO.type, _resourceAmountsPerCycleDict[typeSO]);
+                AddResource(typeSO.type, _resourceAmountsPerCycleDict[typeSO]);
             }
         }
     }
@@ -75,6 +75,8 @@ public class ResourcesManager : MonoBehaviour
         OnResourcesChangedEvent?.Invoke(this, new ResourceChangeAmountArgs() { typeAmount = typeAmount });
     }
 
+
+
     public void AddResource(ResourceType resourceType, long amount)
     {
         ResourceTypeSO resourceTypeSO = GetResourtypeSO(resourceType);
@@ -82,9 +84,23 @@ public class ResourcesManager : MonoBehaviour
         UpdateResourceAmountImediately(resourceTypeSO, resourcesDictionary[resourceTypeSO]);
     }
 
+
     public bool CanAffordResource(ResourceType resourceType, long amount)
     {
         return resourcesDictionary[GetResourtypeSO(resourceType)] >= amount;
+    }
+
+
+    public long GetResourceAmount(ResourceType resourceType)
+    {
+        foreach (ResourceTypeSO resourceTypeSO in resourcesDictionary.Keys)
+        {
+            if (resourceTypeSO.type == resourceType)
+            {
+                return resourcesDictionary[resourceTypeSO];
+            }
+        }
+        return 0;
     }
 
 
@@ -94,10 +110,13 @@ public class ResourcesManager : MonoBehaviour
         return resourcesDictionary;
     }
 
+
+
     public ResourceTypeSO GetResourtypeSO(ResourceType type)
     {
         return resourceTypeListSO.GetResourceTypeSO(type);
     }
+
 
     public void AddResourcePerCycle(ResourceType resourceType, long amount, bool everyCycle = true)
     {

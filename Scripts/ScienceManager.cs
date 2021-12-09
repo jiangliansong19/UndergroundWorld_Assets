@@ -10,32 +10,88 @@ public class ScienceManager : MonoBehaviour
 
     public static ScienceManager Instance { private set;get; }
 
-    [SerializeField] private SciencePageUI sciencePageUI;
+    [SerializeField] private SciencePageUI _sciencePageUI;
 
     private ScienceNodeSO activeScienceNodeSO;
 
-    private List<ScienceNodeSO> completedScienceNodeSOs;
+
+    //to record all science node completed percent.
+    private Dictionary<ScienceNodeSO, float> scienceNodeCompletePercentsDict;
+
+
 
 
     private void Awake()
     {
         Instance = this;
+
+
+        //read local data scienceNodeCompletePercent
+        //todo
+
+        ScienceTreeSO scienceTree = Resources.Load<ScienceTreeSO>(typeof(ScienceTreeSO).Name);
+        scienceNodeCompletePercentsDict = new Dictionary<ScienceNodeSO, float>();
+        foreach (ScienceNodeListSO listSO in scienceTree.list)
+        {
+            foreach (ScienceNodeSO nodeSO in listSO.list)
+            {
+                scienceNodeCompletePercentsDict[nodeSO] = 0;
+            }
+        }
+
+
+
     }
 
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        ResourcesManager.Instance.OnResourcesChangedEvent += Instance_OnResourcesChangedEvent;
+    }
+
+    private void Instance_OnResourcesChangedEvent(object sender, ResourcesManager.ResourceChangeAmountArgs e)
+    {
+        if (e.typeAmount.resourceType.type == ResourceType.ScienceScore)
+        {
+            UpdateCompletedPercent();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
+    private void UpdateCompletedPercent()
+    {
+        if (activeScienceNodeSO != null)
+        {
+            long score = ResourcesManager.Instance.GetResourceAmount(ResourceType.ScienceScore);
 
+            float percent = scienceNodeCompletePercentsDict[activeScienceNodeSO];
+            long needScore = (long)(activeScienceNodeSO.needScienceScore * (1.0f - percent));
+
+            if (score >= needScore)
+            {
+
+                ResourcesManager.Instance.AddResource(ResourceType.ScienceScore, -(score - needScore));
+
+                scienceNodeCompletePercentsDict[activeScienceNodeSO] = 1f;
+
+                activeScienceNodeSO = null;
+            }
+            else
+            {
+                ResourcesManager.Instance.AddResource(ResourceType.ScienceScore, -score);
+
+                scienceNodeCompletePercentsDict[activeScienceNodeSO] += (float)(score / activeScienceNodeSO.needScienceScore);
+            }
+
+            _sciencePageUI.UpdateCompletePercent(activeScienceNodeSO, scienceNodeCompletePercentsDict[activeScienceNodeSO]);
+        }
+    }
 
 
     public bool CanExecuteScienceNode(ScienceNodeSO nodeSO)
@@ -47,7 +103,7 @@ public class ScienceManager : MonoBehaviour
 
         foreach (ScienceNodeSO node in nodeSO.previousNodes)
         {
-            if (!completedScienceNodeSOs.Contains(node))
+            if (scienceNodeCompletePercentsDict[node] < 1.00)
             {
                 return false;
             }
@@ -57,15 +113,20 @@ public class ScienceManager : MonoBehaviour
     }
 
 
+
+
     public void ShowSciencePage()
     {
-        sciencePageUI.ShowSciencePage();
+        _sciencePageUI.ShowSciencePage();
     }
 
     public void HideSciencePage()
     {
-        sciencePageUI.HideSciencePage();
+        _sciencePageUI.HideSciencePage();
     }
+
+
+
 
     public void SetActiveScienceNodeSO(ScienceNodeSO nodeSO)
     {
@@ -79,8 +140,11 @@ public class ScienceManager : MonoBehaviour
 
 
 
-    public bool CheckIsCompleted(ScienceNodeSO nodeSo)
+
+    public float GetCompletedPercent(ScienceNodeSO node)
     {
-        return completedScienceNodeSOs.Contains(nodeSo);
+        return scienceNodeCompletePercentsDict[node];
     }
+
+
 }

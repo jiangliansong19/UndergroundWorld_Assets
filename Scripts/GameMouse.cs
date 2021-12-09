@@ -37,11 +37,15 @@ public class GameMouse : MonoBehaviour
             
             spriteRenderer.sprite = sprite;
             spriteRenderer.color = new Color(1, 1, 1, 0.75f);
+
+            Cursor.visible = false;
         }
         else
         {
             spriteRenderer.sprite = null;
             spriteRenderer.color = new Color(1, 1, 1, 1.0f);
+
+            Cursor.visible = true;
         }
     }
 }

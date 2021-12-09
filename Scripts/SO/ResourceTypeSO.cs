@@ -15,6 +15,7 @@ public enum ResourceType
     Steel,
     RareMetal,
     Weapon,
+    ScienceScore,
 }
 
 [System.Serializable]
