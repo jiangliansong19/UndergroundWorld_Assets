@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameString: 
   sprite: {fileID: 0}
-  type: 7
+  type: 8

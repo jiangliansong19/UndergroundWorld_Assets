@@ -90,16 +90,19 @@ public class ScienceManager : MonoBehaviour
 
                 scienceNodeCompletePercentsDict[activeScienceNodeSO] = 1f;
 
+                _sciencePageUI.UpdateCompletePercent(activeScienceNodeSO, 1.0f);
+
                 activeScienceNodeSO = null;
             }
             else
             {
                 ResourcesManager.Instance.AddResource(ResourceType.ScienceScore, -score);
 
-                scienceNodeCompletePercentsDict[activeScienceNodeSO] += (float)(score / activeScienceNodeSO.needScienceScore);
+                scienceNodeCompletePercentsDict[activeScienceNodeSO] += (float)score / (float)activeScienceNodeSO.needScienceScore;
+
+                _sciencePageUI.UpdateCompletePercent(activeScienceNodeSO, scienceNodeCompletePercentsDict[activeScienceNodeSO]);
             }
 
-            _sciencePageUI.UpdateCompletePercent(activeScienceNodeSO, scienceNodeCompletePercentsDict[activeScienceNodeSO]);
         }
     }
 

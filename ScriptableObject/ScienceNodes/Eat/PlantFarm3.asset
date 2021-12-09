@@ -18,5 +18,6 @@ MonoBehaviour:
   nodeDesc: "\u519C\u573A/\u9AD8\u7EA7\u98DF\u8C31"
   remark: "\u9AD8\u7EA7\u690D\u7269"
   nodeNumber: 0
+  needScienceScore: 2000
   previousNodes: []
   unlockBuildingTypeSO: []

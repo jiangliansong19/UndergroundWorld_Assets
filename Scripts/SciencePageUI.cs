@@ -123,7 +123,12 @@ public class SciencePageUI : MonoBehaviour
     public void ShowSciencePage()
     {
         transform.gameObject.SetActive(true);
-        createScienceNodes();
+
+        if (_scienceNodeTransforms.Count == 0)
+        {
+            createScienceNodes();
+        }
+        
     }
 
     public void HideSciencePage()

@@ -27,6 +27,7 @@ public class SciencePageCellUI : MonoBehaviour
 
     private RectTransform templateUnlockIconRectTransform;
 
+    private Transform _completionPercentBar;
     private RectTransform percentBarRectTransform;
 
 
@@ -65,8 +66,10 @@ public class SciencePageCellUI : MonoBehaviour
         iconTemplateBackgroundImage = iconTemplate.Find("Background").GetComponent<Image>();
         iconTemplateIconImage = iconTemplate.Find("Icon").GetComponent<Image>();
 
-        percentBarRectTransform = nodeContentTransform.Find("PercentBar").Find("PercentInnerBar").GetComponent<RectTransform>();
-        nodeContentTransform.Find("PercentBar").Find("PercentInnerBar").gameObject.SetActive(true);
+
+        _completionPercentBar = nodeContentTransform.Find("PercentBar").Find("PercentInnerBar");
+        percentBarRectTransform = _completionPercentBar.GetComponent<RectTransform>();
+        
 
 
 
@@ -131,11 +134,14 @@ public class SciencePageCellUI : MonoBehaviour
             float percent = ScienceManager.Instance.GetCompletedPercent(_scienceNodeSO);
             UpdateActiveCompletePercent(percent);
 
+            _completionPercentBar.gameObject.SetActive(true);
             outline.effectColor = Color.red;
         }
         else
         {
+
             outline.effectColor = Color.white;
+            _completionPercentBar.gameObject.SetActive(false);
         }
     }
 
@@ -287,6 +293,12 @@ public class SciencePageCellUI : MonoBehaviour
     public void UpdateActiveCompletePercent(float percent)
     {
         percentBarRectTransform.localScale = new Vector2(percent, 1);
+
+        if (percent == 1.0)
+        {
+            nodeBackgroundTransform.GetComponent<Image>().color = Color.blue;
+        }
+
     }
 
 
