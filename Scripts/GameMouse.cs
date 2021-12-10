@@ -26,13 +26,14 @@ public class GameMouse : MonoBehaviour
         if (e.Args_TypeSO != null)
         {
             Sprite sprite;
-            if (e.Args_TypeSO.sprite == null)
+            if (e.Args_TypeSO.prefab == null)
             {
-                sprite = e.Args_TypeSO.prefab.GetComponent<SpriteRenderer>().sprite;
+                sprite = e.Args_TypeSO.sprite;
+                
             }
             else
             {
-                sprite = e.Args_TypeSO.sprite;
+                sprite = e.Args_TypeSO.prefab.GetComponent<SpriteRenderer>().sprite;
             }
             
             spriteRenderer.sprite = sprite;

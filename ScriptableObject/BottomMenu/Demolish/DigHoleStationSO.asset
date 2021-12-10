@@ -12,11 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9924f252bb20542228cbd3f23ad4195f, type: 3}
   m_Name: DigHoleStationSO
   m_EditorClassIdentifier: 
-  type: 0
+  type: 4
   buildingName: 
   sprite: {fileID: 0}
   prefab: {fileID: 0}
-  data:
-    constructCost: 0
-    originIncomePerDay: 0
-    influenceRadius: 0
+  generateResource:
+    resourceType: {fileID: 0}
+    amount: 0
+  constructionCosts: []
+  workersNumber: 0
+  componentType: 0
+  upgrades: []
+  components: []
+  strengthens: []
+  continuousBuild: 0
+  buildOnSoil: 0
+  remark: 

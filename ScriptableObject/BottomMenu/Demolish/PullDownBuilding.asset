@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9924f252bb20542228cbd3f23ad4195f, type: 3}
-  m_Name: CutTreeSO
+  m_Name: PullDownBuilding
   m_EditorClassIdentifier: 
   type: 4
-  buildingName: CutTree
-  sprite: {fileID: 21300000, guid: 962e7be5e9edd404e968f0649f419443, type: 3}
-  prefab: {fileID: 61100360199534800, guid: e065e9d1d1daf4ff9b0350753ae756e1, type: 3}
+  buildingName: PullDownBuilding
+  sprite: {fileID: 21300000, guid: ef65fc9913aaf44569fb843fab5e1ff4, type: 3}
+  prefab: {fileID: 396895603430782657, guid: 05645f7ca39b848eda567277b0c664cc, type: 3}
   generateResource:
     resourceType: {fileID: 0}
     amount: 0

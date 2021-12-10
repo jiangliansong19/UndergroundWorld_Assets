@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9924f252bb20542228cbd3f23ad4195f, type: 3}
   m_Name: ScienceBuildingSO
   m_EditorClassIdentifier: 
-  type: 3
+  type: 0
   buildingName: Science Building
   sprite: {fileID: 21300000, guid: de2f1ec81aec849f8a2ec7e60e3db852, type: 3}
   prefab: {fileID: 6392376168096039767, guid: 73325e4be4c19429389d7a75e9382b74, type: 3}

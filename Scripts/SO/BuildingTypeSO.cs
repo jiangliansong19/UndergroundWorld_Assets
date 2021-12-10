@@ -9,6 +9,7 @@ public enum BuildingType
     House, 
     Road,
     DigHole,
+    Plant,
     other,
 }
 

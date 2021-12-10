@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6565532407284982557}
   - component: {fileID: -4427513100765187346}
   m_Layer: 0
-  m_Name: FoodCollection
+  m_Name: pfFoodCollection
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

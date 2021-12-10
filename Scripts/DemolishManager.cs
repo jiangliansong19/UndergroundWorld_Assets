@@ -1,16 +1,14 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public enum DemolishType
 {
     None,
     Digging,
     CutTree,
-    PullDownBuilding,
-    Harvest,
+    PullDown,
     Collect,
+    Update,
 } 
 
 
@@ -111,6 +109,18 @@ public class DemolishManager : MonoBehaviour
             }
 
         }
+        else if (_demolishType == DemolishType.PullDown)
+        {
+            List<GameObject> toPullDownObjects = new List<GameObject>();
+            foreach (Collider2D coll in colliders)
+            {
+                BuildingTypeSOHolder holder = coll.GetComponent<BuildingTypeSOHolder>();
+                if (holder != null && holder.buidlingTypeSO != null && holder.buidlingTypeSO.type == BuildingType.House)
+                {
+                    Destroy(coll.gameObject);
+                }
+            }
+        }
     }
 
     public void SetDemolishType(BuildingTypeSO typeSO)
@@ -129,7 +139,9 @@ public class DemolishManager : MonoBehaviour
                 case "CutTree":
                     _demolishType = DemolishType.CutTree;
                     break;
-
+                case "PullDownBuilding":
+                    _demolishType = DemolishType.PullDown;
+                    break;
             }
         }
 
