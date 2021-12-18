@@ -7,12 +7,20 @@ public class DialogUI : MonoBehaviour
     private Image backgroundImage;
     private Text titleText;
     private Text messageText;
+    private Text inputText;
+
+    GameObject _inputField;
+    GameObject _messageContent;
+
     private Button okButton;
     private Button cancelButton;
     private Transform dialog;
 
+
     private Func<int> selfOkClick;
     private Func<int> selfCancelClick;
+
+    private Func<string, string> inputOkClick;
 
 
     public static DialogUI Create()
@@ -26,9 +34,13 @@ public class DialogUI : MonoBehaviour
     {
         dialog = transform.Find("Dialog");
 
+        _inputField = transform.Find("InputFiled").gameObject;
+        _messageContent = transform.Find("Content").gameObject;
+
         backgroundImage = dialog.Find("Image").GetComponent<Image>();
         titleText = dialog.Find("Title").GetComponent<Text>();
         messageText = dialog.Find("Content").GetComponent<Text>();
+        inputText = dialog.Find("InputField").GetComponent<Text>();
         okButton = dialog.Find("OKButton").GetComponent<Button>();
         cancelButton = dialog.Find("CancelButton").GetComponent<Button>();
 
@@ -55,11 +67,26 @@ public class DialogUI : MonoBehaviour
 
     public void ShowDialog(string title, string message, Func<int> okClick, Func<int> cancelClick)
     {
+        _inputField.SetActive(false);
+        _messageContent.SetActive(true);
+
 
         titleText.text = title;
         messageText.text = message;
 
         selfOkClick = okClick;
+        selfCancelClick = cancelClick;
+    }
+
+    public void ShowInputDialog(string title, Func<string, string> okClick, Func<int> cancelClick)
+    {
+        _inputField.SetActive(true);
+        _messageContent.SetActive(false);
+
+
+        titleText.text = title;
+
+        inputOkClick = okClick;
         selfCancelClick = cancelClick;
     }
 }

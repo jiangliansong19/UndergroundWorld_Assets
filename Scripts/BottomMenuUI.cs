@@ -126,7 +126,8 @@ public class BottomMenuUI : MonoBehaviour
 
                 if (item.type == BottomMenuType.Setting)
                 {
-                    Debug.Log("enter setting page");
+                    //Debug.Log("enter setting page");
+                    SettingPageUI.Instance.gameObject.SetActive(true);
                 }
                 else if (item.type == BottomMenuType.Science)
                 {

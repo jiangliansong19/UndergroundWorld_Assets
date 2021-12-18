@@ -418,6 +418,7 @@ public class BuildingManager : MonoBehaviour
         Transform house = Instantiate(menuSO.menuList[1].buildingList[0].prefab, new Vector2(2, -4.0f), Quaternion.identity);
 
         ResourcesManager.Instance.AddResource(ResourceType.Worker, 4);
+
         
     }
 }

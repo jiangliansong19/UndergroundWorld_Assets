@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+//todo:must have all building type
 public enum BuildingType
 {
-
     House, 
     Road,
     DigHole,
