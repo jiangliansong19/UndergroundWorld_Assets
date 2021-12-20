@@ -5,61 +5,62 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 
+[System.Serializable]
 public class SaveData
 {
-
+    public int scienceScore = 1000;
 }
 
-public class SaveGameManager : MonoBehaviour
+public class SaveGameManager: MonoBehaviour
 {
     public static SaveGameManager Instance { private set; get; }
 
-    public List<BuildingRunData> buildingDatas;
-    public List<ScienceNodeSO> scienceNodes;
-    public List<ResourceTypeAmount> resourceTypeAmounts;
-    public List<ExploreTeam> exploreTeams;
-    
-
-    
-
-
-
-    // Start is called before the first frame update
-    void Start()
+    //public List<BuildingRunData> buildingDatas;
+    //public List<ScienceNodeSO> scienceNodes;
+    //public List<ResourceTypeAmount> resourceTypeAmounts;
+    //public List<ExploreTeam> exploreTeams;
+    private void Awake()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Instance = this;
     }
 
 
-    public void SaveByBin(string filePath)
+
+    private string GetRootPath()
     {
+        string result = GameProjectSettings.SaveDataRootPath;
+        if (!Directory.Exists(result))
+        {
+            Directory.CreateDirectory(result);
+        }
+        return result;
+    }
+
+    public void SaveByBin(string fileName)
+    {
+        string targetFileName = GetRootPath() + fileName;
 
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream fs = File.Create(filePath);
+        FileStream fs = File.Create(targetFileName);
         bf.Serialize(fs, new SaveData());
         fs.Close();
 
-        if (File.Exists(filePath))
+        if (File.Exists(targetFileName))
         {
-            Debug.Log("save success");
+            Debug.Log("save success: " + targetFileName);
         }
     }
 
-    public void LoadByBin(string filePath)
+    public void LoadByBin(string fileName)
     {
-        if (!File.Exists(filePath))
+        string targetFileName = GetRootPath() + fileName;
+        if (!File.Exists(targetFileName))
         {
             return;
         }
 
         BinaryFormatter bf = new BinaryFormatter();
-        FileStream fileStream = File.Open(filePath, FileMode.Open);
+        FileStream fileStream = File.Open(targetFileName, FileMode.Open);
         SaveData data = (SaveData)bf.Deserialize(fileStream);
         fileStream.Close();
 
@@ -82,7 +83,7 @@ public class SaveGameManager : MonoBehaviour
 
     public void OnClickOnSaveNewFileButton()
     {
-        new DialogUI().ShowInputDialog("ReName", (string name) =>
+        DialogUI.Create().ShowInputDialog("ReName", (string name) =>
         {
 
 

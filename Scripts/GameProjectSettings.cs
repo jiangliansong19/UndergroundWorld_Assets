@@ -9,7 +9,7 @@ public static class GameProjectSettings
     public static bool ISDEBUG = true;
 
     //game save data root
-    public static string SaveDataRootPath = Application.dataPath + "SaveData/";
+    public static string SaveDataRootPath = Application.dataPath.Replace("Assets", "") + "SavedGameData/";
 
 
 

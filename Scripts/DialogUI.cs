@@ -34,8 +34,8 @@ public class DialogUI : MonoBehaviour
     {
         dialog = transform.Find("Dialog");
 
-        _inputField = transform.Find("InputFiled").gameObject;
-        _messageContent = transform.Find("Content").gameObject;
+        _inputField = dialog.Find("InputField").gameObject;
+        _messageContent = dialog.Find("Content").gameObject;
 
         backgroundImage = dialog.Find("Image").GetComponent<Image>();
         titleText = dialog.Find("Title").GetComponent<Text>();
@@ -43,7 +43,6 @@ public class DialogUI : MonoBehaviour
         inputText = dialog.Find("InputField").GetComponent<Text>();
         okButton = dialog.Find("OKButton").GetComponent<Button>();
         cancelButton = dialog.Find("CancelButton").GetComponent<Button>();
-
 
         okButton.onClick.AddListener(OnClickOnOkButton);
         cancelButton.onClick.AddListener(OnClickOnCancelButton);
@@ -60,7 +59,16 @@ public class DialogUI : MonoBehaviour
     private void OnClickOnOkButton()
     {
         SoundManager.Instance.PlaySound(SoundManager.Sound.ButtonClick);
-        selfOkClick();
+
+        if (selfOkClick != null)
+        {
+            selfOkClick();
+        }
+
+        if (inputOkClick != null)
+        {
+            inputOkClick(_inputField.GetComponent<InputField>().text);
+        }
 
         Destroy(gameObject);
     }
