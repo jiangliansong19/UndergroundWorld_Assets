@@ -18,7 +18,7 @@ public class BuildingManager : MonoBehaviour
 
     [HideInInspector] public Dictionary<BuildingTypeSO, GameObject> buildingInfoDict;
 
-    private GameObject BuildingInfoDialog;
+    private GameObject _buildingInfoDialog;
 
     
 
@@ -56,6 +56,15 @@ public class BuildingManager : MonoBehaviour
             if (!activeBuildingTypeSO.continuousBuild)
             {
                 generateABuilding(activeBuildingTypeSO, UtilsClass.getRoundCurrentWorldPoint());
+            }
+        }
+
+        if (Input.GetMouseButtonDown(0) && activeBuildingTypeSO == null)
+        {
+            GameObject obj = UtilsClass.GetObjectByRay(UtilsClass.GetCurrentWorldPoint());
+            if (obj != null && obj.transform != null)
+            {
+                BuildingInfoDialog.Instance.ShowBuildingInfo(obj.transform);
             }
         }
 
@@ -217,19 +226,19 @@ public class BuildingManager : MonoBehaviour
 
     public void ShowBuildingInfoDialog(GameObject building, Vector3 position)
     {
-        if (BuildingInfoDialog == null)
+        if (_buildingInfoDialog == null)
         {
             GameObject prefab = Resources.Load<GameObject>("Prefabs/Others/BuildingInfoDialog").gameObject;
-            BuildingInfoDialog = Instantiate(prefab, position, Quaternion.identity);
+            _buildingInfoDialog = Instantiate(prefab, position, Quaternion.identity);
         }
         else
         {
-            BuildingInfoDialog.transform.position = position;
+            _buildingInfoDialog.transform.position = position;
         }
 
-        BuildingInfoDialog.GetComponent<SpriteRenderer>().sortingOrder = building.GetComponent<SpriteRenderer>().sortingOrder + 1;
+        _buildingInfoDialog.GetComponent<SpriteRenderer>().sortingOrder = building.GetComponent<SpriteRenderer>().sortingOrder + 1;
         BuildingRunData data = building.GetComponent<BuildingRunData>();
-        BuildingInfoDialog.transform.Find("Content").GetComponent<TMPro.TextMeshPro>().SetText(data.incomePerDay.ToString());
+        _buildingInfoDialog.transform.Find("Content").GetComponent<TMPro.TextMeshPro>().SetText(data.incomePerDay.ToString());
     }
 
 
