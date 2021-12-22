@@ -57,18 +57,16 @@ public class DemolishManager : MonoBehaviour
         rectRender.OnDrawRectEndPosition += (object o, RectRender.RectRenderEventHandlerArgs e) =>
         {
             _rectRenderEnd = e.position;
-            ChechSelectedObjects();
+            CheckObjectsInRect();
         };
     }
 
-    private void ChechSelectedObjects()
+    private void CheckObjectsInRect()
     {
-        //Debug.Log("ChechSelectedObjects");
 
         //start, end position both are world point
         Collider2D[] colliders = Physics2D.OverlapAreaAll(_rectRenderStart, _rectRenderEnd);
 
-        //Debug.Log("draw render colliders " + colliders.Length.ToString());
 
         if (_demolishType == DemolishType.CutTree)
         {
@@ -89,40 +87,16 @@ public class DemolishManager : MonoBehaviour
         }
         else if (_demolishType == DemolishType.Digging)
         {
-            foreach (Collider2D col in colliders)
-            {
-                Vector3 abovePosition = new Vector3(col.transform.position.x, col.transform.position.y + 1, 0);
-                GameObject aboveObj = UtilsClass.GetObjectByRay(abovePosition);
-                if (aboveObj != null && aboveObj.tag != "Soil")
-                {
-                    BuildingTypeSOHolder holder = aboveObj.GetComponent<BuildingTypeSOHolder>();
-                    if (holder != null && holder.buidlingTypeSO.buildOnSoil)
-                    {
-                        continue;
-                    }
-                }
-
-                if (col != null && col.gameObject != null && col.gameObject.tag == "Soil")
-                {
-                    Destroy(col.gameObject);
-                }
-            }
-
+            CheckCollidersWhenDigging(colliders);
         }
         else if (_demolishType == DemolishType.PullDown)
         {
-            List<GameObject> toPullDownObjects = new List<GameObject>();
-            foreach (Collider2D coll in colliders)
-            {
-                BuildingTypeSOHolder holder = coll.GetComponent<BuildingTypeSOHolder>();
-                if (holder != null && holder.buidlingTypeSO != null && holder.buidlingTypeSO.type == BuildingType.House)
-                {
-                    Destroy(coll.gameObject);
-                }
-            }
+            CheckCollidersWhenPullDown(colliders);
         }
     }
 
+
+    //todo: it is better not use building name.
     public void SetDemolishType(BuildingTypeSO typeSO)
     {
         if (typeSO == null)
@@ -147,4 +121,48 @@ public class DemolishManager : MonoBehaviour
 
         StartObserveRectRender();
     }
+
+    //==========================================================================
+    //==========================================================================
+
+    private void CheckCollidersWhenDigging(Collider2D[] colliders) 
+    {
+        foreach (Collider2D col in colliders)
+        {
+            Vector3 abovePosition = new Vector3(col.transform.position.x, col.transform.position.y + 1, 0);
+            GameObject aboveObj = UtilsClass.GetObjectByRay(abovePosition);
+            if (aboveObj != null && aboveObj.tag != "Soil")
+            {
+
+                //if above has object && object.buildOnSoil == true ==> can not destory
+                BuildingTypeSOHolder holder = aboveObj.GetComponent<BuildingTypeSOHolder>();
+                if (holder != null && holder.buidlingTypeSO.buildOnSoil)
+                {
+                    continue;
+                }
+            }
+
+            //if above is soil too.
+            if (col != null && col.gameObject != null && col.gameObject.tag == "Soil")
+            {
+                Destroy(col.gameObject);
+            }
+        }
+    }
+
+    private void CheckCollidersWhenPullDown(Collider2D[] colliders)
+    {
+        List<GameObject> toPullDownObjects = new List<GameObject>();
+        foreach (Collider2D coll in colliders)
+        {
+            BuildingTypeSOHolder holder = coll.GetComponent<BuildingTypeSOHolder>();
+            if (holder != null && holder.buidlingTypeSO != null && holder.buidlingTypeSO.type == BuildingType.Building)
+            {
+                Destroy(coll.gameObject);
+            }
+        }
+    }
+
+
+
 }

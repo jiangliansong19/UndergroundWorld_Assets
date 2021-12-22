@@ -4037,7 +4037,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'name
+  m_Text: 'File Name
 
 '
 --- !u!222 &661640967
@@ -7019,7 +7019,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'years
+  m_Text: 'Date
+
 
 '
 --- !u!222 &1094425204

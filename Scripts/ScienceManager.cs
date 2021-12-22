@@ -15,10 +15,15 @@ public class ScienceManager : MonoBehaviour
     private ScienceNodeSO activeScienceNodeSO;
 
 
+    private ScienceTreeSO _scienceTree;
+
+
     //to record all science node completed percent.
     private Dictionary<ScienceNodeSO, float> scienceNodeCompletePercentsDict;
 
 
+    //saved in local
+    private Dictionary<string, float> localScienceNodePercentsDict;
 
 
     private void Awake()
@@ -29,13 +34,14 @@ public class ScienceManager : MonoBehaviour
         //read local data scienceNodeCompletePercent
         //todo
 
-        ScienceTreeSO scienceTree = Resources.Load<ScienceTreeSO>(typeof(ScienceTreeSO).Name);
+        _scienceTree = Resources.Load<ScienceTreeSO>(typeof(ScienceTreeSO).Name);
         scienceNodeCompletePercentsDict = new Dictionary<ScienceNodeSO, float>();
-        foreach (ScienceNodeListSO listSO in scienceTree.list)
+
+        foreach (ScienceNodeListSO listSO in _scienceTree.list)
         {
             foreach (ScienceNodeSO nodeSO in listSO.list)
             {
-                scienceNodeCompletePercentsDict[nodeSO] = 0f;
+                scienceNodeCompletePercentsDict[nodeSO] = localScienceNodePercentsDict[nodeSO.nodeType.ToString()];
             }
         }
 
@@ -62,11 +68,6 @@ public class ScienceManager : MonoBehaviour
     void Update()
     {
 
-    }
-
-    private void LateUpdate()
-    {
-        
     }
 
     private void UpdateCompletedPercent()
@@ -107,6 +108,7 @@ public class ScienceManager : MonoBehaviour
     }
 
 
+    //check whether the previous science node is completed
     public bool CanExecuteScienceNode(ScienceNodeSO nodeSO)
     {
         if (nodeSO.previousNodes == null || nodeSO.previousNodes.Count == 0)
@@ -153,11 +155,30 @@ public class ScienceManager : MonoBehaviour
 
 
 
-
+    //search a science node completion percent
     public float GetCompletedPercent(ScienceNodeSO node)
     {
         return scienceNodeCompletePercentsDict[node];
     }
 
+    //search whether a building is unclock.
+    public bool isBuildingUnlock(BuildingTypeSO typeSO)
+    {
+        foreach (ScienceNodeListSO listSO in _scienceTree.list)
+        {
+            foreach (ScienceNodeSO nodeSO in listSO.list)
+            {
+                if (nodeSO.unlockBuildingTypeSO.Contains(typeSO))
+                {
+                    if (GetCompletedPercent(nodeSO) == 1)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        }
 
+        return false;
+    }
 }

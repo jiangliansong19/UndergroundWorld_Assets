@@ -12,5 +12,5 @@ public static class GameProjectSettings
     public static string SaveDataRootPath = Application.dataPath.Replace("Assets", "") + "SavedGameData/";
 
 
-
+    public static GameScene gameScene = GameScene.MainMenuScene;
 }

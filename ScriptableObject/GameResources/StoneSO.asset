@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6ebde90397204e048eee95080c800f8, type: 3}
-  m_Name: SteelSO
+  m_Name: StoneSO
   m_EditorClassIdentifier: 
-  nameString: 
-  sprite: {fileID: 0}
-  type: 7
+  nameString: Stone
+  sprite: {fileID: 21300000, guid: 58a933f5578814c818c7493e3ff40177, type: 3}
+  type: 5

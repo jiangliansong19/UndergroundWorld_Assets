@@ -6,9 +6,9 @@ using UnityEngine;
 //todo:must have all building type
 public enum BuildingType
 {
-    House, 
+    Building, //建筑
     Road,
-    DigHole,
+    DigHole, //use like building but only demolish soil
     Plant,
     other,
 }
@@ -67,5 +67,12 @@ public class BuildingTypeSO : ScriptableObject
         //}
 
         return desc;
+    }
+
+    public bool isResourceGenerator()
+    {
+        return generateResource != null
+            && generateResource.resourceType != null
+            && generateResource.amount > 0;
     }
 }

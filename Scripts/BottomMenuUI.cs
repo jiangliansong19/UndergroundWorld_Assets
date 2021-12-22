@@ -31,13 +31,9 @@ public enum BottomMenuType
 
 public class BottomMenuUI : MonoBehaviour
 {
-
-
-
     private BottomMenuSO bottomMenu;
 
     [SerializeField] List<BuildingTypeSO> ignoreBuildingList;
-
 
     private float padding = 5f;
     private float width = 30f;
@@ -49,10 +45,6 @@ public class BottomMenuUI : MonoBehaviour
 
     private List<Transform> tmpTransforms;
     private List<Transform> architectureTransforms;
-
-
-
-
 
 
     private void Awake()
@@ -72,9 +64,8 @@ public class BottomMenuUI : MonoBehaviour
         ShowBuildMenuItems();
     }
 
-    /// <summary>
-    /// 展示菜单
-    /// </summary>
+
+    //first row
     private void ShowBuildMenuItems()
     {
         Transform menuTransform = Instantiate(menuTemplate, transform);
@@ -126,7 +117,6 @@ public class BottomMenuUI : MonoBehaviour
 
                 if (item.type == BottomMenuType.Setting)
                 {
-                    //Debug.Log("enter setting page");
                     SettingPageUI.Instance.gameObject.SetActive(true);
                 }
                 else if (item.type == BottomMenuType.Science)
@@ -151,7 +141,7 @@ public class BottomMenuUI : MonoBehaviour
                 SoundManager.Instance.PlaySound(SoundManager.Sound.ButtonClick);
             });
 
-            
+            //show info tips
             buttonTransform.GetComponent<MouseEnterAndExits>().OnMouseEnterEvent += (object sender, System.EventArgs e) =>
             {
                 Vector3 tipsPosition = new Vector3(buttonTransform.position.x, buttonTransform.position.y + 0, 0);
@@ -166,10 +156,8 @@ public class BottomMenuUI : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// 点击菜单
-    /// </summary>
-    /// <param name="item"></param>
+
+    //second row
     private void OnClickBuildMenuItem(BottomMenuSO.BottomMenuItem item, Transform aTransform)
     {
 
@@ -191,6 +179,14 @@ public class BottomMenuUI : MonoBehaviour
             {
                 continue;
             }
+
+            //todo: if science is no unlock, hide related icon;
+            //if (!ScienceManager.Instance.isBuildingUnlock(buildingTypeSO))
+            //{
+            //    continue;
+            //}
+
+
             Transform buttonTransform = Instantiate(buttonTemplate, subMenuTransform);
             buttonTransform.gameObject.SetActive(true);
             tmpTransforms.Add(buttonTransform);
@@ -204,10 +200,6 @@ public class BottomMenuUI : MonoBehaviour
 
             buttonTransform.GetComponent<Button>().onClick.AddListener(() =>
             {
-
-
-
-
 
                 if (item.type == BottomMenuType.Demolish)
                 {
@@ -232,6 +224,7 @@ public class BottomMenuUI : MonoBehaviour
                 SoundManager.Instance.PlaySound(SoundManager.Sound.ButtonClick);
             });
 
+            //show info tips
             buttonTransform.GetComponent<MouseEnterAndExits>().OnMouseEnterEvent += (object sender, System.EventArgs e) =>
             {
                 Vector3 tipsPosition = new Vector3(buttonTransform.position.x, buttonTransform.position.y + 0, 0);

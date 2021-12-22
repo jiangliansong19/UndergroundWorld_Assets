@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6ebde90397204e048eee95080c800f8, type: 3}
-  m_Name: PeopleSO
+  m_Name: SteelSO
   m_EditorClassIdentifier: 
-  nameString: "\u4EBA\u53E3"
-  sprite: {fileID: 21300000, guid: 321212d69866444a1a5b9897d64e29ea, type: 3}
-  type: 1
+  nameString: Steel
+  sprite: {fileID: 21300000, guid: ea54e3da18e014a00bfaad914f3e13f1, type: 3}
+  type: 7

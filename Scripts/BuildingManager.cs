@@ -5,9 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 
-/// <summary>
-/// 建筑
-/// </summary>
+
 public class BuildingManager : MonoBehaviour
 {
     public static BuildingManager Instance { private set; get; }
@@ -23,9 +21,7 @@ public class BuildingManager : MonoBehaviour
     
 
     public event EventHandler<OnActiveBuildingTypeChangedHandlerArgs> OnActiveBuildingTypeChangedHandler;
-
-    public class OnActiveBuildingTypeChangedHandlerArgs
-    {
+    public class OnActiveBuildingTypeChangedHandlerArgs {
         public BuildingTypeSO Args_TypeSO;
     }
 
@@ -50,6 +46,7 @@ public class BuildingManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //generate a building
         if (Input.GetMouseButtonDown(0) && activeBuildingTypeSO != null && !EventSystem.current.IsPointerOverGameObject())
         {
             
@@ -59,7 +56,8 @@ public class BuildingManager : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(0) && activeBuildingTypeSO == null)
+        //show building info dialog
+        if (Input.GetMouseButtonDown(0) && activeBuildingTypeSO == null && !EventSystem.current.IsPointerOverGameObject())
         {
             GameObject obj = UtilsClass.GetObjectByRay(UtilsClass.GetCurrentWorldPoint());
             if (obj != null && obj.transform != null)
@@ -68,8 +66,7 @@ public class BuildingManager : MonoBehaviour
             }
         }
 
-
-        //cancel
+        //exit building style
         if (Input.GetMouseButtonDown(1))
         {
             SetActiveBuildingTypeSO(null);
@@ -105,21 +102,6 @@ public class BuildingManager : MonoBehaviour
 
 
 
-    public void ScanBuilding()
-    {
-        Vector3 position = UtilsClass.GetCurrentWorldPoint();
-        GameObject obj = UtilsClass.GetObjectByRay(position);
-        if (obj != null && obj.tag.StartsWith("Building"))
-        {
-            //ShowBuildingInfoDialog(obj, position);
-            BuildingRunData runData = obj.GetComponent<BuildingRunData>();
-            BuildingTypeSOHolder holder = obj.GetComponent<BuildingTypeSOHolder>();
-
-            string message = holder.buidlingTypeSO.buildingName + "\n" + runData.GetBuildingDescription();
-            ToolTipsUI.Instance.Show(message, new ToolTipsUI.TooltipTimer { timer = 3 });
-        }
-    }
-
     public void generateABuilding(BuildingTypeSO buildingTypeSO, Vector2 position)
     {
         Debug.Log("genereate building position : " + position.ToString());
@@ -134,6 +116,7 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
+        //must build on soil
         Vector2 correctBuildPosition = position;
         if (buildingTypeSO.buildOnSoil)
         {
@@ -194,10 +177,10 @@ public class BuildingManager : MonoBehaviour
         }
 
         //addresource
-        if (buildingTypeSO.generateResource != null && buildingTypeSO.generateResource.resourceType != null)
+        if (buildingTypeSO.isResourceGenerator())
         {
-            bool everyCycle = buildingTypeSO.type != BuildingType.House;
             ResourceType resourceType = buildingTypeSO.generateResource.resourceType.type;
+            bool everyCycle = resourceType != ResourceType.Worker;
             long amount = buildingTypeSO.generateResource.amount;
             ResourcesManager.Instance.AddResourcePerCycle(resourceType, amount, everyCycle);
         }
@@ -208,15 +191,6 @@ public class BuildingManager : MonoBehaviour
     }
 
 
-    public void DestructBuilding(GameObject obj, Vector3 position)
-    {
-        GameObject gameObj = UtilsClass.GetObjectByRay(position);
-        if (gameObj.GetComponent<BuildingTypeSO>() != null)
-        {
-            Destroy(gameObj);
-        }
-        
-    }
 
     public void UpdateBuilding(GameObject obj, Vector3 position)
     {
@@ -240,61 +214,6 @@ public class BuildingManager : MonoBehaviour
         BuildingRunData data = building.GetComponent<BuildingRunData>();
         _buildingInfoDialog.transform.Find("Content").GetComponent<TMPro.TextMeshPro>().SetText(data.incomePerDay.ToString());
     }
-
-
-
-
-
-    private Vector3? GetCorrectBuildPosition(Transform trans, Vector3 clickPosition)
-    {
-
-        BoxCollider2D boxCollider2D = trans.GetComponent<BoxCollider2D>();
-        Collider2D[] boxColliders = Physics2D.OverlapBoxAll(clickPosition + (Vector3)boxCollider2D.offset, boxCollider2D.size, 0);
-
-
-        if (activeBuildingTypeSO.buildOnSoil == false)
-        {
-            return clickPosition;
-        }
-
-
-        RaycastHit2D rayCastObj = Physics2D.Raycast(clickPosition, new Vector2(0, -1));
-        if (rayCastObj.collider.tag == "Soil")
-        {
-            
-            BoxCollider2D boxCollider = trans.GetComponent<BoxCollider2D>();
-            float soilColliderHeight = 1f;
-
-            float collidersDistance = boxCollider.size.y / 2 + soilColliderHeight / 2;
-            float positionDistance = clickPosition.y - rayCastObj.collider.transform.position.y;
-
-            if (positionDistance == collidersDistance)
-            {
-                return clickPosition;
-            }
-            else if (positionDistance - collidersDistance > 0 && positionDistance - collidersDistance < 1)
-            {
-                return new Vector3(clickPosition.x, clickPosition.y - 0.5f, 0);
-            }
-            else if (positionDistance - collidersDistance > 1)
-            {
-                return null;
-            }
-            else if (positionDistance - collidersDistance < 0)
-            {
-                return null;
-            }
-        }
-        else
-        {
-            return null;
-        }
-        return null;
-    }
-
-
-
-
 
 
 
@@ -341,7 +260,6 @@ public class BuildingManager : MonoBehaviour
                 for (float j = Mathf.Min(_startPosition.y, _endPosition.y); j < Mathf.Max(_startPosition.y, _endPosition.y); j++)
                 {
                     Vector2 cur = new Vector2(Mathf.RoundToInt(i), Mathf.RoundToInt(j));
-                    //Instantiate(activeBuildingTypeSO.prefab, cur, Quaternion.identity);
                     generateABuilding(activeBuildingTypeSO, cur);
                 }
             }

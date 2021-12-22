@@ -9,6 +9,11 @@ using UnityEngine;
 public class SaveData
 {
     public int scienceScore = 1000;
+
+    //{"familyHouse" : 1.0, "energy" : 0.5 ....}
+    public Dictionary<string, float> scienceNodeDict;
+    public Dictionary<string, float> resourceDict;
+
 }
 
 public class SaveGameManager: MonoBehaviour
@@ -22,6 +27,11 @@ public class SaveGameManager: MonoBehaviour
     private void Awake()
     {
         Instance = this;
+
+
+
+
+
     }
 
 
@@ -66,8 +76,8 @@ public class SaveGameManager: MonoBehaviour
 
     }
 
-
-
+    //==========================================================================
+    //==========================================================================
 
     public void OnClickOnSaveButton()
     {

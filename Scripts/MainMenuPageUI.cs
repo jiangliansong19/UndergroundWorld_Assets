@@ -12,6 +12,12 @@ public enum GameMode
     LoadGame,
 }
 
+public enum GameScene
+{
+    GameScene,
+    MainMenuScene,
+}
+
 
 
 public class MainMenuPageUI : MonoBehaviour
@@ -24,13 +30,9 @@ public class MainMenuPageUI : MonoBehaviour
 
 
 
-    private Scene currentScene;
+    private GameScene currentScene;
 
-    public enum Scene
-    {
-        GameScene,
-        MainMenuScene,
-    }
+
 
 
 
@@ -57,7 +59,9 @@ public class MainMenuPageUI : MonoBehaviour
     private void OnClickContinuePlayGameButton()
     {
         PlayerPrefs.SetString("GameMode", GameMode.LoadGame.ToString());
-        SceneManager.LoadSceneAsync(Scene.GameScene.ToString());
+        SceneManager.LoadSceneAsync(GameScene.GameScene.ToString());
+
+        GameProjectSettings.gameScene = GameScene.GameScene;
     }
 
     private void OnClickOnNewGameButton()
@@ -65,13 +69,17 @@ public class MainMenuPageUI : MonoBehaviour
         Debug.Log("Load game scene");
 
         PlayerPrefs.SetString("GameMode", GameMode.NewGame.ToString());
-        SceneManager.LoadSceneAsync(Scene.GameScene.ToString());
+        SceneManager.LoadSceneAsync(GameScene.GameScene.ToString());
+
+        GameProjectSettings.gameScene = GameScene.GameScene;
     }
 
     private void OnClickLoadGameButton()
     {
         PlayerPrefs.SetString("GameMode", GameMode.LoadGame.ToString() + "x");
-        SceneManager.LoadSceneAsync(Scene.GameScene.ToString());
+        SceneManager.LoadSceneAsync(GameScene.GameScene.ToString());
+
+        GameProjectSettings.gameScene = GameScene.GameScene;
     }
 
     private void OnClickCreateMapButton()
@@ -85,12 +93,12 @@ public class MainMenuPageUI : MonoBehaviour
     }
 
 
-    public void SetCurrentScene(Scene s)
+    public void SetCurrentScene(GameScene s)
     {
         currentScene = s;
     }
 
-    public Scene GetCurrentScene()
+    public GameScene GetCurrentScene()
     {
         return currentScene;
     }

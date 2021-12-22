@@ -67,7 +67,13 @@ public class SettingPageUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (GameProjectSettings.gameScene == GameScene.GameScene)
+        {
+            if (Input.GetKey(KeyCode.Escape))
+            {
+                gameObject.SetActive(true);
+            }
+        }
     }
 
 
@@ -97,8 +103,9 @@ public class SettingPageUI : MonoBehaviour
         foreach (string file in files)
         {
             Transform recordTransform = Instantiate(_itemTemplateTransform, _savedGameListTransfrom);
-            recordTransform.Find("Title").GetComponent<Text>().text = "Test123";
-            recordTransform.Find("Content").GetComponent<Text>().text = "TestContent";
+            string[] components = file.Split(new string[] { "###" }, System.StringSplitOptions.None);
+            recordTransform.Find("Title").GetComponent<Text>().text = components[0];
+            recordTransform.Find("Content").GetComponent<Text>().text = components[1];
 
             buttons.Add(_itemTemplateTransform.GetComponent<Button>());
 
@@ -125,7 +132,7 @@ public class SettingPageUI : MonoBehaviour
 
             Debug.Log("Click On save Button + " + name);
 
-            SaveGameManager.Instance.SaveByBin(name);
+            SaveGameManager.Instance.SaveByBin(System.DateTime.Now.ToString() + "###" + name);
 
             return "";
         }, () => { return 0; });

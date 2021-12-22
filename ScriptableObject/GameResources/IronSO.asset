@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b6ebde90397204e048eee95080c800f8, type: 3}
-  m_Name: RareMetalSO
+  m_Name: IronSO
   m_EditorClassIdentifier: 
-  nameString: 
-  sprite: {fileID: 0}
-  type: 8
+  nameString: Iron
+  sprite: {fileID: 21300000, guid: b0692f375aeed4c709a7ffe97b054b32, type: 3}
+  type: 6

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: BuildingTypeListSO
   m_EditorClassIdentifier: 
   list:
-  - {fileID: 11400000, guid: 16651501fe3134c7c9a16b83b9226ffa, type: 2}
   - {fileID: 11400000, guid: 2e55ab71662294fb09aa31b4925ac63b, type: 2}
+  - {fileID: 11400000, guid: 1610da45fc97af44481feefc69a94194, type: 2}
