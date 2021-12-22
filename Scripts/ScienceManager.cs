@@ -19,11 +19,11 @@ public class ScienceManager : MonoBehaviour
 
 
     //to record all science node completed percent.
-    private Dictionary<ScienceNodeSO, float> scienceNodeCompletePercentsDict;
+    private Dictionary<ScienceNodeSO, float> _scienceNodeCompletePercentsDict;
 
 
     //saved in local
-    private Dictionary<string, float> localScienceNodePercentsDict;
+    private Dictionary<string, float> _localScienceNodePercentsDict;
 
 
     private void Awake()
@@ -35,13 +35,15 @@ public class ScienceManager : MonoBehaviour
         //todo
 
         _scienceTree = Resources.Load<ScienceTreeSO>(typeof(ScienceTreeSO).Name);
-        scienceNodeCompletePercentsDict = new Dictionary<ScienceNodeSO, float>();
+        _scienceNodeCompletePercentsDict = new Dictionary<ScienceNodeSO, float>();
+
+        _localScienceNodePercentsDict = new Dictionary<string, float>();
 
         foreach (ScienceNodeListSO listSO in _scienceTree.list)
         {
             foreach (ScienceNodeSO nodeSO in listSO.list)
             {
-                scienceNodeCompletePercentsDict[nodeSO] = localScienceNodePercentsDict[nodeSO.nodeType.ToString()];
+                _scienceNodeCompletePercentsDict[nodeSO] = 0;
             }
         }
 
@@ -81,7 +83,7 @@ public class ScienceManager : MonoBehaviour
                 return;
             }
 
-            float percent = scienceNodeCompletePercentsDict[activeScienceNodeSO];
+            float percent = _scienceNodeCompletePercentsDict[activeScienceNodeSO];
             long needScore = (long)(activeScienceNodeSO.needScienceScore * (1.0f - percent));
 
             if (score >= needScore)
@@ -89,7 +91,7 @@ public class ScienceManager : MonoBehaviour
 
                 ResourcesManager.Instance.AddResource(ResourceType.ScienceScore, -(score - needScore));
 
-                scienceNodeCompletePercentsDict[activeScienceNodeSO] = 1f;
+                _scienceNodeCompletePercentsDict[activeScienceNodeSO] = 1f;
 
                 _sciencePageUI.UpdateCompletePercent(activeScienceNodeSO, 1.0f);
 
@@ -99,9 +101,9 @@ public class ScienceManager : MonoBehaviour
             {
                 ResourcesManager.Instance.AddResource(ResourceType.ScienceScore, -score);
 
-                scienceNodeCompletePercentsDict[activeScienceNodeSO] += (float)score / (float)activeScienceNodeSO.needScienceScore;
+                _scienceNodeCompletePercentsDict[activeScienceNodeSO] += (float)score / (float)activeScienceNodeSO.needScienceScore;
 
-                _sciencePageUI.UpdateCompletePercent(activeScienceNodeSO, scienceNodeCompletePercentsDict[activeScienceNodeSO]);
+                _sciencePageUI.UpdateCompletePercent(activeScienceNodeSO, _scienceNodeCompletePercentsDict[activeScienceNodeSO]);
             }
 
         }
@@ -118,7 +120,7 @@ public class ScienceManager : MonoBehaviour
 
         foreach (ScienceNodeSO node in nodeSO.previousNodes)
         {
-            if (scienceNodeCompletePercentsDict[node] < 1.00)
+            if (_scienceNodeCompletePercentsDict[node] < 1.00)
             {
                 return false;
             }
@@ -158,7 +160,7 @@ public class ScienceManager : MonoBehaviour
     //search a science node completion percent
     public float GetCompletedPercent(ScienceNodeSO node)
     {
-        return scienceNodeCompletePercentsDict[node];
+        return _scienceNodeCompletePercentsDict[node];
     }
 
     //search whether a building is unclock.
