@@ -35,8 +35,8 @@ public class BottomMenuUI : MonoBehaviour
 
     [SerializeField] List<BuildingTypeSO> ignoreBuildingList;
 
-    private float padding = 5f;
-    private float width = 30f;
+    private float padding = 2f;
+    private float width = 23f;
 
     private Transform menuTemplate;
     private Transform buttonTemplate;
