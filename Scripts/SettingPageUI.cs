@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+using System;
+using UnityEditor.U2D.Path.GUIFramework;
 
 public class SettingPageUI : MonoBehaviour
 {
@@ -15,9 +17,10 @@ public class SettingPageUI : MonoBehaviour
     private Button _exitToMainMenuButton;
     private Button _exitToDesktopButton;
 
-    private Transform _saveGameTransform;
-    private Transform _savedGameListTransfrom;
-    private Transform _itemTemplateTransform;
+    [SerializeField] private Transform _saveGameTransform;
+    [SerializeField] private Transform _savedGameListTransfrom;
+    [SerializeField] private Transform _itemTemplateTransform;
+
     [SerializeField] private Button _saveGameDeleteButton;
     [SerializeField] private Button _saveGameOverButton;
     [SerializeField] private Button _saveGameLoadButton;
@@ -32,10 +35,8 @@ public class SettingPageUI : MonoBehaviour
         gameObject.SetActive(false);
 
         Transform contentTransform = transform.Find("SettingContent").Find("Content");
-        _saveGameTransform = transform.Find("SaveGameContent");
+
         _saveGameTransform.gameObject.SetActive(false);
-        _savedGameListTransfrom = _saveGameTransform.Find("ScrollView").Find("Viewport").Find("Content");
-        _itemTemplateTransform = _savedGameListTransfrom.Find("TemplateItem");
 
         _cancelButton = contentTransform.Find("CancelButton").GetComponent<Button>();
         _saveGameButton = contentTransform.Find("SaveGameButton").GetComponent<Button>();
@@ -95,19 +96,34 @@ public class SettingPageUI : MonoBehaviour
         if (!Directory.Exists(GameProjectSettings.SaveDataRootPath))
         {
             files = null;
+            return;
         }
         files = Directory.GetFiles(GameProjectSettings.SaveDataRootPath);
 
-        Button[] btns = new Button[files.Length];
-        List<Button> buttons = new List<Button>();
+
+        for (int i = 1; i < _savedGameListTransfrom.childCount; i++)
+        {
+            Transform item = _savedGameListTransfrom.GetChild(i);
+            Destroy(item.gameObject);
+        }
+
+
+        _itemTemplateTransform.GetComponent<Button>().interactable = true;
         foreach (string file in files)
         {
-            Transform recordTransform = Instantiate(_itemTemplateTransform, _savedGameListTransfrom);
-            string[] components = file.Split(new string[] { "###" }, System.StringSplitOptions.None);
-            recordTransform.Find("Title").GetComponent<Text>().text = components[0];
-            recordTransform.Find("Content").GetComponent<Text>().text = components[1];
+            if (!file.Contains("###"))
+            {
+                continue;
+            }
 
-            buttons.Add(_itemTemplateTransform.GetComponent<Button>());
+            Transform recordTransform = Instantiate(_itemTemplateTransform, _savedGameListTransfrom);
+
+            string fileName = System.IO.Path.GetFileName(file);
+            string[] components = fileName.Split(new string[] { "###" }, System.StringSplitOptions.None);
+            DateTime date = DateUtil.GetDateTime(components[0]);
+
+            recordTransform.Find("Title").GetComponent<Text>().text = date.ToString("yyyy-MM-dd HH:mm:ss");
+            recordTransform.Find("Content").GetComponent<Text>().text = components[1];
 
             _itemTemplateTransform.GetComponent<Button>().onClick.AddListener(() =>
             {
@@ -129,10 +145,10 @@ public class SettingPageUI : MonoBehaviour
 
         DialogUI.Create().ShowInputDialog("Save Game", (string name) =>
         {
+            int timeStamp = DateUtil.GetTimeStamp(System.DateTime.Now);
+            SaveGameManager.Instance.SaveByBin(timeStamp.ToString() + "###" + name);
 
-            Debug.Log("Click On save Button + " + name);
-
-            SaveGameManager.Instance.SaveByBin(System.DateTime.Now.ToString() + "###" + name);
+            Debug.Log("save data to local : " + timeStamp.ToString() + "###" + name);
 
             return "";
         }, () => { return 0; });

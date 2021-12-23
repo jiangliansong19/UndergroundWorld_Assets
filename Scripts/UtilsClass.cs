@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -68,5 +69,37 @@ public static class UtilsClass
     public static string GetStringWithColor(string text, string color)
     {
         return "<color=" + color + ">" + text + "</color>";
+    }
+}
+
+
+
+
+
+public class DateUtil
+{
+    public static int GetTimeStamp(DateTime dt)// 获取时间戳Timestamp  
+    {
+        DateTime dateStart = new DateTime(1970, 1, 1, 8, 0, 0);
+        int timeStamp = Convert.ToInt32((dt - dateStart).TotalSeconds);
+        return timeStamp;
+    }
+
+    public static DateTime GetDateTime(int timeStamp)//时间戳Timestamp转换成日期
+    {
+        DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1, 8, 0, 0));
+        long lTime = ((long)timeStamp * 10000000);
+        TimeSpan toNow = new TimeSpan(lTime);
+        DateTime targetDt = dtStart.Add(toNow);
+        return targetDt;
+    }
+
+    public static DateTime GetDateTime(string timeStamp)// 时间戳Timestamp转换成日期
+    {
+        DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1, 8, 0, 0));
+        long lTime = long.Parse(timeStamp + "0000000");
+        TimeSpan toNow = new TimeSpan(lTime);
+        DateTime targetDt = dtStart.Add(toNow);
+        return dtStart.Add(toNow);
     }
 }
