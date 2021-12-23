@@ -88,7 +88,7 @@ public class ResourcesManager : MonoBehaviour
             return;
         }
 
-        ResourceTypeSO resourceTypeSO = GetResourtypeSO(resourceType);
+        ResourceTypeSO resourceTypeSO = resourceTypeListSO.GetResourceTypeSO(resourceType);
         resourcesDictionary[resourceTypeSO] += (long)amount;
         NoticeChangeOfResourceAmountImediately(resourceTypeSO, resourcesDictionary[resourceTypeSO]);
     }
@@ -96,7 +96,7 @@ public class ResourcesManager : MonoBehaviour
 
     public bool CanAffordResource(ResourceType resourceType, long amount)
     {
-        return resourcesDictionary[GetResourtypeSO(resourceType)] >= amount;
+        return resourcesDictionary[resourceTypeListSO.GetResourceTypeSO(resourceType)] >= amount;
     }
 
 
@@ -112,24 +112,15 @@ public class ResourcesManager : MonoBehaviour
         return 0;
     }
 
-
-
     public Dictionary<ResourceTypeSO, long> GetResourcesDictionary()
     {
         return resourcesDictionary;
     }
 
 
-
-    public ResourceTypeSO GetResourtypeSO(ResourceType type)
-    {
-        return resourceTypeListSO.GetResourceTypeSO(type);
-    }
-
-
     public void AddResourcePerCycle(ResourceType resourceType, long amount, bool everyCycle = true)
     {
-        ResourceTypeSO resourceTypeSO = GetResourtypeSO(resourceType);
+        ResourceTypeSO resourceTypeSO = resourceTypeListSO.GetResourceTypeSO(resourceType);
         if (everyCycle)
         {
             _resourceAmountsPerCycleDict[resourceTypeSO] += amount;
@@ -138,5 +129,13 @@ public class ResourcesManager : MonoBehaviour
         {
             AddResource(resourceType, amount);
         }
+    }
+
+
+    public void ResetResourceAmount(ResourceType resourceType, long amount)
+    {
+        ResourceTypeSO resourceTypeSO = resourceTypeListSO.GetResourceTypeSO(resourceType);
+        resourcesDictionary[resourceTypeSO] = amount;
+        NoticeChangeOfResourceAmountImediately(resourceTypeSO, resourcesDictionary[resourceTypeSO]);
     }
 }

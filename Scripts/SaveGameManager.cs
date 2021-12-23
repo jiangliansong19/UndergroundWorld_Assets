@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -12,7 +13,7 @@ public class SaveData
 
     //{"familyHouse" : 1.0, "energy" : 0.5 ....}
     public Dictionary<string, float> scienceNodeDict;
-    public Dictionary<string, float> resourceDict;
+    public Dictionary<string, long> resourceDict;
 
 }
 
@@ -34,6 +35,36 @@ public class SaveGameManager: MonoBehaviour
 
     }
 
+    private SaveData CreateSaveData()
+    {
+        SaveData data = new SaveData();
+        data.resourceDict = new Dictionary<string, long>();
+
+
+        Dictionary<ResourceTypeSO, long> resourceDict = ResourcesManager.Instance.GetResourcesDictionary();
+        foreach (var resourceTypeSO in resourceDict.Keys)
+        {
+            data.resourceDict.Add(resourceTypeSO.type.ToString(), resourceDict[resourceTypeSO]);
+        }
+
+
+
+        return data;
+    }
+
+    private void ReadSaveData(SaveData data)
+    {
+        Dictionary<ResourceTypeSO, long> resourceDict = ResourcesManager.Instance.GetResourcesDictionary();
+        ResourceTypeListSO resourceTypeListSO = Resources.Load<ResourceTypeListSO>(typeof(ResourceTypeListSO).Name);
+
+        foreach (string resouceType in data.resourceDict.Keys)
+        {
+            Enum.TryParse(resouceType, out ResourceType type);
+            ResourcesManager.Instance.ResetResourceAmount(type, data.resourceDict[resouceType]);
+        }
+
+
+    }
 
 
     private string GetRootPath()
@@ -46,13 +77,20 @@ public class SaveGameManager: MonoBehaviour
         return result;
     }
 
+
+    //==========================================================================
+    //==========================================================================
+
+
+
+
     public void SaveByBin(string fileName)
     {
         string targetFileName = GetRootPath() + fileName;
 
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fs = File.Create(targetFileName);
-        bf.Serialize(fs, new SaveData());
+        bf.Serialize(fs, CreateSaveData());
         fs.Close();
 
         if (File.Exists(targetFileName))
@@ -63,7 +101,15 @@ public class SaveGameManager: MonoBehaviour
 
     public void LoadByBin(string fileName)
     {
-        string targetFileName = GetRootPath() + fileName;
+        string targetFileName = string.Empty;
+        if (!fileName.Contains(GetRootPath()))
+        {
+            targetFileName = GetRootPath() + fileName;
+        } else
+        {
+            targetFileName = fileName;
+        }
+
         if (!File.Exists(targetFileName))
         {
             return;
@@ -72,12 +118,11 @@ public class SaveGameManager: MonoBehaviour
         BinaryFormatter bf = new BinaryFormatter();
         FileStream fileStream = File.Open(targetFileName, FileMode.Open);
         SaveData data = (SaveData)bf.Deserialize(fileStream);
+        ReadSaveData(data);
         fileStream.Close();
 
     }
 
-    //==========================================================================
-    //==========================================================================
 
     public void OnClickOnSaveButton()
     {

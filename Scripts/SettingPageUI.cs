@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System.IO;
 using System;
 using UnityEditor.U2D.Path.GUIFramework;
+using UnityEngine.SceneManagement;
 
 public class SettingPageUI : MonoBehaviour
 {
@@ -77,21 +78,8 @@ public class SettingPageUI : MonoBehaviour
         }
     }
 
-
-    //==========================================================================
-    //==========================================================================
-
-
-    private void OnClickCancelButton()
+    private void LoadLocalRecordsList()
     {
-        gameObject.SetActive(false);
-    }
-
-
-    private void OnClickLoadGameButton()
-    {
-        _saveGameTransform.gameObject.SetActive(true);
-
         string[] files;
         if (!Directory.Exists(GameProjectSettings.SaveDataRootPath))
         {
@@ -125,19 +113,30 @@ public class SettingPageUI : MonoBehaviour
             recordTransform.Find("Title").GetComponent<Text>().text = date.ToString("yyyy-MM-dd HH:mm:ss");
             recordTransform.Find("Content").GetComponent<Text>().text = components[1];
 
-            _itemTemplateTransform.GetComponent<Button>().onClick.AddListener(() =>
+            recordTransform.GetComponent<Button>().onClick.AddListener(() =>
             {
                 _selectSaveFile = file;
             });
 
         }
         _itemTemplateTransform.GetComponent<Button>().interactable = false;
-
-
-
-
     }
 
+    //==========================================================================
+    //==========================================================================
+
+
+    private void OnClickCancelButton()
+    {
+        gameObject.SetActive(false);
+    }
+
+
+    private void OnClickLoadGameButton()
+    {
+        _saveGameTransform.gameObject.SetActive(true);
+        LoadLocalRecordsList();
+    }
 
     private void OnClickSaveGameButton()
     {
@@ -157,54 +156,79 @@ public class SettingPageUI : MonoBehaviour
 
     private void OnClickOnExitToMainButton()
     {
+        DialogUI.Create().ShowDialog("Alert", "Game is not saved!",
+        () => {
 
+            SceneManager.LoadSceneAsync(GameScene.MainMenuScene.ToString());
+
+            GameProjectSettings.gameScene = GameScene.MainMenuScene;
+
+            return 0;
+        },
+        () => { return 0; });
     }
-
 
     private void OnClickExitGameButton()
     {
-
+        DialogUI.Create().ShowDialog("Alert", "Game is not saved!",
+            () => {
+                Application.Quit();
+                return 0; },
+            () => { return 0; });
     }
 
 
+    //delete a local record
     private void OnClickSaveGameDeleteButton()
     {
+        Debug.Log("delete file : " + _selectSaveFile);
 
+        File.Delete(_selectSaveFile);
+
+        LoadLocalRecordsList();
     }
 
+    //override a local record with new content
     private void OnClickSaveGameOverButton()
     {
-
-
         SaveGameManager.Instance.SaveByBin(_selectSaveFile);
     }
 
+    //load a local record
     private void OnClickSaveGameLoadButton()
     {
-        
+        Debug.Log("load data : " + _selectSaveFile);
+
+        SaveGameManager.Instance.LoadByBin(_selectSaveFile);
+
+        _saveGameTransform.gameObject.SetActive(false);
     }
 
+    //close save game panel
     private void OnClickSaveGameCloseButton()
     {
         _saveGameTransform.gameObject.SetActive(false);
     }
 
-
     //==========================================================================
     //==========================================================================
 
-
-
-    private void SetButtonSelect(Button btn, List<Button> others)
+    public void ShowSettingPageUI()
     {
-        foreach (Button item in others)
-        {
-             
-        }
+        gameObject.SetActive(true);
 
-        btn.onClick.AddListener(() =>
-        {
+        Time.timeScale = 0;
 
-        });
+        CameraHandler.Instance.SetHandleMouseEnable(false);
+
+    }
+
+    public void HideSettingPageUI()
+    {
+        gameObject.SetActive(false);
+
+        Time.timeScale = 1;
+
+        CameraHandler.Instance.SetHandleMouseEnable(true);
     }
 }

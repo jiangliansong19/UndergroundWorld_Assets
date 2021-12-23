@@ -5,10 +5,15 @@ using Cinemachine;
 
 public class CameraHandler : MonoBehaviour
 {
+    public static CameraHandler Instance { private set; get; }
+
     [SerializeField] private CinemachineVirtualCamera cinemachineVirturalCamera;
 
     private float orthographicSize;
     private float targetOrthographicSize;
+
+
+    private bool _handleMouseEnable = true;
 
     // Start is called before the first frame update
     void Start()
@@ -20,7 +25,7 @@ public class CameraHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!ExploreTeamManager.Instance.isShowing)
+        if (_handleMouseEnable == true)
         {
             HandleMouseMoved();
             HandleMouseZoomed();
@@ -52,5 +57,15 @@ public class CameraHandler : MonoBehaviour
         orthographicSize = Mathf.Lerp(orthographicSize, targetOrthographicSize, Time.deltaTime * zoomSpeed);
 
         cinemachineVirturalCamera.m_Lens.OrthographicSize = orthographicSize;
+    }
+
+
+    //==========================================================================
+    //==========================================================================
+
+
+    public void SetHandleMouseEnable(bool enable)
+    {
+        _handleMouseEnable = enable;
     }
 }

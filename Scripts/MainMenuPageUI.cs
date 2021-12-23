@@ -89,7 +89,7 @@ public class MainMenuPageUI : MonoBehaviour
 
     private void OnClickExitGameButton()
     {
-
+        Application.Quit();
     }
 
 

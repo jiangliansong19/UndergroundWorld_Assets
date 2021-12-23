@@ -56,12 +56,18 @@ public class ExploreTeamManager : MonoBehaviour
     public void ShowExploreTeamPanel()
     {
         isShowing = true;
+
+        CameraHandler.Instance.SetHandleMouseEnable(false);
+
         exploreTeamUI.Show(exploreTeams);
     }
 
     public void HideExploreTeamPanel()
     {
         isShowing = false;
+
+        CameraHandler.Instance.SetHandleMouseEnable(true);
+
         exploreTeamUI.Hide();
     }
 }
