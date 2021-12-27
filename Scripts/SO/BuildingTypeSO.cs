@@ -69,7 +69,7 @@ public class BuildingTypeSO : ScriptableObject
         return desc;
     }
 
-    public bool isResourceGenerator()
+    public bool IsResourceGenerator()
     {
         return generateResource != null
             && generateResource.resourceType != null

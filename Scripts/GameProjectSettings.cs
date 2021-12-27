@@ -6,7 +6,7 @@ public static class GameProjectSettings
 {
 
     //default is debug mode
-    public static bool ISDEBUG = true;
+    public static bool IsDebug = true;
 
     //game save data root
     public static string SaveDataRootPath = Application.dataPath.Replace("Assets", "") + "SavedGameData/";

@@ -177,7 +177,7 @@ public class BuildingManager : MonoBehaviour
         }
 
         //addresource
-        if (buildingTypeSO.isResourceGenerator())
+        if (buildingTypeSO.IsResourceGenerator())
         {
             ResourceType resourceType = buildingTypeSO.generateResource.resourceType.type;
             bool everyCycle = resourceType != ResourceType.Worker;

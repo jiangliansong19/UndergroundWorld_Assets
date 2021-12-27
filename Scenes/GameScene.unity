@@ -7899,7 +7899,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1210417371}
-  - component: {fileID: 1210417372}
   - component: {fileID: 1210417373}
   m_Layer: 0
   m_Name: ResourceManager
@@ -7922,18 +7921,6 @@ Transform:
   m_Father: {fileID: 499118829}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1210417372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1210417370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a8ad48ee4895a643a21262dd27e7bc0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1210417373
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7943,7 +7930,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1210417370}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f584a1d489a2b499cb0e04f3311b37fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 0a8ad48ee4895a643a21262dd27e7bc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1218157514

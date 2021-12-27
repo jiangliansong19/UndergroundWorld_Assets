@@ -15,6 +15,11 @@ public class CameraHandler : MonoBehaviour
 
     private bool _handleMouseEnable = true;
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {

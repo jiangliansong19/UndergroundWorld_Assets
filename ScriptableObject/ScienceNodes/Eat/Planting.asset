@@ -16,7 +16,7 @@ MonoBehaviour:
   leftPartType: 2
   rightPartTypes: 00000000
   nodeDesc: "\u79CD\u690D/\u7B80\u5355\u98DF\u8C31"
-  remark: 
+  remark: "\u79CD\u690D\u5C0F\u5C4B\uFF1A\u5B66\u4F1A\u79CD\u690D\u690D\u7269/\u98DF\u7269\u52A0\u5DE5"
   nodeNumber: 0
   needScienceScore: 100
   previousNodes: []

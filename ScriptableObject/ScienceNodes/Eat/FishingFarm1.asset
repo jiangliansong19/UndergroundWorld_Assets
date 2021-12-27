@@ -16,7 +16,8 @@ MonoBehaviour:
   leftPartType: 2
   rightPartTypes: 00000000
   nodeDesc: "\u517B\u5C0F\u9C7C/\u7B80\u5355\u6355\u9C7C"
-  remark: "\u7528\u7F51\u6355\u9C7C"
+  remark: "\u4F1A\u9020\u6E14\u8239\uFF0C\u53EF\u4EE5\u6355\u635E\u6CB3\u91CC\u7684\u6240\u6709\u6C34\u4EA7"
   nodeNumber: 0
+  needScienceScore: 1000
   previousNodes: []
   unlockBuildingTypeSO: []

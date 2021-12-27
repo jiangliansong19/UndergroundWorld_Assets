@@ -112,7 +112,7 @@ public class SciencePageCellUI : MonoBehaviour
 
     private void ScienceCellUIEnterAndExits_OnMouseEnterEvent(object sender, EventArgs e)
     {
-        ToolTipsUI.Instance.Show(_scienceNodeSO.nodeDesc);
+        ToolTipsUI.Instance.Show(GameProjectSettings.IsDebug ? _scienceNodeSO.remark : _scienceNodeSO.nodeDesc);
     }
 
 
@@ -237,7 +237,7 @@ public class SciencePageCellUI : MonoBehaviour
                     };
                     enterAndExits.OnMouseExitEvent += (object sender, EventArgs e) =>
                     {
-                        ToolTipsUI.Instance.Show(nodeSO.nodeDesc);
+                        ToolTipsUI.Instance.Show(GameProjectSettings.IsDebug ? nodeSO.remark : nodeSO.nodeDesc);
                     };
                     i++;
                 }

@@ -32,20 +32,27 @@ public class BuildingInfoDialog : MonoBehaviour
     }
 
 
-    // Start is called before the first frame updat
-
     public void ShowBuildingInfo(Transform obj)
     {
+
+
         gameObject.SetActive(true);
 
         _buildingTransfrom = obj;
 
-        BuildingTypeSO tyepSO = obj.GetComponent<BuildingTypeSOHolder>().buidlingTypeSO;
+        BuildingTypeSOHolder holder = obj.GetComponent<BuildingTypeSOHolder>();
 
-        _titleText.text = tyepSO.buildingName;
-        _infoText.text = tyepSO.GetBuildingDescription();
+        if (holder != null)
+        {
+            BuildingTypeSO tyepSO = holder.buidlingTypeSO;
+            _titleText.text = tyepSO.buildingName;
+            _infoText.text = tyepSO.GetBuildingDescription();
+        }
+
     }
 
+
+    //demolish this building
     private void OnClickDemolishBuildingButton()
     {
         Destroy(_buildingTransfrom.gameObject);
