@@ -60,7 +60,7 @@ public class BuildingManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && activeBuildingTypeSO == null && !EventSystem.current.IsPointerOverGameObject())
         {
             GameObject obj = UtilsClass.GetObjectByRay(UtilsClass.GetCurrentWorldPoint());
-            if (obj != null && obj.transform != null)
+            if (obj != null && obj.transform != null && obj.GetComponent<BuildingTypeSOHolder>() != null)
             {
                 BuildingInfoDialog.Instance.ShowBuildingInfo(obj.transform);
             }
@@ -148,7 +148,7 @@ public class BuildingManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("bottom is is not soil");
+                Debug.Log("bottom is not soil");
                 //SoundManager.Instance.PlaySound(SoundManager.Sound.ClickError);
                 return;
             }

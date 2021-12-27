@@ -19,8 +19,12 @@ MonoBehaviour:
   generateResource:
     resourceType: {fileID: 11400000, guid: 3faf5b75edded4fdb91a3015868d7607, type: 2}
     amount: 5
-  constructionCosts: []
-  workersNumber: 4
+  constructionCosts:
+  - resourceType: {fileID: 11400000, guid: 3ee293ed3391a49b4a819c3e52b2e4a7, type: 2}
+    amount: 20
+  - resourceType: {fileID: 11400000, guid: 90e1d2e9ee1a04f179b6bb495d403a80, type: 2}
+    amount: 20
+  workersNumber: 8
   componentType: 0
   upgrades: []
   components: []

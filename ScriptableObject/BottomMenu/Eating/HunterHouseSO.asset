@@ -19,10 +19,14 @@ MonoBehaviour:
   generateResource:
     resourceType: {fileID: 0}
     amount: 0
-  constructionCosts: []
+  constructionCosts:
+  - resourceType: {fileID: 11400000, guid: 3ee293ed3391a49b4a819c3e52b2e4a7, type: 2}
+    amount: 4
+  workersNumber: 0
   componentType: 0
   upgrades: []
   components: []
   strengthens: []
+  continuousBuild: 0
   buildOnSoil: 1
   remark: 

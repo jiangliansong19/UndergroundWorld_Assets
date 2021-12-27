@@ -16,7 +16,19 @@ MonoBehaviour:
   buildingName: 
   sprite: {fileID: 21300000, guid: e296fefc064c7433fa61c1f2ae543b35, type: 3}
   prefab: {fileID: 5129335750812554425, guid: 9889f21867911476698f5fd7f62b52e2, type: 3}
-  data:
-    constructCost: 0
-    originIncomePerDay: 0
-    influenceRadius: 0
+  generateResource:
+    resourceType: {fileID: 0}
+    amount: 0
+  constructionCosts:
+  - resourceType: {fileID: 11400000, guid: 3ee293ed3391a49b4a819c3e52b2e4a7, type: 2}
+    amount: 30
+  - resourceType: {fileID: 11400000, guid: 90e1d2e9ee1a04f179b6bb495d403a80, type: 2}
+    amount: 30
+  workersNumber: 0
+  componentType: 0
+  upgrades: []
+  components: []
+  strengthens: []
+  continuousBuild: 0
+  buildOnSoil: 0
+  remark: 
