@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: WaterWheelSO
   m_EditorClassIdentifier: 
   type: 0
-  buildingName: 
+  buildingName: WaterMill
   sprite: {fileID: 21300000, guid: 9466adca466634d2a8e70bfbdcc77faa, type: 3}
   prefab: {fileID: 5153797350383722067, guid: ba30bc64bf6b1473a8eaa7bdbb032003, type: 3}
   generateResource:
-    resourceType: {fileID: 0}
-    amount: 0
+    resourceType: {fileID: 11400000, guid: 69b9159e8f33f4c8394438cb54c64915, type: 2}
+    amount: 20
   constructionCosts:
   - resourceType: {fileID: 11400000, guid: 3ee293ed3391a49b4a819c3e52b2e4a7, type: 2}
-    amount: 10
+    amount: 30
+  resourceContainers: []
   workersNumber: 0
   componentType: 0
   upgrades: []

@@ -18,10 +18,13 @@ MonoBehaviour:
   prefab: {fileID: 8360332440711092275, guid: 014bd39af4918449daec60335acd3115, type: 3}
   generateResource:
     resourceType: {fileID: 11400000, guid: c9e84cfe7a3674c0fa0c47c69dea196a, type: 2}
-    amount: 5
+    amount: 20
   constructionCosts:
   - resourceType: {fileID: 11400000, guid: 3ee293ed3391a49b4a819c3e52b2e4a7, type: 2}
     amount: 20
+  resourceContainers:
+  - resourceType: {fileID: 11400000, guid: c9e84cfe7a3674c0fa0c47c69dea196a, type: 2}
+    amount: 100
   workersNumber: 8
   componentType: 0
   upgrades: []

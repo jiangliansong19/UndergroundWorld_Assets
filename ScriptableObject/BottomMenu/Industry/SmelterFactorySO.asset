@@ -24,6 +24,7 @@ MonoBehaviour:
     amount: 20
   - resourceType: {fileID: 11400000, guid: 90e1d2e9ee1a04f179b6bb495d403a80, type: 2}
     amount: 20
+  resourceContainers: []
   workersNumber: 0
   componentType: 0
   upgrades: []
@@ -31,4 +32,4 @@ MonoBehaviour:
   strengthens: []
   continuousBuild: 0
   buildOnSoil: 1
-  remark: 
+  remark: "\u51B6\u70BC\u4E2D\u5FC3"

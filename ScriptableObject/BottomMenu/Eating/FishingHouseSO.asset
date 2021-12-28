@@ -17,11 +17,14 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 2e7d0989af727ad4fb601a14c9e346cd, type: 3}
   prefab: {fileID: 6508844989972297477, guid: b0d6cf6c6067d428e9753daccb6a059f, type: 3}
   generateResource:
-    resourceType: {fileID: 0}
-    amount: 0
+    resourceType: {fileID: 11400000, guid: c9e84cfe7a3674c0fa0c47c69dea196a, type: 2}
+    amount: 5
   constructionCosts:
   - resourceType: {fileID: 11400000, guid: 3ee293ed3391a49b4a819c3e52b2e4a7, type: 2}
     amount: 4
+  resourceContainers:
+  - resourceType: {fileID: 11400000, guid: c9e84cfe7a3674c0fa0c47c69dea196a, type: 2}
+    amount: 20
   workersNumber: 0
   componentType: 0
   upgrades: []

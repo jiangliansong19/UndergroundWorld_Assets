@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2712950418284256117}
   - component: {fileID: -6557025613576271037}
   - component: {fileID: 8269236905234230162}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: pfSoil
   m_TagString: Soil
   m_Icon: {fileID: 0}

@@ -10,14 +10,15 @@ public class BuildingManager : MonoBehaviour
 {
     public static BuildingManager Instance { private set; get; }
 
+    [HideInInspector] public Dictionary<BuildingTypeSO, GameObject> buildingInfoDict;
+
     [SerializeField] private Transform[] treeTransforms;
 
     private BuildingTypeSO activeBuildingTypeSO;
 
-    [HideInInspector] public Dictionary<BuildingTypeSO, GameObject> buildingInfoDict;
-
     private GameObject _buildingInfoDialog;
 
+    private Transform _centerTransform;
     
 
     public event EventHandler<OnActiveBuildingTypeChangedHandlerArgs> OnActiveBuildingTypeChangedHandler;
@@ -188,6 +189,14 @@ public class BuildingManager : MonoBehaviour
         //spend workes
         ResourcesManager.Instance.AddResourcePerCycle(ResourceType.Worker, -buildingTypeSO.workersNumber, false);
 
+
+        //building whethter connect to center
+        bool isConnected = PathFinder.Instance.isConnectBetween(newObj, _centerTransform);
+        Transform warning = newObj.Find("Warning");
+        if (warning != null)
+        {
+            warning.gameObject.SetActive(!isConnected);
+        }
     }
 
 
@@ -342,7 +351,7 @@ public class BuildingManager : MonoBehaviour
 
         //create a small house as area center
         BottomMenuSO menuSO = Resources.Load<BottomMenuSO>(typeof(BottomMenuSO).Name);
-        Transform house = Instantiate(menuSO.menuList[1].buildingList[0].prefab, new Vector2(2, -4.0f), Quaternion.identity);
+        _centerTransform = Instantiate(menuSO.menuList[1].buildingList[0].prefab, new Vector2(2, -4.0f), Quaternion.identity);
 
         ResourcesManager.Instance.AddResource(ResourceType.Worker, 4);
 

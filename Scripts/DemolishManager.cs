@@ -150,15 +150,20 @@ public class DemolishManager : MonoBehaviour
         }
     }
 
+    //target must be building/road.
     private void CheckCollidersWhenPullDown(Collider2D[] colliders)
     {
         List<GameObject> toPullDownObjects = new List<GameObject>();
         foreach (Collider2D coll in colliders)
         {
             BuildingTypeSOHolder holder = coll.GetComponent<BuildingTypeSOHolder>();
-            if (holder != null && holder.buidlingTypeSO != null && holder.buidlingTypeSO.type == BuildingType.Building)
+            if (holder != null && holder.buidlingTypeSO != null)
             {
-                Destroy(coll.gameObject);
+                BuildingType type = holder.buidlingTypeSO.type;
+                if (type == BuildingType.Building || type == BuildingType.Road)
+                {
+                    Destroy(coll.gameObject);
+                }
             }
         }
     }

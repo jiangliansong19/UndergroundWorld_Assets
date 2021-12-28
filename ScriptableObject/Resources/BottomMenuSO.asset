@@ -59,13 +59,15 @@ MonoBehaviour:
     type: 5
     sprite: {fileID: 21300000, guid: e296fefc064c7433fa61c1f2ae543b35, type: 3}
     buildingList:
-    - {fileID: 11400000, guid: 5504b79ad3c3d4e988af0ba35f4afe38, type: 2}
     - {fileID: 11400000, guid: 0fb2d6508ccd2481bbe0f97c7fbaac80, type: 2}
+    - {fileID: 11400000, guid: 5504b79ad3c3d4e988af0ba35f4afe38, type: 2}
   - name: Energy
     type: 6
     sprite: {fileID: 21300000, guid: 16057a71b1ab2491fbac92c17421e2ba, type: 3}
     buildingList:
     - {fileID: 11400000, guid: fed6a83c61bd9468d8e1c9ad3ca0e03f, type: 2}
+    - {fileID: 11400000, guid: ab5a8240f082747368cb4086f24fb4bc, type: 2}
+    - {fileID: 11400000, guid: 85076f139655a4e14a67a996ddf2d363, type: 2}
   - name: Other
     type: 7
     sprite: {fileID: 21300000, guid: 48cd7466cc1a5417db130af239724a44, type: 3}

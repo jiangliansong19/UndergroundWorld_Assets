@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   buildingName: 
-  sprite: {fileID: 0}
-  prefab: {fileID: 0}
+  sprite: {fileID: 21300000, guid: d3b1886194d7f42ec926adba21c4f089, type: 3}
+  prefab: {fileID: 7712841146531083638, guid: f8ee7a4a1de014d87b13b52a8ebc7e1f, type: 3}
   generateResource:
     resourceType: {fileID: 0}
     amount: 0

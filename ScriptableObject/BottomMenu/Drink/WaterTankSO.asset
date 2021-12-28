@@ -21,7 +21,10 @@ MonoBehaviour:
     amount: 0
   constructionCosts:
   - resourceType: {fileID: 11400000, guid: 3ee293ed3391a49b4a819c3e52b2e4a7, type: 2}
-    amount: 8
+    amount: 50
+  resourceContainers:
+  - resourceType: {fileID: 11400000, guid: 233610e87021a492cb3f3b8d0d72a669, type: 2}
+    amount: 500
   workersNumber: 2
   componentType: 0
   upgrades: []
