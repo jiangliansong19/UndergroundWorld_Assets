@@ -10,19 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9924f252bb20542228cbd3f23ad4195f, type: 3}
-  m_Name: WaterTankSO
+  m_Name: NuclearPlantSO
   m_EditorClassIdentifier: 
   type: 0
-  buildingName: WaterTank
-  sprite: {fileID: 21300000, guid: 9542fff7f6c344b29bbc24e49d4ca648, type: 3}
-  prefab: {fileID: 3174613774252665374, guid: 30df6da2cdff14861b85006138f952a7, type: 3}
+  buildingName: 
+  sprite: {fileID: 0}
+  prefab: {fileID: 0}
   generateResource:
     resourceType: {fileID: 0}
     amount: 0
-  constructionCosts:
-  - resourceType: {fileID: 11400000, guid: 3ee293ed3391a49b4a819c3e52b2e4a7, type: 2}
-    amount: 8
-  workersNumber: 2
+  constructionCosts: []
+  resourceContainers: []
+  workersNumber: 0
   componentType: 0
   upgrades: []
   components: []

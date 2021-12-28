@@ -14,16 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   buildingName: 
-  sprite: {fileID: 0}
-  prefab: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 202428dd8602a425ab7647f1e79a9569, type: 3}
+  prefab: {fileID: 6565559760638604666, guid: 7d3a5d947147a407eba486a5ac92b0d1, type: 3}
   generateResource:
-    resourceType: {fileID: 0}
-    amount: 0
-  constructionCosts: []
+    resourceType: {fileID: 11400000, guid: 233610e87021a492cb3f3b8d0d72a669, type: 2}
+    amount: 10
+  constructionCosts:
+  - resourceType: {fileID: 11400000, guid: 3ee293ed3391a49b4a819c3e52b2e4a7, type: 2}
+    amount: 200
+  - resourceType: {fileID: 11400000, guid: 90e1d2e9ee1a04f179b6bb495d403a80, type: 2}
+    amount: 200
+  - resourceType: {fileID: 11400000, guid: b522fba9448cf4f428fb08f51e737955, type: 2}
+    amount: 200
   workersNumber: 8
   componentType: 0
   upgrades: []
   components: []
   strengthens: []
+  continuousBuild: 0
   buildOnSoil: 0
   remark: 

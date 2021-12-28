@@ -34,6 +34,7 @@ public class BuildingTypeSO : ScriptableObject
     public ResourceTypeAmount generateResource; //生产资源
     public List<ResourceTypeAmount> constructionCosts; //建筑消耗资源
 
+    public List<ResourceTypeAmount> resourceContainers;
 
     public int workersNumber;//工作人数
 
