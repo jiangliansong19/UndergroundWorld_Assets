@@ -13,6 +13,13 @@ public static class UtilsClass
         return point;
     }
 
+    public static Vector3 GetWorldPoint(Vector3 position)
+    {
+        Vector3 point = Camera.main.ScreenToWorldPoint(position);
+        point.z = 0;
+        return point;
+    }
+
     public static Vector3 getRoundCurrentWorldPoint()
     {
         Vector3 point = GetCurrentWorldPoint();

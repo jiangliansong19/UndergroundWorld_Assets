@@ -65,7 +65,10 @@ public class GameMouse : MonoBehaviour
         }
         else
         {
-            Destroy(_tmpTransform.gameObject);
+            if (_tmpTransform != null)
+            {
+                Destroy(_tmpTransform.gameObject);
+            }
         }
     }
 }
