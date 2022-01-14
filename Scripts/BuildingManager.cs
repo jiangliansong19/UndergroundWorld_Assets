@@ -295,7 +295,7 @@ public class BuildingManager : MonoBehaviour
         Transform waterTransform2 = Resources.Load<Transform>("pfWater2");
         Transform soilTransform = Resources.Load<Transform>("pfSoil");
 
-        Vector2[] lake1 = new Vector2[3] { new Vector2(-8, 0) , new Vector2(-7,0), new Vector2(-7,-1) };
+        Vector2[] lake1 = new Vector2[3] { new Vector2(-8, -1) , new Vector2(-7, -1), new Vector2(-7, -2) };
         //Vector2[] lake1 = new Vector2[] { new Vector2(-8, 0), new Vector2(-7, 0), new Vector2(-7, -1) };
 
         int[,] destructSoils = new int[10, 2]
