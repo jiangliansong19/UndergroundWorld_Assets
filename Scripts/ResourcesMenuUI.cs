@@ -21,6 +21,7 @@ public class ResourcesMenuUI : MonoBehaviour
 
     private void Awake()
     {
+        //icon模板
         templateTransform = transform.Find("ResourcesMenuItem");
         templateTransform.gameObject.SetActive(false);
 
@@ -31,6 +32,14 @@ public class ResourcesMenuUI : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
+    {
+        buildResourceUIItems();
+
+        //建立通知观察者
+        ResourcesManager.Instance.OnResourcesChangedEvent += ResourceManager_OnResourcesChangedEvent;
+    }
+
+    private void buildResourceUIItems()
     {
         Dictionary<ResourceTypeSO, long> resourceDict = ResourcesManager.Instance.GetResourcesDictionary();
 
@@ -53,15 +62,22 @@ public class ResourcesMenuUI : MonoBehaviour
 
             i++;
         }
-
-        ResourcesManager.Instance.OnResourcesChangedEvent += ResourceManager_OnResourcesChangedEvent;
     }
 
+    /// <summary>
+    /// 接收通知
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void ResourceManager_OnResourcesChangedEvent(object sender, ResourcesManager.ResourceChangeAmountArgs e)
     {
         UpdateAmountNumber(e.typeAmount);
     }
 
+    /// <summary>
+    /// 接收通知
+    /// </summary>
+    /// <param name="typeAmount"></param>
     private void UpdateAmountNumber(ResourceTypeAmount typeAmount)
     {
         Transform targetTransform = resourceTypeTransformDict[typeAmount.resourceType];

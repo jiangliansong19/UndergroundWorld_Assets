@@ -9,10 +9,14 @@ using UnityEngine;
 [System.Serializable]
 public class SaveData
 {
+    //分数
     public int scienceScore = 1000;
 
     //{"familyHouse" : 1.0, "energy" : 0.5 ....}
+    //科技
     public Dictionary<string, float> scienceNodeDict;
+
+    //资源
     public Dictionary<string, long> resourceDict;
 
 }

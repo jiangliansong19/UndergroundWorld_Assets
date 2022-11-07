@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// toast提示语
+/// </summary>
 public class ToolTipsUI : MonoBehaviour
 {
     public static ToolTipsUI Instance { private set; get; }
@@ -41,6 +44,9 @@ public class ToolTipsUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 处理tipsUI出现在屏幕之外的问题
+    /// </summary>
     private void HandleFollowMouse()
     {
         if (tooltipPosition == null)
@@ -74,6 +80,12 @@ public class ToolTipsUI : MonoBehaviour
         backgroundRectTransform.sizeDelta = textSize + padding;
     }
 
+    /// <summary>
+    /// 显示tips
+    /// </summary>
+    /// <param name="tooltipText">tips文本内容</param>
+    /// <param name="tooltipTimer">tips持续显示时间</param>
+    /// <param name="position">tips显示的位置</param>
     public void Show(string tooltipText, TooltipTimer tooltipTimer = null, ToolTipPosition position = null)
     {
         this.tooltipTimer = tooltipTimer;
@@ -84,12 +96,15 @@ public class ToolTipsUI : MonoBehaviour
         HandleFollowMouse();
     }
 
+    /// <summary>
+    /// 隐藏tips
+    /// </summary>
     public void Hide()
     {
         gameObject.SetActive(false);
     }
 
-
+    //tips持续显示的时间
     public class TooltipTimer
     {
         public float timer;

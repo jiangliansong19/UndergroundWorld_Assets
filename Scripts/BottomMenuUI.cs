@@ -65,7 +65,7 @@ public class BottomMenuUI : MonoBehaviour
     }
 
 
-    //first row
+    //一级目录
     private void ShowBuildMenuItems()
     {
         Transform menuTransform = Instantiate(menuTemplate, transform);
@@ -76,9 +76,10 @@ public class BottomMenuUI : MonoBehaviour
         menuRectTransform.sizeDelta = new Vector2(menuWidth, (width + padding * 2));
         menuRectTransform.anchoredPosition = new Vector2(-menuWidth, 0);
 
-        int i = 0;
-        foreach (BottomMenuSO.BottomMenuItem item in bottomMenu.menuList)
+        for (int i = 0; i < bottomMenu.menuList.Count; i++)
         {
+            BottomMenuSO.BottomMenuItem item = bottomMenu.menuList[i];
+
             Transform buttonTransform = Instantiate(buttonTemplate, menuTransform);
             buttonTransform.gameObject.SetActive(true);
             architectureTransforms.Add(buttonTransform);
@@ -151,13 +152,11 @@ public class BottomMenuUI : MonoBehaviour
             {
                 ToolTipsUI.Instance.Hide();
             };
-
-            i++;
         }
     }
 
 
-    //second row
+    //二级目录
     private void OnClickBuildMenuItem(BottomMenuSO.BottomMenuItem item, Transform aTransform)
     {
 
@@ -172,9 +171,10 @@ public class BottomMenuUI : MonoBehaviour
         lastSubMenu = subMenuTransform;
 
 
-        int i = 0;
-        foreach (BuildingTypeSO buildingTypeSO in item.buildingList)
+        for (int i = 0; i < item.buildingList.Count; i++)
         {
+            BuildingTypeSO buildingTypeSO = item.buildingList[i];
+
             if (ignoreBuildingList.Contains(buildingTypeSO))
             {
                 continue;
@@ -234,8 +234,6 @@ public class BottomMenuUI : MonoBehaviour
             {
                 ToolTipsUI.Instance.Hide();
             };
-
-            i++;
         }
     }
 }

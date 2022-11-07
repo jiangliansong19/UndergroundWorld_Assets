@@ -51,7 +51,7 @@ public class BuildingManager : MonoBehaviour
             
             if (!activeBuildingTypeSO.continuousBuild)
             {
-                generateABuilding(activeBuildingTypeSO, UtilsClass.getRoundCurrentWorldPoint());
+                generateBuilding(activeBuildingTypeSO, UtilsClass.getRoundCurrentWorldPoint());
             }
         }
 
@@ -101,11 +101,11 @@ public class BuildingManager : MonoBehaviour
 
 
 
-    public void generateABuilding(BuildingTypeSO buildingTypeSO, Vector2 position)
+    public void generateBuilding(BuildingTypeSO buildingTypeSO, Vector2 position)
     {
         Debug.Log("genereate building position : " + position.ToString());
 
-        //position is has other object
+        //检测范围内是否有其他建筑
         BoxCollider2D boxCollider2D = buildingTypeSO.prefab.transform.GetComponent<BoxCollider2D>();
         Collider2D[] boxColliders = Physics2D.OverlapBoxAll((Vector3)position + (Vector3)boxCollider2D.offset, boxCollider2D.size - new Vector2(0.1f, 0.1f), 0);
         if (boxColliders != null && boxColliders.Length > 0)
@@ -115,7 +115,7 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
-        //must build on soil
+        //是否能建在土地上
         Vector2 correctBuildPosition = position;
         if (buildingTypeSO.buildOnSoil)
         {
@@ -153,7 +153,7 @@ public class BuildingManager : MonoBehaviour
             }
         }
 
-        //can afford enough resources
+        //是否能支付相应的资源。
         foreach (ResourceTypeAmount item in buildingTypeSO.constructionCosts)
         {
             if (!ResourcesManager.Instance.CanAffordResource(item.resourceType.type, item.amount))
@@ -166,16 +166,16 @@ public class BuildingManager : MonoBehaviour
         }
 
 
-        //craete
+        //建造建筑
         Transform newObj = Instantiate(buildingTypeSO.prefab, (Vector3)correctBuildPosition, Quaternion.identity);
 
-        //building construction
+        //消耗资源
         foreach (ResourceTypeAmount item in buildingTypeSO.constructionCosts)
         {
             ResourcesManager.Instance.AddResource(item.resourceType.type, -(int)item.amount);
         }
 
-        //addresource
+        //生产型建筑，每个循环周期都会增加资源
         if (buildingTypeSO.IsResourceGenerator())
         {
             ResourceType resourceType = buildingTypeSO.generateResource.resourceType.type;
@@ -184,11 +184,11 @@ public class BuildingManager : MonoBehaviour
             ResourcesManager.Instance.AddResourcePerCycle(resourceType, amount, everyCycle);
         }
 
-        //spend workes
+        //需要工人的建筑，消耗工人数量
         ResourcesManager.Instance.AddResourcePerCycle(ResourceType.Worker, -buildingTypeSO.workersNumber, false);
 
 
-        //building whethter connect to center
+        //建筑是否连接到地区中心
         bool isConnected = PathFinder.Instance.isConnectBetween(newObj, _centerTransform);
         Transform warning = newObj.Find("Warning");
         if (warning != null)
@@ -204,7 +204,11 @@ public class BuildingManager : MonoBehaviour
 
     }
 
-
+    /// <summary>
+    /// 展示建筑信息
+    /// </summary>
+    /// <param name="building">建筑</param>
+    /// <param name="position">位置</param>
     public void ShowBuildingInfoDialog(GameObject building, Vector3 position)
     {
         if (_buildingInfoDialog == null)
@@ -224,7 +228,7 @@ public class BuildingManager : MonoBehaviour
 
 
 
-
+    //检测鼠标绘制的矩形区域，判断是否可以连续建造
     private Vector2 _startPosition;
     private Vector2 _endPosition;
     private void StartObserveRectRender()
@@ -256,7 +260,7 @@ public class BuildingManager : MonoBehaviour
         };
     }
 
-
+    //判断是否可以连续建造
     private void CheckToContinuousBuild()
     {
         Collider2D[] colliders = Physics2D.OverlapAreaAll(_startPosition, _endPosition);
@@ -267,7 +271,7 @@ public class BuildingManager : MonoBehaviour
                 for (float j = Mathf.Min(_startPosition.y, _endPosition.y); j < Mathf.Max(_startPosition.y, _endPosition.y); j++)
                 {
                     Vector2 cur = new Vector2(Mathf.RoundToInt(i), Mathf.RoundToInt(j));
-                    generateABuilding(activeBuildingTypeSO, cur);
+                    generateBuilding(activeBuildingTypeSO, cur);
                 }
             }
         }
@@ -285,7 +289,9 @@ public class BuildingManager : MonoBehaviour
 
 
 
-
+    /// <summary>
+    /// 游戏启动时，创建的初始世界
+    /// </summary>
     private void CreateWorld()
     {
         Transform waterTransform = Resources.Load<Transform>("pfWater");

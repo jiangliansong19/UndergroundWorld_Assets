@@ -14,6 +14,7 @@ public class BuildingSortingOrder : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //y值与sortingOrder成反比。y值越小，图层越在表面。
         GetComponent<SpriteRenderer>().sortingOrder = -(int)transform.position.y;
     }
 }

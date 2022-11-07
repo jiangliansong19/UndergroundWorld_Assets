@@ -5,10 +5,16 @@ using System;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
+/// <summary>
+/// 速度控制
+/// </summary>
 public class TimeSpeedUI : MonoBehaviour
 {
 
     public static TimeSpeedUI Instance { private set; get; }
+
+    //游戏速度变化事件
     public event EventHandler OnGameTimeSpeedChangedEvent;
 
     private Transform pauseTrasform;
@@ -51,6 +57,8 @@ public class TimeSpeedUI : MonoBehaviour
     {
 
         this.timeSpeedScale = speedScale;
+
+        //调用事件，通告游戏速度变化
         OnGameTimeSpeedChangedEvent?.Invoke(this, EventArgs.Empty);
 
         SoundManager.Instance.PlaySound(SoundManager.Sound.ButtonClick);
