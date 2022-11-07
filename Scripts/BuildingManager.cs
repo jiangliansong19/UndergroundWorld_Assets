@@ -40,8 +40,6 @@ public class BuildingManager : MonoBehaviour
     void Start()
     {
         CreateWorld();
-
-        
     }
 
     // Update is called once per frame

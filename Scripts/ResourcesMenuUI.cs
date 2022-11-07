@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// show resources number
+/// 展示资源数量
 /// </summary>
 public class ResourcesMenuUI : MonoBehaviour
 {

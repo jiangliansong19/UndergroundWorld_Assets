@@ -228,7 +228,7 @@ public class BottomMenuUI : MonoBehaviour
             buttonTransform.GetComponent<MouseEnterAndExits>().OnMouseEnterEvent += (object sender, System.EventArgs e) =>
             {
                 Vector3 tipsPosition = new Vector3(buttonTransform.position.x, buttonTransform.position.y + 0, 0);
-                ToolTipsUI.Instance.Show(buildingTypeSO.GetBuildingDescription(), null, new ToolTipsUI.ToolTipPosition { position = tipsPosition });
+                ToolTipsUI.Instance.Show(buildingTypeSO.buildingName, null, new ToolTipsUI.ToolTipPosition { position = tipsPosition });
             };
             buttonTransform.GetComponent<MouseEnterAndExits>().OnMouseExitEvent += (object sender, System.EventArgs e) =>
             {

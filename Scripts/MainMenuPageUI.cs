@@ -53,6 +53,7 @@ public class MainMenuPageUI : MonoBehaviour
         _createMapButton.onClick.AddListener(OnClickCreateMapButton);
         _exitGameButton.onClick.AddListener(OnClickExitGameButton);
 
+        UtilsClass.DrawArrow(new Vector2(2, 2), new Vector2(3,3), Color.red);
     }
 
 

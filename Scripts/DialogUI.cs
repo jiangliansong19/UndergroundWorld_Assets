@@ -62,7 +62,7 @@ public class DialogUI : MonoBehaviour
 
         if (selfOkClick != null)
         {
-            selfOkClick();
+            _ = selfOkClick();
         }
 
         if (inputOkClick != null)
