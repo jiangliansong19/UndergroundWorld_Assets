@@ -2,9 +2,16 @@ using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+
+/// <summary>
+/// 绘制矩形框区域
+/// </summary>
 public class RectRender : MonoBehaviour
 {
+    //开始点
     public event EventHandler<RectRenderEventHandlerArgs> OnDrawRectStartPosition;
+
+    //结束点
     public event EventHandler<RectRenderEventHandlerArgs> OnDrawRectEndPosition;
 
     public class RectRenderEventHandlerArgs
@@ -19,32 +26,68 @@ public class RectRender : MonoBehaviour
     private Vector3 currentPoint;//在拖移过程中，玩家鼠标指针所在的实时位置
     private Vector3 endPoint;//框的终止点，即放开鼠标左键时指针的位置
 
-    void Update()
+    private Vector2 sectionSize;
+    private ToolTipsUI tipsUI;
+
+    private void Awake()
     {
-        //玩家按下鼠标左键，此时进入画框状态，并确定框的起始点
+        
+    }
+
+    private void Update()
+    {
+        //按下鼠标左键，此时进入画框状态，并确定框的起始点
         if (Input.GetKeyDown(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject())
         {
             onDrawingRect = true;
-            startPoint = Input.mousePosition;
+            Vector2 sPoint = UtilsClass.getRoundCurrentWorldPoint();
+
+            //世界坐标取整
+            startPoint = new Vector2(sPoint.x - 0.5f, sPoint.y - 0.5f);
+
             //Debug.LogFormat("开始画框，起点:{0}", startPoint);
 
-            OnDrawRectStartPosition?.Invoke(this, new RectRenderEventHandlerArgs() { position = UtilsClass.GetCurrentWorldPoint() });
+            ToolTipsUI.Instance.Hide();
+
+            OnDrawRectStartPosition?.Invoke(this, new RectRenderEventHandlerArgs() { position = sPoint });
         }
 
         //在鼠标左键未放开时，实时记录鼠标指针的位置
         if (onDrawingRect)
         {
-            currentPoint = Input.mousePosition;
+            Vector2 sPoint = UtilsClass.getRoundCurrentWorldPoint();
+            currentPoint = new Vector2(sPoint.x + 0.5f, sPoint.y - 0.5f);
+
+
+            //如果终点坐标发生了变化
+            //if (currentPoint.x != sectionSize.x || currentPoint.y != sectionSize.y)
+            //{
+
+                //Vector2 textSize = textMeshPro.GetRenderedValues(false);
+
+                Vector2 tipsPosition = new Vector2(startPoint.x, startPoint.y / 2 + currentPoint.y / 2);
+                tipsPosition = Camera.main.WorldToScreenPoint(tipsPosition);
+                ToolTipsUI.Instance.Show(
+                    sectionSize.x + " x " + sectionSize.y,
+                    new ToolTipsUI.TooltipTimer { timer = 1000 },
+                    new ToolTipsUI.ToolTipPosition { position = tipsPosition });
+            //}
+            sectionSize = currentPoint;
         }
 
-        //玩家放开鼠标左键，说明框画完，确定框的终止点，退出画框状态
+        //放开鼠标左键，说明框画完，确定框的终止点，退出画框状态
         if (Input.GetKeyUp(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject())
         {
-            endPoint = Input.mousePosition;
+            Vector2 sPoint = UtilsClass.getRoundCurrentWorldPoint();
+            endPoint = new Vector2(Mathf.FloorToInt(sPoint.x) + 1, Mathf.FloorToInt(sPoint.y) + 1);
+
             onDrawingRect = false;
+
+            ToolTipsUI.Instance.Hide();
+
             //Debug.LogFormat("画框结束，终点:{0}", endPoint);
 
-            OnDrawRectEndPosition?.Invoke(this, new RectRenderEventHandlerArgs() { position = UtilsClass.GetCurrentWorldPoint() });
+            OnDrawRectEndPosition?.Invoke(this, new RectRenderEventHandlerArgs() { position = sPoint });
         }
     }
 
@@ -58,11 +101,14 @@ public class RectRender : MonoBehaviour
     {
         if (onDrawingRect)
         {
+            Vector2 sPoint = Camera.main.WorldToScreenPoint(startPoint);
+            Vector2 cPoint = Camera.main.WorldToScreenPoint(currentPoint);
+
             //准备工作:获取确定矩形框各角坐标所需的各个数值
-            float Xmin = Mathf.Min(startPoint.x, currentPoint.x);
-            float Xmax = Mathf.Max(startPoint.x, currentPoint.x);
-            float Ymin = Mathf.Min(startPoint.y, currentPoint.y);
-            float Ymax = Mathf.Max(startPoint.y, currentPoint.y);
+            float Xmin = Mathf.Min(sPoint.x, cPoint.x);
+            float Xmax = Mathf.Max(sPoint.x, cPoint.x);
+            float Ymin = Mathf.Min(sPoint.y, cPoint.y);
+            float Ymax = Mathf.Max(sPoint.y, cPoint.y);
 
             GL.PushMatrix();//GL入栈
                             //在这里，只需要知道GL.PushMatrix()和GL.PopMatrix()分别是画图的开始和结束信号,画图指令写在它们中间

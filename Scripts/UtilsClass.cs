@@ -6,7 +6,11 @@ using UnityEngine;
 
 public static class UtilsClass
 {
-    //screen point convert to world point
+    //屏幕坐标是 （1920， 1080）
+    //世界坐标是 （-2， 2）
+
+
+    //获取当前世界坐标
     public static Vector3 GetCurrentWorldPoint()
     {
         Vector3 point = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -14,6 +18,15 @@ public static class UtilsClass
         return point;
     }
 
+    //获取当前屏幕坐标
+    public static Vector3 GetCurrentScreenPoint(Vector3 v3)
+    {
+        Vector3 point = Camera.main.WorldToScreenPoint(v3);
+        point.z = 0;
+        return point;
+    }
+
+    //获取世界坐标
     public static Vector3 GetWorldPoint(Vector3 position)
     {
         Vector3 point = Camera.main.ScreenToWorldPoint(position);
@@ -21,6 +34,7 @@ public static class UtilsClass
         return point;
     }
 
+    //获取四舍五入后的世界坐标
     public static Vector3 getRoundCurrentWorldPoint()
     {
         Vector3 point = GetCurrentWorldPoint();

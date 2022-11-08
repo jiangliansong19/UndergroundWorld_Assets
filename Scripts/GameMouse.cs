@@ -23,39 +23,14 @@ public class GameMouse : MonoBehaviour
         //transform.position = UtilsClass.GetCurrentWorldPoint();
         if (_tmpTransform != null)
         {
-            _tmpTransform.position = UtilsClass.GetCurrentWorldPoint();
+            //左上角为原点，且每一个prefab的position表示其中心点。
+            //例如在  -0.5 < x < 0.5, -0.5 < y < 0.5 时，prefab的位置都是 vector2(0,0)
+            Vector2 point = UtilsClass.GetCurrentWorldPoint();
+            _tmpTransform.position = new Vector2(Mathf.RoundToInt(point.x), Mathf.RoundToInt(point.y));
         }
     }
 
-    private void BuildingManager_OnActiveBuildingTypeChangedHandler1(object sender, BuildingManager.OnActiveBuildingTypeChangedHandlerArgs e)
-    {
-        if (e.Args_TypeSO != null)
-        {
-            Sprite sprite;
-            if (e.Args_TypeSO.prefab == null)
-            {
-                sprite = e.Args_TypeSO.sprite;
-
-            }
-            else
-            {
-                sprite = e.Args_TypeSO.prefab.GetComponent<SpriteRenderer>().sprite;
-            }
-
-            spriteRenderer.sprite = sprite;
-            spriteRenderer.color = new Color(1, 1, 1, 0.75f);
-
-            Cursor.visible = false;
-        }
-        else
-        {
-            spriteRenderer.sprite = null;
-            spriteRenderer.color = new Color(1, 1, 1, 1.0f);
-
-            Cursor.visible = true;
-        }
-    }
-
+    // 进入建筑编辑状态
     private void BuildingManager_OnActiveBuildingTypeChangedHandler(object sender, BuildingManager.OnActiveBuildingTypeChangedHandlerArgs e)
     {
         if (e.Args_TypeSO != null)
