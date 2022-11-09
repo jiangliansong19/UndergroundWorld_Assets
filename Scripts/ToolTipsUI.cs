@@ -63,8 +63,7 @@ public class ToolTipsUI : MonoBehaviour
             }
             rectTransform.anchoredPosition = anchoredPosition;
         }
-
-        else if (tooltipPosition != null && tooltipPosition.position.y < canvasRectTransform.rect.height)
+        else
         {
             rectTransform.anchoredPosition = tooltipPosition.position / canvasRectTransform.localScale.x;
         }
@@ -85,7 +84,7 @@ public class ToolTipsUI : MonoBehaviour
     /// </summary>
     /// <param name="tooltipText">tips文本内容</param>
     /// <param name="tooltipTimer">tips持续显示时间</param>
-    /// <param name="position">tips显示的位置</param>
+    /// <param name="position">tips显示的位置,屏幕坐标</param>
     public void Show(string tooltipText, TooltipTimer tooltipTimer = null, ToolTipPosition position = null)
     {
         this.tooltipTimer = tooltipTimer;

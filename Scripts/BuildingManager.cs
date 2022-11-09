@@ -318,9 +318,9 @@ public class BuildingManager : MonoBehaviour
 
         //position的原点在左上角。
 
-        for (int i = -5; i < 5; i++)
+        for (int i = -50; i < 50; i++)
         {
-            for (int j = -5; j < 0; j++)
+            for (int j = -50; j < 50; j++)
             {
                 Vector2 position = new Vector2(i, j);
                 if (lake1.Contains(position)) 

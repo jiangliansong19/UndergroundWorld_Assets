@@ -2159,7 +2159,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 829131224}
   m_HandleRect: {fileID: 829131223}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3111,7 +3111,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GLRectMat: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   GLRectColor: {r: 0.34349412, g: 0.61971086, b: 0.8773585, a: 0.62352943}
-  GLRectEdgeColor: {r: 0.033241354, g: 0.25378582, b: 0.7830189, a: 1}
+  GLRectEdgeColor: {r: 0.033241354, g: 0, b: 0.42352942, a: 1}
 --- !u!1 &542228456
 GameObject:
   m_ObjectHideFlags: 0
@@ -3889,7 +3889,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 466325795}
   m_HandleRect: {fileID: 466325794}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -4331,7 +4331,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1045077627}
   m_HandleRect: {fileID: 1045077626}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -9625,8 +9625,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1503939844}
-  - component: {fileID: 1503939846}
   - component: {fileID: 1503939845}
+  - component: {fileID: 1503939846}
   m_Layer: 0
   m_Name: GameBuildingGhost
   m_TagString: Untagged
@@ -9793,8 +9793,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1817201133}
   m_HandleRect: {fileID: 1817201132}
   m_Direction: 0
-  m_Value: -0.0000058342534
-  m_Size: 0.91500014
+  m_Value: -0.000004039095
+  m_Size: 0.9150001
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

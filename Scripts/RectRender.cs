@@ -3,6 +3,10 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 
+//UGUI系统上，的EventSystem提供了一些方法。
+//那就是EventSystem.current.IsPointerOverGameObject（）方法，作用：判断鼠标是否点击在UI上。
+//EventSystem.current.IsPointerOverGameObject()
+
 /// <summary>
 /// 绘制矩形框区域
 /// </summary>
@@ -19,14 +23,12 @@ public class RectRender : MonoBehaviour
         public Vector2 position;
     }
 
-
+    private int mouseHoldFrame;//鼠标被按住的帧数
     private bool onDrawingRect;//是否正在画框(即鼠标左键处于按住的状态)
 
     private Vector3 startPoint;//框的起始点，即按下鼠标左键时指针的位置
-    private Vector3 currentPoint;//在拖移过程中，玩家鼠标指针所在的实时位置
     private Vector3 endPoint;//框的终止点，即放开鼠标左键时指针的位置
 
-    private Vector2 sectionSize;
     private ToolTipsUI tipsUI;
 
     private void Awake()
@@ -37,59 +39,105 @@ public class RectRender : MonoBehaviour
     private void Update()
     {
         //按下鼠标左键，此时进入画框状态，并确定框的起始点
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject())
+        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
         {
-            onDrawingRect = true;
-            Vector2 sPoint = UtilsClass.getRoundCurrentWorldPoint();
+            if (mouseHoldFrame == 0)
+            {
+                this.OnMouseLeftTouchBegin();
+            }
 
-            //世界坐标取整
-            startPoint = new Vector2(sPoint.x - 0.5f, sPoint.y - 0.5f);
+            mouseHoldFrame++;
 
-            //Debug.LogFormat("开始画框，起点:{0}", startPoint);
-
-            ToolTipsUI.Instance.Hide();
-
-            OnDrawRectStartPosition?.Invoke(this, new RectRenderEventHandlerArgs() { position = sPoint });
+            if (mouseHoldFrame > 15)
+            {
+                this.OnMouseLeftTouchMove();
+            }
         }
 
-        //在鼠标左键未放开时，实时记录鼠标指针的位置
-        if (onDrawingRect)
+        if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
         {
-            Vector2 sPoint = UtilsClass.getRoundCurrentWorldPoint();
-            currentPoint = new Vector2(sPoint.x + 0.5f, sPoint.y - 0.5f);
+            mouseHoldFrame = 0;
 
-
-            //如果终点坐标发生了变化
-            //if (currentPoint.x != sectionSize.x || currentPoint.y != sectionSize.y)
-            //{
-
-                //Vector2 textSize = textMeshPro.GetRenderedValues(false);
-
-                Vector2 tipsPosition = new Vector2(startPoint.x, startPoint.y / 2 + currentPoint.y / 2);
-                tipsPosition = Camera.main.WorldToScreenPoint(tipsPosition);
-                ToolTipsUI.Instance.Show(
-                    sectionSize.x + " x " + sectionSize.y,
-                    new ToolTipsUI.TooltipTimer { timer = 1000 },
-                    new ToolTipsUI.ToolTipPosition { position = tipsPosition });
-            //}
-            sectionSize = currentPoint;
-        }
-
-        //放开鼠标左键，说明框画完，确定框的终止点，退出画框状态
-        if (Input.GetKeyUp(KeyCode.Mouse0) && !EventSystem.current.IsPointerOverGameObject())
-        {
-            Vector2 sPoint = UtilsClass.getRoundCurrentWorldPoint();
-            endPoint = new Vector2(Mathf.FloorToInt(sPoint.x) + 1, Mathf.FloorToInt(sPoint.y) + 1);
-
-            onDrawingRect = false;
-
-            ToolTipsUI.Instance.Hide();
-
-            //Debug.LogFormat("画框结束，终点:{0}", endPoint);
-
-            OnDrawRectEndPosition?.Invoke(this, new RectRenderEventHandlerArgs() { position = sPoint });
+            this.OnMouseLeftTouchEnd();
         }
     }
+
+
+    private void OnMouseLeftTouchBegin()
+    {
+
+        startPoint = UtilsClass.GetCurrentWorldPoint();
+
+        //Debug.LogFormat("开始画框，起点:{0}", startPoint);
+
+        ToolTipsUI.Instance.Hide();
+
+        OnDrawRectStartPosition?.Invoke(this, new RectRenderEventHandlerArgs() { position = startPoint });
+    }
+
+    private void OnMouseLeftTouchMove()
+    {
+        Vector2 currentPoint = UtilsClass.GetCurrentWorldPoint();
+
+        //修正坐标
+        float x, y, sx, sy;
+        if (currentPoint.x > startPoint.x)
+        {
+            x = Mathf.Round(currentPoint.x) + 0.5f;
+            sx = Mathf.Round(startPoint.x) - 0.5f;
+        } 
+        else
+        {
+            x = Mathf.Round(currentPoint.x) - 0.5f;
+            sx = Mathf.Round(startPoint.x) + 0.5f;
+        }
+
+        if (currentPoint.y > startPoint.y)
+        {
+            y = Mathf.Round(currentPoint.y) + 0.5f;
+            sy = Mathf.Round(startPoint.y) - 0.5f;
+        }
+        else
+        {
+            y = Mathf.Round(currentPoint.y) - 0.5f;
+            sy = Mathf.Round(startPoint.y) + 0.5f;
+        }
+
+        if (this.onDrawingRect == false)
+        {
+            startPoint = new Vector2(sx, sy);
+        }
+
+        currentPoint = new Vector2(x, y);
+
+        //开始进入绘制阶段
+        onDrawingRect = true;
+
+        //如果终点坐标发生了变化
+        if (currentPoint.x != endPoint.x || currentPoint.y != endPoint.y)
+        {
+            //Debug.LogFormat("画框结束，当前点:{0}", currentPoint);
+            ToolTipsUI.Instance.Show(
+                Mathf.Abs(currentPoint.x - startPoint.x) + " x " + Mathf.Abs(currentPoint.y - startPoint.y),
+                new ToolTipsUI.TooltipTimer { timer = 1000 },
+                new ToolTipsUI.ToolTipPosition { position = UtilsClass.GetCurrentScreenPoint(startPoint) });
+        }
+        endPoint = currentPoint;
+    }
+
+    private void OnMouseLeftTouchEnd()
+    {
+
+        onDrawingRect = false;
+
+        ToolTipsUI.Instance.Hide();
+
+        //Debug.LogFormat("画框结束，终点:{0}", endPoint);
+
+        OnDrawRectEndPosition?.Invoke(this, new RectRenderEventHandlerArgs() { position = endPoint });
+
+    }
+
 
     public Material GLRectMat;//绘图的材质，在Inspector中设置
     public Color GLRectColor;//矩形的内部颜色，在Inspector中设置
@@ -102,7 +150,7 @@ public class RectRender : MonoBehaviour
         if (onDrawingRect)
         {
             Vector2 sPoint = Camera.main.WorldToScreenPoint(startPoint);
-            Vector2 cPoint = Camera.main.WorldToScreenPoint(currentPoint);
+            Vector2 cPoint = Camera.main.WorldToScreenPoint(endPoint);
 
             //准备工作:获取确定矩形框各角坐标所需的各个数值
             float Xmin = Mathf.Min(sPoint.x, cPoint.x);
