@@ -59,6 +59,8 @@ public class DemolishManager : MonoBehaviour
             _rectRenderEnd = e.position;
             CheckObjectsInRect();
         };
+
+
     }
 
     private void CheckObjectsInRect()
@@ -99,6 +101,9 @@ public class DemolishManager : MonoBehaviour
     //todo: it is better not use building name.
     public void SetDemolishType(BuildingTypeSO typeSO)
     {
+        DrawGrid drawGrid = Camera.main.GetComponent<DrawGrid>();
+        drawGrid.isShowGrid = false;
+
         if (typeSO == null)
         {
             _demolishType = DemolishType.None;
@@ -108,6 +113,9 @@ public class DemolishManager : MonoBehaviour
             switch (typeSO.buildingName)
             {
                 case "Digging":
+
+                    drawGrid.isShowGrid = true;
+
                     _demolishType = DemolishType.Digging;
                     break;
                 case "CutTree":

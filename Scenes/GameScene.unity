@@ -2991,6 +2991,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420030}
   - component: {fileID: 519420033}
+  - component: {fileID: 519420034}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3112,6 +3113,22 @@ MonoBehaviour:
   GLRectMat: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   GLRectColor: {r: 0.34349412, g: 0.61971086, b: 0.8773585, a: 0.62352943}
   GLRectEdgeColor: {r: 0.033241354, g: 0, b: 0.42352942, a: 1}
+--- !u!114 &519420034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa9c3512dfe1ba64f80cf1d9971637fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isShowGrid: 0
+  lineMat: {fileID: 2100000, guid: c6d38711520119c4e89ddf1ea6adc007, type: 2}
+  lineColor: {r: 0, g: 0, b: 1, a: 1}
+  mouseOverColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &542228456
 GameObject:
   m_ObjectHideFlags: 0
