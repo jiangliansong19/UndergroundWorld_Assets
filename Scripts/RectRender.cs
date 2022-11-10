@@ -24,6 +24,9 @@ public class RectRender : MonoBehaviour
     }
 
     private int mouseHoldFrame;//鼠标被按住的帧数
+    private Vector2 mouseHoldPosition;//鼠标被按住的位置
+
+
     private bool onDrawingRect;//是否正在画框(即鼠标左键处于按住的状态)
 
     private Vector3 startPoint;//框的起始点，即按下鼠标左键时指针的位置
@@ -46,17 +49,22 @@ public class RectRender : MonoBehaviour
                 this.OnMouseLeftTouchBegin();
             }
 
-            mouseHoldFrame++;
-
-            if (mouseHoldFrame > 15)
+            //按住时间超过15帧+mousePositon有值+mousePosition!=Input.mousePosition
+            if (mouseHoldFrame > 15 && 
+                !Vector2.Equals(Vector2.zero, mouseHoldPosition) && 
+                !Vector2.Equals(Input.mousePosition, mouseHoldPosition))
             {
                 this.OnMouseLeftTouchMove();
             }
+
+            mouseHoldFrame++;
+            mouseHoldPosition = Input.mousePosition;
         }
 
         if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             mouseHoldFrame = 0;
+            mouseHoldPosition = Vector2.zero;
 
             this.OnMouseLeftTouchEnd();
         }
@@ -66,9 +74,7 @@ public class RectRender : MonoBehaviour
     private void OnMouseLeftTouchBegin()
     {
 
-        startPoint = UtilsClass.GetCurrentWorldPoint();
-
-        //Debug.LogFormat("开始画框，起点:{0}", startPoint);
+        startPoint = UtilsClass.getRoundCurrentWorldPoint();
 
         ToolTipsUI.Instance.Hide();
 
@@ -77,52 +83,31 @@ public class RectRender : MonoBehaviour
 
     private void OnMouseLeftTouchMove()
     {
-        Vector2 currentPoint = UtilsClass.GetCurrentWorldPoint();
+        Vector2 currentPoint = UtilsClass.getRoundCurrentWorldPoint();
 
-        //修正坐标
-        float x, y, sx, sy;
-        if (currentPoint.x > startPoint.x)
+        Debug.LogFormat("开始画框，起点:{0}", startPoint);
+
+        if (onDrawingRect == false)
         {
-            x = Mathf.Round(currentPoint.x) + 0.5f;
-            sx = Mathf.Round(startPoint.x) - 0.5f;
-        } 
-        else
-        {
-            x = Mathf.Round(currentPoint.x) - 0.5f;
-            sx = Mathf.Round(startPoint.x) + 0.5f;
+            endPoint = currentPoint;
+            //开始进入绘制阶段
+            onDrawingRect = true;
         }
-
-        if (currentPoint.y > startPoint.y)
-        {
-            y = Mathf.Round(currentPoint.y) + 0.5f;
-            sy = Mathf.Round(startPoint.y) - 0.5f;
-        }
-        else
-        {
-            y = Mathf.Round(currentPoint.y) - 0.5f;
-            sy = Mathf.Round(startPoint.y) + 0.5f;
-        }
-
-        if (this.onDrawingRect == false)
-        {
-            startPoint = new Vector2(sx, sy);
-        }
-
-        currentPoint = new Vector2(x, y);
-
-        //开始进入绘制阶段
-        onDrawingRect = true;
 
         //如果终点坐标发生了变化
-        if (currentPoint.x != endPoint.x || currentPoint.y != endPoint.y)
+        if (!Vector2.Equals(currentPoint, endPoint))
         {
-            //Debug.LogFormat("画框结束，当前点:{0}", currentPoint);
+            endPoint = currentPoint;
+
+            float witdh = Mathf.Abs(currentPoint.x - startPoint.x) + 1;
+            float height = Mathf.Abs(currentPoint.y - startPoint.y) + 1;
+
+            Debug.LogFormat("画框中，当前点:{0}", currentPoint);
             ToolTipsUI.Instance.Show(
-                Mathf.Abs(currentPoint.x - startPoint.x) + " x " + Mathf.Abs(currentPoint.y - startPoint.y),
+                witdh + " x " + height,
                 new ToolTipsUI.TooltipTimer { timer = 1000 },
                 new ToolTipsUI.ToolTipPosition { position = UtilsClass.GetCurrentScreenPoint(startPoint) });
         }
-        endPoint = currentPoint;
     }
 
     private void OnMouseLeftTouchEnd()
@@ -132,11 +117,47 @@ public class RectRender : MonoBehaviour
 
         ToolTipsUI.Instance.Hide();
 
-        //Debug.LogFormat("画框结束，终点:{0}", endPoint);
+        Debug.LogFormat("画框结束，终点:{0}", endPoint);
 
         OnDrawRectEndPosition?.Invoke(this, new RectRenderEventHandlerArgs() { position = endPoint });
 
     }
+
+    
+    /// <summary>
+    /// 计算矩形区域
+    /// </summary>
+    /// <param name="sPosition">起点</param>
+    /// <param name="ePosition">终点</param>
+    /// <returns></returns>
+    Vector2[] GetRectangleCoordinate(Vector2 sPosition, Vector2 ePosition)
+    {
+        float sx, sy, ex, ey;
+        if (ePosition.x > sPosition.x)
+        {
+            sx = sPosition.x - 0.5f;
+            ex = ePosition.x + 0.5f;
+        }
+        else
+        {
+            sx = sPosition.x + 0.5f;
+            ex = ePosition.x - 0.5f;
+        }
+
+        if (ePosition.y > sPosition.y)
+        {
+            sy = sPosition.y - 0.5f;
+            ey = ePosition.y + 0.5f;
+        }
+        else
+        {
+            sy = sPosition.y + 0.5f;
+            ey = ePosition.y - 0.5f;
+        }
+
+        return new Vector2[] { new Vector2(sx, sy), new Vector2(ex, ey) };
+    }
+    
 
 
     public Material GLRectMat;//绘图的材质，在Inspector中设置
@@ -149,14 +170,19 @@ public class RectRender : MonoBehaviour
     {
         if (onDrawingRect)
         {
-            Vector2 sPoint = Camera.main.WorldToScreenPoint(startPoint);
-            Vector2 cPoint = Camera.main.WorldToScreenPoint(endPoint);
+
+            Vector2[] vectors = GetRectangleCoordinate(startPoint, endPoint);
+
+            Vector2 sPoint = Camera.main.WorldToScreenPoint(vectors[0]);
+            Vector2 cPoint = Camera.main.WorldToScreenPoint(vectors[1]);
 
             //准备工作:获取确定矩形框各角坐标所需的各个数值
             float Xmin = Mathf.Min(sPoint.x, cPoint.x);
             float Xmax = Mathf.Max(sPoint.x, cPoint.x);
             float Ymin = Mathf.Min(sPoint.y, cPoint.y);
             float Ymax = Mathf.Max(sPoint.y, cPoint.y);
+
+            //开始画图
 
             GL.PushMatrix();//GL入栈
                             //在这里，只需要知道GL.PushMatrix()和GL.PopMatrix()分别是画图的开始和结束信号,画图指令写在它们中间
