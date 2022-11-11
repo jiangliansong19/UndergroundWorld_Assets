@@ -1,6 +1,10 @@
 using System;
+using System.Drawing;
+using Unity.Mathematics;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Color = UnityEngine.Color;
 
 
 //UGUI系统上，的EventSystem提供了一些方法。
@@ -12,21 +16,6 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class RectRender : MonoBehaviour
 {
-    //开始点
-    public event EventHandler<RectRenderEventHandlerArgs> OnDrawRectStartPosition;
-
-    //结束点
-    public event EventHandler<RectRenderEventHandlerArgs> OnDrawRectEndPosition;
-
-    public class RectRenderEventHandlerArgs
-    {
-        public Vector2 position;
-    }
-
-    private int mouseHoldFrame;//鼠标被按住的帧数
-    private Vector2 mouseHoldPosition;//鼠标被按住的位置
-
-
     private bool onDrawingRect;//是否正在画框(即鼠标左键处于按住的状态)
 
     private Vector3 startPoint;//框的起始点，即按下鼠标左键时指针的位置
@@ -36,54 +25,28 @@ public class RectRender : MonoBehaviour
 
     private void Awake()
     {
-        
+        TouchEventHandler handler = Camera.main.GetComponent<TouchEventHandler>();
+
+        handler.OnTouchBegin += OnMouseLeftTouchBegin;
+        handler.OnTouchMoving += OnMouseLeftTouchMove;
+        handler.OnTouchEnd += OnMouseLeftTouchEnd;
     }
 
     private void Update()
     {
-        //按下鼠标左键，此时进入画框状态，并确定框的起始点
-        if (Input.GetMouseButton(0) && !EventSystem.current.IsPointerOverGameObject())
-        {
-            if (mouseHoldFrame == 0)
-            {
-                this.OnMouseLeftTouchBegin();
-            }
 
-            //按住时间超过15帧+mousePositon有值+mousePosition!=Input.mousePosition
-            if (mouseHoldFrame > 15 && 
-                !Vector2.Equals(Vector2.zero, mouseHoldPosition) && 
-                !Vector2.Equals(Input.mousePosition, mouseHoldPosition))
-            {
-                this.OnMouseLeftTouchMove();
-            }
-
-            mouseHoldFrame++;
-            mouseHoldPosition = Input.mousePosition;
-        }
-
-        if (Input.GetMouseButtonUp(0) && !EventSystem.current.IsPointerOverGameObject())
-        {
-            mouseHoldFrame = 0;
-            mouseHoldPosition = Vector2.zero;
-
-            this.OnMouseLeftTouchEnd();
-        }
     }
 
-
-    private void OnMouseLeftTouchBegin()
+    private void OnMouseLeftTouchBegin(object o, TouchEventHandler.TouchEventArgs e)
     {
-
-        startPoint = UtilsClass.getRoundCurrentWorldPoint();
+        startPoint = new Vector2(Mathf.Round(e.position.x), Mathf.Round(e.position.y));
 
         ToolTipsUI.Instance.Hide();
-
-        OnDrawRectStartPosition?.Invoke(this, new RectRenderEventHandlerArgs() { position = startPoint });
     }
 
-    private void OnMouseLeftTouchMove()
+    private void OnMouseLeftTouchMove(object o, TouchEventHandler.TouchEventArgs e)
     {
-        Vector2 currentPoint = UtilsClass.getRoundCurrentWorldPoint();
+        Vector2 currentPoint = new Vector2(Mathf.Round(e.position.x), Mathf.Round(e.position.y));
 
         Debug.LogFormat("开始画框，起点:{0}", startPoint);
 
@@ -110,7 +73,7 @@ public class RectRender : MonoBehaviour
         }
     }
 
-    private void OnMouseLeftTouchEnd()
+    private void OnMouseLeftTouchEnd(object o, TouchEventHandler.TouchEventArgs e)
     {
 
         onDrawingRect = false;
@@ -118,8 +81,6 @@ public class RectRender : MonoBehaviour
         ToolTipsUI.Instance.Hide();
 
         Debug.LogFormat("画框结束，终点:{0}", endPoint);
-
-        OnDrawRectEndPosition?.Invoke(this, new RectRenderEventHandlerArgs() { position = endPoint });
 
     }
 
@@ -161,8 +122,8 @@ public class RectRender : MonoBehaviour
 
 
     public Material GLRectMat;//绘图的材质，在Inspector中设置
-    public Color GLRectColor;//矩形的内部颜色，在Inspector中设置
-    public Color GLRectEdgeColor;//矩形的边框颜色，在Inspector中设置
+    public UnityEngine.Color GLRectColor;//矩形的内部颜色，在Inspector中设置
+    public UnityEngine.Color GLRectEdgeColor;//矩形的边框颜色，在Inspector中设置
 
     private float z = 0.1f;
 
@@ -232,6 +193,8 @@ public class RectRender : MonoBehaviour
             GL.End();//画好啦！
 
             GL.PopMatrix();//GL出栈
+
         }
     }
+
 }

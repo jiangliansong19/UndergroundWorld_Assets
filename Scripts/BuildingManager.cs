@@ -243,12 +243,12 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
-        RectRender rectRender = Camera.main.GetComponent<RectRender>();
-        rectRender.OnDrawRectStartPosition += (object sender, RectRender.RectRenderEventHandlerArgs e) =>
+        TouchEventHandler eventHandler = Camera.main.GetComponent<TouchEventHandler>();
+        eventHandler.OnTouchBegin += (object sender, TouchEventHandler.TouchEventArgs e) =>
         {
             _startPosition = e.position;
         };
-        rectRender.OnDrawRectEndPosition += (object sender, RectRender.RectRenderEventHandlerArgs e) =>
+        eventHandler.OnTouchEnd += (object sender, TouchEventHandler.TouchEventArgs e) =>
         {
             _endPosition = e.position;
 

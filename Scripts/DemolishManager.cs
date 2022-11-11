@@ -48,13 +48,14 @@ public class DemolishManager : MonoBehaviour
             return;
         }
 
-        RectRender rectRender = Camera.main.GetComponent<RectRender>();
-        rectRender.OnDrawRectStartPosition += (object o, RectRender.RectRenderEventHandlerArgs e) =>
+        TouchEventHandler evenntHandler = Camera.main.GetComponent<TouchEventHandler>();
+        evenntHandler.isWorking = true;
+        evenntHandler.OnTouchBegin += (object o, TouchEventHandler.TouchEventArgs e) =>
         {
             _rectRenderStart = e.position;
         };
-        
-        rectRender.OnDrawRectEndPosition += (object o, RectRender.RectRenderEventHandlerArgs e) =>
+
+        evenntHandler.OnTouchEnd += (object o, TouchEventHandler.TouchEventArgs e) =>
         {
             _rectRenderEnd = e.position;
             CheckObjectsInRect();
@@ -65,6 +66,8 @@ public class DemolishManager : MonoBehaviour
 
     private void CheckObjectsInRect()
     {
+        LineRender render = Camera.main.GetComponent<LineRender>();
+        render.drawArraw(new Vector2(0, 0), new Vector2(300, 300), Color.red);
 
         //start, end position both are world point
         Collider2D[] colliders = Physics2D.OverlapAreaAll(_rectRenderStart, _rectRenderEnd);
