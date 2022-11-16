@@ -40,6 +40,8 @@ public class BuildingManager : MonoBehaviour
     void Start()
     {
         CreateWorld();
+
+        StartObserveRectBuild();
     }
 
     // Update is called once per frame
@@ -80,9 +82,6 @@ public class BuildingManager : MonoBehaviour
         }
     }
 
-
-
-
     public void SetActiveBuildingTypeSO(BuildingTypeSO typeSO)
     {
         activeBuildingTypeSO = typeSO;
@@ -90,15 +89,12 @@ public class BuildingManager : MonoBehaviour
         {
             Args_TypeSO = activeBuildingTypeSO
         });
-
-        StartObserveRectRender();
     }
 
     public BuildingTypeSO GetActiveBuildingTypeSO()
     {
         return activeBuildingTypeSO;
     }
-
 
 
     public void generateBuilding(BuildingTypeSO buildingTypeSO, Vector2 position)
@@ -228,10 +224,28 @@ public class BuildingManager : MonoBehaviour
 
 
 
-    //检测鼠标绘制的矩形区域，判断是否可以连续建造
-    private Vector2 _startPosition;
-    private Vector2 _endPosition;
-    private void StartObserveRectRender()
+
+    private void StartObserveRectBuild()
+    {
+        //检测鼠标绘制的矩形区域，判断是否可以连续建造
+        Vector2 startPosition = Vector2.zero;
+
+        TouchEventHandler eventHandler = Camera.main.GetComponent<TouchEventHandler>();
+        eventHandler.isWorking = true;
+
+        eventHandler.OnTouchBegin += (object sender, TouchEventHandler.TouchEventArgs e) =>
+        {
+            startPosition = e.position;
+        };
+        eventHandler.OnTouchEnd += (object sender, TouchEventHandler.TouchEventArgs e) =>
+        {
+            Vector2 endPosition = e.position;
+            RectContinuousBuild(startPosition ! , endPosition);
+        };
+    }
+
+    //判断是否可以连续建造
+    private void RectContinuousBuild(Vector2 startPosition, Vector2 endPosition)
     {
         if (activeBuildingTypeSO == null)
         {
@@ -243,32 +257,12 @@ public class BuildingManager : MonoBehaviour
             return;
         }
 
-        TouchEventHandler eventHandler = Camera.main.GetComponent<TouchEventHandler>();
-        eventHandler.OnTouchBegin += (object sender, TouchEventHandler.TouchEventArgs e) =>
-        {
-            _startPosition = e.position;
-        };
-        eventHandler.OnTouchEnd += (object sender, TouchEventHandler.TouchEventArgs e) =>
-        {
-            _endPosition = e.position;
-
-            //could continuos to build
-            if (activeBuildingTypeSO != null)
-            {
-                CheckToContinuousBuild();
-            }
-        };
-    }
-
-    //判断是否可以连续建造
-    private void CheckToContinuousBuild()
-    {
-        Collider2D[] colliders = Physics2D.OverlapAreaAll(_startPosition, _endPosition);
+        Collider2D[] colliders = Physics2D.OverlapAreaAll(startPosition, endPosition);
         if (colliders.Length == 0)
         {
-            for (float i = Mathf.Min(_startPosition.x, _endPosition.x); i < Mathf.Max(_startPosition.x, _endPosition.x); i++)
+            for (float i = Mathf.Min(startPosition.x, endPosition.x); i < Mathf.Max(startPosition.x, endPosition.x); i++)
             {
-                for (float j = Mathf.Min(_startPosition.y, _endPosition.y); j < Mathf.Max(_startPosition.y, _endPosition.y); j++)
+                for (float j = Mathf.Min(startPosition.y, endPosition.y); j < Mathf.Max(startPosition.y, endPosition.y); j++)
                 {
                     Vector2 cur = new Vector2(Mathf.RoundToInt(i), Mathf.RoundToInt(j));
                     generateBuilding(activeBuildingTypeSO, cur);
@@ -359,6 +353,5 @@ public class BuildingManager : MonoBehaviour
 
         ResourcesManager.Instance.AddResource(ResourceType.Worker, 4);
 
-        
     }
 }

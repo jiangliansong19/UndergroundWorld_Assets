@@ -21,7 +21,6 @@ public class RectRender : MonoBehaviour
     private Vector3 startPoint;//框的起始点，即按下鼠标左键时指针的位置
     private Vector3 endPoint;//框的终止点，即放开鼠标左键时指针的位置
 
-    private ToolTipsUI tipsUI;
 
     private void Awake()
     {

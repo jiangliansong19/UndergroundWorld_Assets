@@ -115,19 +115,22 @@ public class BottomMenuUI : MonoBehaviour
                     tmpTransforms = new List<Transform>();
                 }
 
-
+                //设置
                 if (item.type == BottomMenuType.Setting)
                 {
                     SettingPageUI.Instance.ShowSettingPageUI();
                 }
+                //科技
                 else if (item.type == BottomMenuType.Science)
                 {
                     ScienceManager.Instance.ShowSciencePage();
                 }
+                //探索队
                 else if (item.type == BottomMenuType.ExplorTeam)
                 {
                     ExploreTeamManager.Instance.ShowExploreTeamPanel();
                 }
+                //伟大工程
                 else if (item.type == BottomMenuType.GreatProject)
                 {
                     ExploreTeamManager.Instance.ShowExploreTeamPanel();
